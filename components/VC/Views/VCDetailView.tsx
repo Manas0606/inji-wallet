@@ -63,18 +63,19 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
     ? props.verifiableCredentialData?.vcMetadata?.mosipIndividualId
     : '';
   const hasSvgCard = Array.isArray(props.svgTemplate) && props.svgTemplate.length > 0;
+  const subject = (props.credential as any)?.credentialSubject ??
+    (props.credential as any)?.credential?.credentialSubject;
   const configuredIdentifierField = !hasSvgCard && Array.isArray(props.fields) &&
-    props.fields.some(
-      (field: unknown) =>
-        typeof field === 'string' &&
-        ['uin', 'vid', 'individualid', 'mosipindividualid'].includes(
-          field.replace(/[^a-z0-9]/gi, '').toLowerCase(),
-        ),
-    );
-  // If all credentialSubject fields are rendered automatically, its ID is
-  // already displayed on the regular card. Avoid a duplicate row there.
-  const identifierAlreadyRendered =
-    !hasSvgCard && (configuredIdentifierField || !props.wellknownFieldsFlag);
+    props.fields.some((field: unknown) => {
+      if (typeof field !== 'string') return false;
+      const normalized = field.replace(/[^a-z0-9]/gi, '').toLowerCase();
+      return ['uin', 'vid', 'individualid', 'mosipindividualid'].includes(normalized) &&
+        !!subject?.[field];
+    });
+  // In the regular non-wellknown view, primitive credentialSubject fields
+  // already appear automatically. Show a separate identifier row otherwise.
+  const identifierAlreadyRendered = !hasSvgCard &&
+    (configuredIdentifierField || (!props.wellknownFieldsFlag && !!subject));
 
   const {width: deviceWidth} = Dimensions.get('window');
   const CARD_WIDTH = deviceWidth * 0.8;
