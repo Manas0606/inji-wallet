@@ -48,7 +48,17 @@ public class InjiVciClientModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void sendAuthCodeFromJS(String authCode) {
+        Log.i("HAITI_AUTH", "native_auth_code_received");
         VCIClientCallbackBridge.completeAuthCode(authCode);
+        Log.i("HAITI_AUTH", "native_auth_code_forwarded");
+    }
+
+    // Temporary Haiti pilot diagnostics. Only fixed stages, never sensitive values.
+    @ReactMethod
+    public void logAuthDiagnostic(String stage) {
+        if (stage != null && stage.matches("[a-zA-Z0-9_]{1,64}")) {
+            Log.i("HAITI_AUTH", stage);
+        }
     }
 
     @ReactMethod
@@ -63,8 +73,10 @@ public class InjiVciClientModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void sendTokenResponseFromJS(String tokenResponseJson) {
+        Log.i("HAITI_AUTH", "native_token_response_received");
         TokenResponse tokenResponse = new Gson().fromJson(tokenResponseJson, TokenResponse.class);
         VCIClientCallbackBridge.completeTokenResponse(tokenResponse);
+        Log.i("HAITI_AUTH", "native_token_response_forwarded");
     }
 
     @ReactMethod
@@ -109,12 +121,15 @@ public class InjiVciClientModule extends ReactContextBaseJavaModule {
                 ClientMetadata clientMetadata= new Gson().fromJson(
                     clientMetadataJson, ClientMetadata.class);
 
+                Log.i("HAITI_AUTH", "native_issuance_started");
                 CredentialResponse response = VCIClientBridge.requestCredentialFromTrustedIssuerSync(vciClient, credentialIssuer, credentialConfigurationId,clientMetadata);
+                Log.i("HAITI_AUTH", "native_issuance_completed");
 
                 reactContext.runOnUiQueueThread(() -> {
                     promise.resolve(response != null ? response.toJsonString() : null);
                 });
             } catch (Exception e) {
+                Log.e("HAITI_AUTH", "native_issuance_failed_" + e.getClass().getSimpleName());
                 reactContext.runOnUiQueueThread(() -> {
                     promise.reject("TRUSTED_ISSUER_FAILED", e.getMessage(), e);
                 });
