@@ -10,13 +10,14 @@ import {
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {Ionicons} from '@expo/vector-icons';
-import VciClient from '../shared/vciClient/VciClient';
+import VciClient, {traceHaitiAuth} from '../shared/vciClient/VciClient';
 import {Theme} from '../components/ui/styleUtils';
 import {useTranslation} from 'react-i18next';
 
 const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
   const {authorizationURL, clientId, redirectUri, controller} = route.params;
   const webViewRef = useRef<WebView>(null);
+  const callbackHandled = useRef(false);
   const [showWebView, setShowWebView] = useState(false);
   const {t} = useTranslation('authWebView');
 
@@ -95,14 +96,20 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
     handleBackPress,
   ]);
 
-  const handleNavigationRequest = (request: any) => {
-    const {url} = request;
+  const handleOAuthCallback = (url: string): boolean => {
     if (url.startsWith(redirectUri)) {
+      traceHaitiAuth('oauth_redirect_detected');
+      if (callbackHandled.current) {
+        traceHaitiAuth('oauth_redirect_duplicate_ignored');
+        return false;
+      }
+      callbackHandled.current = true;
       try {
         const uri = new URL(url);
         const oauthError = uri.searchParams.get('error');
         if (oauthError) {
           // Log only the error code; do not expose the OAuth authorization code or state.
+          traceHaitiAuth('oauth_redirect_error');
           console.warn('eSignet OAuth error:', oauthError);
           controller.CANCEL();
           navigation.goBack();
@@ -112,17 +119,21 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
         const code = uri.searchParams.get('code');
 
         if (!code) {
+          traceHaitiAuth('oauth_redirect_code_missing');
           Alert.alert(t('errorTitle'), t('errorMessage'));
           controller.CANCEL();
           navigation.goBack();
           return false;
         }
 
+        traceHaitiAuth('oauth_redirect_code_present');
         VciClient.getInstance().sendAuthCode(code);
+        traceHaitiAuth('oauth_redirect_handoff_called');
         navigation.goBack();
         return false;
       } catch (err: any) {
-        console.error('Error parsing redirect URL:', err);
+        traceHaitiAuth('oauth_redirect_parse_failed');
+        console.warn('Error handling OAuth redirect callback');
         controller.CANCEL();
         navigation.goBack();
         return false;
@@ -131,6 +142,9 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
 
     return true;
   };
+
+  const handleNavigationRequest = (request: any) =>
+    handleOAuthCallback(request.url);
 
   const Header = () => (
     <View style={Theme.AuthWebViewScreenStyle.header}>
@@ -159,6 +173,11 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
           }}
           onShouldStartLoadWithRequest={handleNavigationRequest}
           onNavigationStateChange={({url}) => {
+            // Some Android WebView redirect types arrive through navigation state
+            // rather than shouldStartLoadWithRequest. The callback is idempotent.
+            if (!handleOAuthCallback(url)) {
+              return;
+            }
             // Never log the full OAuth URL (it can contain codes, state and tokens).
             try {
               const location = new URL(url);
@@ -174,7 +193,11 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
               // Ignore navigation entries that are not valid absolute URLs.
             }
           }}
+          onError={() => {
+            traceHaitiAuth('oauth_webview_load_error');
+          }}
           onHttpError={({nativeEvent}) => {
+            traceHaitiAuth('oauth_webview_http_error');
             // Capture only the HTTP status, not the potentially sensitive URL.
             console.warn('eSignet WebView HTTP error', nativeEvent.statusCode);
           }}
