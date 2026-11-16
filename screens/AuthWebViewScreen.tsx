@@ -31,6 +31,26 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
   });
   const ALERT_MESSAGE = t('message');
 
+  // Show the public OAuth client/redirect configuration in debug builds.
+  // Never log the full authorization URL (it may include secrets or tokens).
+  useEffect(() => {
+    if (!__DEV__ || !authorizationURL) {
+      return;
+    }
+    try {
+      const url = new URL(authorizationURL);
+      console.info('eSignet OAuth redirect configuration', {
+        authorizationHost: url.host,
+        clientId: url.searchParams.get('client_id') || clientId,
+        redirectUri: url.searchParams.get('redirect_uri') || redirectUri,
+        redirectUriMatchesIssuerConfig:
+          url.searchParams.get('redirect_uri') === redirectUri,
+      });
+    } catch {
+      console.warn('Unable to inspect OAuth authorization request');
+    }
+  }, [authorizationURL, clientId, redirectUri]);
+
   const handleBackPress = useCallback(() => {
     return true;
   }, []);
