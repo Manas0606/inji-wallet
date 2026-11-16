@@ -15,7 +15,7 @@ import {
 import VciClient, {traceHaitiAuth} from '../../shared/vciClient/VciClient';
 import { displayType, issuerType } from './IssuersMachine';
 import { setItem } from '../store';
-import { API_CACHED_STORAGE_KEYS } from '../../shared/constants';
+import { API_CACHED_STORAGE_KEYS, MIMOTO_BASE_URL } from '../../shared/constants';
 import { createCacheObject } from '../../shared/Utils';
 import { VerificationResult } from '../../shared/vcjs/verifyCredential';
 
@@ -217,10 +217,11 @@ export const IssuersService = () => {
     sendTokenRequest: async (context: any) => {
       traceHaitiAuth('machine_token_request_start');
       const tokenRequestObject = context.tokenRequestObject;
-      return await sendTokenRequest(
-        tokenRequestObject,
-        context.selectedIssuer?.token_endpoint,
-      );
+      const issuerId = context.selectedIssuer?.issuer_id;
+      const tokenEndpoint = issuerId === 'Mosip'
+        ? `${MIMOTO_BASE_URL}/v1/mimoto/get-token/${encodeURIComponent(issuerId)}`
+        : context.selectedIssuer?.token_endpoint;
+      return await sendTokenRequest(tokenRequestObject, tokenEndpoint);
     },
     sendTokenResponse: async (context: any) => {
       traceHaitiAuth('machine_token_response_start');
