@@ -31,7 +31,9 @@
     "message": "Cela permet à l’application et au site Web de partager des informations vous concernant.",
     "cancel": "Annuler",
     "continue": "Continuer",
-    "header": "Authentification"
+    "header": "Authentification",
+    "errorTitle": "Échec de l’authentification",
+    "errorMessage": "L’authentification a échoué. Veuillez réessayer."
   },
   "common": {
     "card": "carte",
