@@ -4,6 +4,13 @@ import {VerifiableCredential} from '../../machines/VerifiableCredential/VCMetaMa
 
 const emitter = new NativeEventEmitter(NativeModules.InjiVciClient);
 
+// Temporary test diagnostics are emitted through Android logcat even in release builds.
+export const traceHaitiAuth = (stage: string) => {
+  if (/^[a-zA-Z0-9_]{1,64}$/.test(stage)) {
+    NativeModules.InjiVciClient?.logAuthDiagnostic?.(stage);
+  }
+};
+
 class VciClient {
   private static instance: VciClient;
   private InjiVciClient = NativeModules.InjiVciClient;
@@ -24,6 +31,7 @@ class VciClient {
   }
 
   async sendAuthCode(authCode: string) {
+    traceHaitiAuth('js_auth_code_handoff');
     this.InjiVciClient.sendAuthCodeFromJS(authCode);
   }
 
@@ -36,6 +44,7 @@ class VciClient {
   }
 
   async sendTokenResponse(json: string) {
+    traceHaitiAuth('js_token_response_handoff');
     this.InjiVciClient.sendTokenResponseFromJS(json);
   }
 
@@ -67,6 +76,7 @@ class VciClient {
     const proofListener = emitter.addListener(
       'onRequestProof',
       ({credentialIssuer, cNonce, proofSigningAlgorithmsSupported}) => {
+        traceHaitiAuth('native_proof_request_event');
         getProofJwt(credentialIssuer, cNonce, JSON.parse(proofSigningAlgorithmsSupported));
       },
     );
@@ -74,6 +84,7 @@ class VciClient {
     const authListener = emitter.addListener(
       'onRequestAuthCode',
       ({authorizationUrl}) => {
+        traceHaitiAuth('native_authorization_url_event');
         navigateToAuthView(authorizationUrl);
       },
     );
@@ -88,6 +99,7 @@ class VciClient {
     const tokenResponseListener = emitter.addListener(
       'onRequestTokenResponse',
       ({tokenRequest}) => {
+        traceHaitiAuth('native_token_request_event');
         requestTokenResponse(tokenRequest);
       },
     );
@@ -120,6 +132,7 @@ class VciClient {
       trustIssuerListener.remove();
     }
 
+    traceHaitiAuth('credential_response_parse');
     const parsedResponse = JSON.parse(response);
     return {
       credential: {
