@@ -35,7 +35,7 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
       ? credentialSubject
       : [credentialSubject];
     for (const subject of subjects) {
-      const claim169 = (subject as Record<string, unknown> | undefined)?.claim169;
+      const claim169 = (subject as {claim169?: unknown} | undefined)?.claim169;
       if (claim169 && typeof claim169 === 'object' && !Array.isArray(claim169)) {
         const issuerQr = Object.values(claim169).find(
           (value): value is string =>
