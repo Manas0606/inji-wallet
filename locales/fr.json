@@ -262,45 +262,45 @@
     }
   },
   "HelpScreen": {
-    "header": "Help",
-    "here": "here",
+    "header": "Aide",
+    "here": "ici",
     "questions": {
       "inji": {
-        "one": "What is an ID?",
-        "two": "What are the different types of ID?",
-        "three": "Where can I find these IDs?",
-        "four": "What is a digital credential?",
-        "five": "What can we do with digital credentials?",
-        "six": "What is a Verifiable Credential?",
-        "seven": "How to add a card?",
-        "eight": "Can I add multiple cards?",
-        "nine": "Why does my VC say Activation is pending?",
-        "ten": "What do you mean by Activated for Online login?",
-        "eleven": "How to activate a card for online login?",
-        "twelve": "How to share a card?",
-        "thirteen": "How to remove a card from the wallet?",
-        "fourteen": "How to view activity logs?",
-        "fifteen": "What happens when Android keystore biometric is changed?",
-        "sixteen": "What is Share?",
-        "seventeen": "What is Share with selfie?"
+        "one": "Qu'est-ce qu'un identifiant ?",
+        "two": "Quels sont les différents types d'identifiants ?",
+        "three": "Où puis-je trouver ces identifiants ?",
+        "four": "Qu'est-ce qu'un justificatif numérique ?",
+        "five": "À quoi servent les justificatifs numériques ?",
+        "six": "Qu'est-ce qu'un justificatif vérifiable ?",
+        "seven": "Comment ajouter une carte ?",
+        "eight": "Puis-je ajouter plusieurs cartes ?",
+        "nine": "Pourquoi l'activation de mon justificatif est-elle en attente ?",
+        "ten": "Que signifie « Activé pour la connexion en ligne » ?",
+        "eleven": "Comment activer une carte pour la connexion en ligne ?",
+        "twelve": "Comment partager une carte ?",
+        "thirteen": "Comment retirer une carte du portefeuille ?",
+        "fourteen": "Comment consulter l'historique des activités ?",
+        "fifteen": "Que se passe-t-il si les données biométriques du keystore Android changent ?",
+        "sixteen": "Qu'est-ce que le partage ?",
+        "seventeen": "Qu'est-ce que le partage avec un autoportrait ?"
       },
       "backup": {
-        "one": "What is data backup? ",
-        "two": "Why should I take a backup?",
-        "three": "How to backup to your google account?",
-        "four": "How to backup to your iCloud?",
-        "five": "Should I always give the same email ID?",
-        "six": "How can I restore the backup which I have taken?",
-        "seven": "Why do I get an error \"no backup file found\"?",
-        "eight": "What happens when I Clear Storage of INJI app from device settings?"
+        "one": "Qu'est-ce qu'une sauvegarde de données ?",
+        "two": "Pourquoi sauvegarder mes données ?",
+        "three": "Comment sauvegarder sur mon compte Google ?",
+        "four": "Comment sauvegarder sur iCloud ?",
+        "five": "Dois-je toujours utiliser la même adresse électronique ?",
+        "six": "Comment restaurer une sauvegarde ?",
+        "seven": "Pourquoi le message « Aucun fichier de sauvegarde trouvé » s'affiche-t-il ?",
+        "eight": "Que se passe-t-il si j'efface les données de l'application Inji ?"
       },
       "KeyManagement": {
-        "one": "What are the different types of keys I can choose from?",
-        "two": "How do I know which key type is best for me?",
-        "three": "How does the choice of key type affect my security?",
-        "four": "Can I change my key type later on?",
-        "five": "What is the impact of key priority, and how can I set it?",
-        "six": "What happens if I don’t choose a key type or set a preference?"
+        "one": "Quels types de clés puis-je choisir ?",
+        "two": "Comment choisir le meilleur type de clé ?",
+        "three": "Quel est l'effet du type de clé sur ma sécurité ?",
+        "four": "Puis-je modifier mon type de clé ultérieurement ?",
+        "five": "À quoi sert l'ordre de priorité des clés et comment le définir ?",
+        "six": "Que se passe-t-il si je ne choisis pas de clé ?"
       }
     },
     "answers": {
@@ -1092,24 +1092,24 @@
     }
   },
   "copilot": {
-    "helpTitle": "Help/FAQs",
-    "helpMessage": "Find answers to common questions and access helpful resources in our FAQ section, ensuring you have the support whenever you need it.",
-    "downloadTitle": "Download Card",
-    "downloadMessage": "Easily download and securely store your card in the app for convenient access whenever you need them.",
-    "shareTitle": "Share Card",
-    "shareMessage": "Share your card with ease in offline mode using bluetooth, empowering you to provide verified information whenever required.",
-    "historyTitle": "Access to History",
-    "historyMessage": "View your activity history to track your interactions and stay informed about your past actions within the app.",
-    "settingsTitle": "App Settings",
-    "settingsMessage": "Customize your app experience with personalized settings as per your preferences.",
-    "cardTitle": "Card",
-    "cardMessage": "Your card displays your verified identity information. Tap for a detailed view or click on … for additional options.",
-    "next": "Next",
-    "previous": "Previous",
-    "skip": "Skip",
-    "done": "Done",
-    "keyManagementTitle": "Key Management",
-    "keyManagementDesc": "Select the key generation method that aligns with your preference, putting you in control of your credential security.\nDrag and arrange the keys, with the top one being your highest priority."
+    "helpTitle": "Aide et questions fréquentes",
+    "helpMessage": "Retrouvez les réponses aux questions courantes et des ressources utiles dans la rubrique d'aide.",
+    "downloadTitle": "Télécharger une carte",
+    "downloadMessage": "Téléchargez votre carte et conservez-la en sécurité dans l'application pour la retrouver facilement.",
+    "shareTitle": "Partager une carte",
+    "shareMessage": "Partagez votre carte hors ligne via Bluetooth pour transmettre des informations vérifiées.",
+    "historyTitle": "Consulter l'historique",
+    "historyMessage": "Consultez votre historique d'activité pour suivre vos interactions dans l'application.",
+    "settingsTitle": "Paramètres de l'application",
+    "settingsMessage": "Personnalisez les paramètres de l'application selon vos préférences.",
+    "cardTitle": "Carte",
+    "cardMessage": "Cette carte contient votre identité vérifiée. Appuyez pour voir les détails ou ouvrez le menu pour plus d'options.",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "skip": "Passer",
+    "done": "Terminé",
+    "keyManagementTitle": "Gestion des clés",
+    "keyManagementDesc": "Choisissez la méthode de génération de clés selon vos préférences. Faites glisser les clés pour définir leur ordre de priorité."
   },
   "authWebView": {
     "title": "« {{wallet}} » souhaite utiliser « {{domain}} » pour se connecter",
@@ -1132,20 +1132,20 @@
     "TransactionCode": "Code de transaction"
   },
   "trustScreen": {
-    "description": "Make sure you recognize or trust this issuer. Once you trust this issuer:",
-    "verifierDescription": "Make sure you recognize or trust this verifier. Once you do:",
+    "description": "Assurez-vous de reconnaître cet émetteur et de lui faire confiance. Si vous l'acceptez :",
+    "verifierDescription": "Assurez-vous de reconnaître ce vérificateur et de lui faire confiance. Si vous l'acceptez :",
     "infoPoints": [
-      "The card will be securely saved in your wallet.",
-      "This issuer will be added to your trusted list.",
-      "You won't need to review trust again when downloading from them next time."
+      "La carte sera enregistrée en toute sécurité dans votre portefeuille.",
+      "Cet émetteur sera ajouté à votre liste de confiance.",
+      "Vous n'aurez plus à vérifier sa fiabilité lors des prochains téléchargements."
     ],
     "verifierInfoPoints": [
-      "The card will be securely shared with the verifier.",
-      "The verifier will be added to your trusted list.",
-      "You won’t need to review trust again when sharing with them in the future."
+      "La carte sera partagée en toute sécurité avec le vérificateur.",
+      "Le vérificateur sera ajouté à votre liste de confiance.",
+      "Vous n'aurez plus à confirmer sa fiabilité lors des prochains partages."
     ],
-    "confirm": "Yes, I Trust This Issuer",
-    "verifierConfirm": "Yes, I Trust This Verifier",
-    "cancel": "No, Take Me Back"
+    "confirm": "Oui, je fais confiance à cet émetteur",
+    "verifierConfirm": "Oui, je fais confiance à ce vérificateur",
+    "cancel": "Non, revenir en arrière"
   }
 }
