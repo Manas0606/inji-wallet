@@ -180,9 +180,9 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
 
             {showQrOverlay && (
               <QrCodeOverlay
-                verifiableCredential={
-                  props.credentialWrapper as unknown as VerifiableCredential
-                }
+                verifiableCredential={{
+                  credential: props.credential,
+                } as VerifiableCredential}
                 meta={props.verifiableCredentialData.vcMetadata}
                 showInlineQr={false}
                 forceVisible={true}
@@ -212,9 +212,9 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
                   <Column crossAlign="center">
                     {getProfileImage(face)}
                     <QrCodeOverlay
-                      verifiableCredential={
-                        props.credentialWrapper as unknown as VerifiableCredential
-                      }
+                      verifiableCredential={{
+                        credential: props.credential,
+                      } as VerifiableCredential}
                       meta={props.verifiableCredentialData.vcMetadata}
                       showInlineQr={true}
                     />
