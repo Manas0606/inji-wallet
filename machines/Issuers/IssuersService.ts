@@ -406,6 +406,29 @@ async function sendTokenRequest(
     throw new Error(`Token request failed: HTTP ${response.status}`);
   }
   const tokenResponse = await response.json();
+  if (!tokenResponse || typeof tokenResponse !== 'object' || Array.isArray(tokenResponse)) {
+    traceHaitiAuth('token_response_invalid');
+    throw new Error('Token endpoint returned an invalid JSON response');
+  }
+
+  // Mimoto / eSignet endpoints may return OAuth snake_case properties while
+  // the native VCI SDK TokenResponse model expects camelCase properties.
+  // Preserve the original properties and map only missing camelCase aliases.
+  // This matches the compatibility handling in Manas Wallet without altering
+  // authorization codes, redirect URIs, or token values.
+  const normalizedTokenResponse = {
+    ...tokenResponse,
+    accessToken: tokenResponse.accessToken ?? tokenResponse.access_token,
+    tokenType: tokenResponse.tokenType ?? tokenResponse.token_type,
+    expiresIn: tokenResponse.expiresIn ?? tokenResponse.expires_in,
+    cNonce: tokenResponse.cNonce ?? tokenResponse.c_nonce,
+    cNonceExpiresIn:
+      tokenResponse.cNonceExpiresIn ?? tokenResponse.c_nonce_expires_in,
+  };
+  if (!normalizedTokenResponse.accessToken) {
+    traceHaitiAuth('token_response_access_token_missing');
+    throw new Error('Token endpoint returned no access token');
+  }
   traceHaitiAuth('token_response_parsed');
-  return tokenResponse;
+  return normalizedTokenResponse;
 }
