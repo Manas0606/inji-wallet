@@ -90,14 +90,65 @@ export const IssuersScreen: React.FC<
     props.navigation.goBack();
   }
   useEffect(() => {
-    if (controller.isAuthEndpointToOpen) {
-      (props.navigation as any).navigate(AUTH_ROUTES.AuthView, {
-        authorizationURL: controller.authEndpount,
-        clientId: controller.selectedIssuer.client_id ?? "wallet",
-        redirectUri: controller.selectedIssuer.redirect_uri ?? "io.mosip.residentapp.inji://oauthredirect",
-        controller: controller,
-      });
+    if (!controller.isAuthEndpointToOpen) {
+      return;
     }
+
+    // The native OID4VCI client generates the authorization URL (including PKCE
+    // and optionally PAR). Never rewrite it to match the browser's Web flow.
+    const authorizationURL = controller.authEndpount;
+    const issuer = controller.selectedIssuer;
+    const clientId = issuer?.client_id;
+    const redirectUri = issuer?.redirect_uri;
+
+    if (!authorizationURL || !clientId || !redirectUri) {
+      console.warn('HAITI ESIGNET AUTH CHECK', {
+        reason: 'Missing authorization URL or resolved Mimoto client metadata',
+        hasAuthorizationURL: Boolean(authorizationURL),
+        hasClientId: Boolean(clientId),
+        hasRedirectUri: Boolean(redirectUri),
+      });
+      return;
+    }
+
+    try {
+      const authUrl = new URL(authorizationURL);
+      const hostIsHaiti = authUrl.hostname === 'esignet.haiti-pilot.mosip.net';
+      const configuredClientId = authUrl.searchParams.get('client_id');
+      const configuredRedirectUri = authUrl.searchParams.get('redirect_uri');
+      const usesPAR = authUrl.searchParams.has('request_uri');
+      console.info('HAITI ESIGNET AUTH CHECK', {
+        authorizationHost: authUrl.hostname,
+        authorizationPath: authUrl.pathname,
+        hostIsHaiti,
+        clientIdFromUrl: configuredClientId,
+        clientIdFromMimoto: clientId,
+        clientIdMatches: configuredClientId === null ? 'not in URL (possible PAR)' : configuredClientId === clientId,
+        redirectUriFromUrl: configuredRedirectUri,
+        redirectUriFromMimoto: redirectUri,
+        redirectUriMatches: configuredRedirectUri === null ? 'not in URL (possible PAR)' : configuredRedirectUri === redirectUri,
+        responseType: authUrl.searchParams.get('response_type'),
+        scope: authUrl.searchParams.get('scope'),
+        usesPAR,
+        hasState: authUrl.searchParams.has('state'),
+        hasNonce: authUrl.searchParams.has('nonce'),
+        hasCodeChallenge: authUrl.searchParams.has('code_challenge'),
+      });
+
+      if (!hostIsHaiti) {
+        console.warn('HAITI ESIGNET AUTH CHECK: Authorization host differs from the Haiti Web eSignet host. Check Certify authorization_server metadata; the wallet must not rewrite the generated URL.');
+      }
+    } catch {
+      console.warn('HAITI ESIGNET AUTH CHECK: Native client returned an invalid authorization URL.');
+      return;
+    }
+
+    (props.navigation as any).navigate(AUTH_ROUTES.AuthView, {
+      authorizationURL,
+      clientId,
+      redirectUri,
+      controller,
+    });
   }, [controller.isAuthEndpointToOpen]);
 
   const onPressHandler = (id: string, protocol: string) => {
