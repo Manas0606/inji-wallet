@@ -7,6 +7,7 @@ import {MessageOverlay} from '../../components/MessageOverlay';
 import {useSettingsScreen} from './SettingScreenController';
 import {useTranslation} from 'react-i18next';
 import {LanguageSelector} from '../../components/LanguageSelector';
+import {SUPPORTED_LANGUAGES} from '../../i18n';
 import {ScrollView} from 'react-native-gesture-handler';
 import {CREDENTIAL_REGISTRY_EDIT} from 'react-native-dotenv';
 import {AboutInji} from './AboutInji';
@@ -126,7 +127,7 @@ export const SettingScreen: React.FC<
                 title={controller.alertMsg}
             />
 
-            <LanguageSetting />
+            {Object.keys(SUPPORTED_LANGUAGES).length > 1 && <LanguageSetting />}
 
             <ListItem topDivider disabled={!controller.canUseBiometrics}>
               {SvgImage.fingerprintIcon(24)}
