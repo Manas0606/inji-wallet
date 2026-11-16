@@ -167,7 +167,7 @@ export const getVCMetadata = (context: object, keyType: string) => {
   });
 };
 
-const getMosipIndividualId = (
+export const getMosipIndividualId = (
   verifiableCredential: VerifiableCredential | Credential,
   issuer: string,
 ) => {
