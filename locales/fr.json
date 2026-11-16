@@ -1115,7 +1115,8 @@
     "title": "« {{wallet}} » souhaite utiliser « {{domain}} » pour se connecter",
     "message": "L'application et le site web pourront échanger certaines informations vous concernant.",
     "cancel": "Annuler",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "authenticate": "Authentification"
   },
   "cancelDownloadModal": {
     "heading": "Annuler le téléchargement ?",
