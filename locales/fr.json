@@ -1,60 +1,60 @@
 {
   "ActivityLogText": {
-    "VC_SHARED": "{{idType}} is shared successfully.",
-    "VC_RECEIVED": "Received {{idType}}.",
-    "VC_RECEIVED_NOT_SAVED": "Couldn't save {{idType}}.",
-    "VC_DELETED": "{{idType}} is deleted successfully.",
-    "VC_DOWNLOADED": "{{idType}} is downloaded.",
-    "VC_SHARED_WITH_VERIFICATION_CONSENT": "Shared {{idType}} with consent for presence verification.",
-    "VC_RECEIVED_WITH_PRESENCE_VERIFIED": "Received {{idType}} and presence verification is successful.",
-    "VC_RECEIVED_BUT_PRESENCE_VERIFICATION_FAILED": "Received {{idType}} and presence verification failed.",
-    "PRESENCE_VERIFIED_AND_VC_SHARED": "Face verification is successful and {{idType}} is shared.",
-    "PRESENCE_VERIFICATION_FAILED": "Face verification has failed while trying to share {{idType}}.",
-    "QRLOGIN_SUCCESFULL": "QRLogin using {{idType}} is successful.",
-    "WALLET_BINDING_SUCCESSFULL": "Activation of {{idType}} is successful.",
-    "WALLET_BINDING_FAILURE": "Activation of {{idType}} has failed.",
-    "VC_REMOVED": "{{idType}} is removed from wallet.",
-    "TAMPERED_VC_REMOVED": "{{idType}} is removed from from wallet due to tampering.",
+    "VC_SHARED": "{{idType}} a été partagé avec succès.",
+    "VC_RECEIVED": "{{idType}} reçu.",
+    "VC_RECEIVED_NOT_SAVED": "Impossible d'enregistrer {{idType}}.",
+    "VC_DELETED": "{{idType}} a été supprimé avec succès.",
+    "VC_DOWNLOADED": "{{idType}} a été téléchargé.",
+    "VC_SHARED_WITH_VERIFICATION_CONSENT": "{{idType}} a été partagé avec consentement pour la vérification de présence.",
+    "VC_RECEIVED_WITH_PRESENCE_VERIFIED": "{{idType}} reçu et présence vérifiée avec succès.",
+    "VC_RECEIVED_BUT_PRESENCE_VERIFICATION_FAILED": "{{idType}} reçu, mais la vérification de présence a échoué.",
+    "PRESENCE_VERIFIED_AND_VC_SHARED": "Vérification faciale réussie et {{idType}} partagé.",
+    "PRESENCE_VERIFICATION_FAILED": "La vérification faciale a échoué lors du partage de {{idType}}.",
+    "QRLOGIN_SUCCESFULL": "Connexion par code QR réussie avec {{idType}}.",
+    "WALLET_BINDING_SUCCESSFULL": "Activation de {{idType}} réussie.",
+    "WALLET_BINDING_FAILURE": "Échec de l'activation de {{idType}}.",
+    "VC_REMOVED": "{{idType}} a été retiré du portefeuille.",
+    "TAMPERED_VC_REMOVED": "{{idType}} a été retiré du portefeuille, car une altération a été détectée.",
     "vpSharing": {
-      "SHARED_SUCCESSFULLY": "Credential Presentation is shared successfully.",
-      "SHARED_WITH_FACE_VERIFIACTION": "Face verification is successful, and the Credential Presentation is shared successfully.",
-      "VERIFIER_AUTHENTICATION_FAILED": "Failed to authenticate the Verification Service during VP sharing.",
-      "USER_DECLINED_CONSENT": "User declined consent for credential presentation sharing.",
-      "SHARED_AFTER_RETRY": "Credential Presentation is shared successfully after a retry.",
-      "SHARED_WITH_FACE_VERIFICATION_AFTER_RETRY": "Face verification is successful, and the Credential Presentation is shared successfully after a retry.",
-      "SHARING_FAILED": "Credential Presentation sharing failed due to technical error.",
-      "RETRY_ATTEMPT_FAILED": "Credential Presentation sharing failed due to technical error after a retry attempt.",
-      "MAX_RETRY_ATTEMPT_FAILED": "Credential Presentation sharing failed due to technical error after maximum retry attempts.",
-      "FACE_VERIFICATION_FAILED": "Face verification failed during Credential Presentation sharing.",
-      "FACE_VERIFICATION_FAILED_AFTER_RETRY_ATTEMPT": "Face verification failed during a retry attempt of Credential Presentation sharing.",
-      "NO_SELECTED_VC_HAS_IMAGE": "Credential Presentation sharing failed as the selected verifiable credentials lack a face image.",
-      "CREDENTIAL_MISMATCH_FROM_KEBAB": "Credentials Presentation mismatch occurred during sharing from the menu, based on requested claims: {{info}}.",
-      "NO_CREDENTIAL_MATCHING_REQUEST": "No credentials were found that match the verification service's request based on the provided claims: {{info}}.",
-      "TECHNICAL_ERROR": "Something went wrong while processing your request.",
-      "INVALID_REQUEST_URI_METHOD": "Credential not shared— The verifier used a method that isn’t supported.",
-      "INVALID_AUTH_REQUEST": "Credential sharing failed — The request had missing or incorrect information.",
-      "REQUEST_COULD_NOT_BE_PROCESSED": "Credential not shared — Request couldn’t be processed due to a technical issue.",
-      "INVALID_PRESENTATION_DEFINITION_URI": "Credential not shared — The verifier’s request had incorrect data format.",
-      "SEND_VP_ERROR": "Credential sharing failed due to a technical issue."
+      "SHARED_SUCCESSFULLY": "Présentation du justificatif partagée avec succès.",
+      "SHARED_WITH_FACE_VERIFIACTION": "Vérification faciale et partage de la présentation réussis.",
+      "VERIFIER_AUTHENTICATION_FAILED": "Échec de l'authentification du service de vérification lors du partage.",
+      "USER_DECLINED_CONSENT": "L'utilisateur a refusé le consentement au partage du justificatif.",
+      "SHARED_AFTER_RETRY": "Présentation du justificatif partagée avec succès après une nouvelle tentative.",
+      "SHARED_WITH_FACE_VERIFICATION_AFTER_RETRY": "Vérification faciale et partage réussis après une nouvelle tentative.",
+      "SHARING_FAILED": "Échec du partage de la présentation à cause d'une erreur technique.",
+      "RETRY_ATTEMPT_FAILED": "Échec du partage après une nouvelle tentative à cause d'une erreur technique.",
+      "MAX_RETRY_ATTEMPT_FAILED": "Échec du partage après le nombre maximal de tentatives.",
+      "FACE_VERIFICATION_FAILED": "Échec de la vérification faciale pendant le partage.",
+      "FACE_VERIFICATION_FAILED_AFTER_RETRY_ATTEMPT": "Échec de la vérification faciale lors d'une nouvelle tentative.",
+      "NO_SELECTED_VC_HAS_IMAGE": "Impossible de partager : les justificatifs sélectionnés ne contiennent pas de photo du visage.",
+      "CREDENTIAL_MISMATCH_FROM_KEBAB": "Les justificatifs ne correspondent pas aux informations demandées : {{info}}.",
+      "NO_CREDENTIAL_MATCHING_REQUEST": "Aucun justificatif ne correspond à la demande du service de vérification : {{info}}.",
+      "TECHNICAL_ERROR": "Une erreur s'est produite pendant le traitement de votre demande.",
+      "INVALID_REQUEST_URI_METHOD": "Justificatif non partagé : le vérificateur utilise une méthode non prise en charge.",
+      "INVALID_AUTH_REQUEST": "Échec du partage : des informations de la demande sont manquantes ou incorrectes.",
+      "REQUEST_COULD_NOT_BE_PROCESSED": "Justificatif non partagé : impossible de traiter la demande en raison d'une erreur technique.",
+      "INVALID_PRESENTATION_DEFINITION_URI": "Justificatif non partagé : le format des données de la demande est incorrect.",
+      "SEND_VP_ERROR": "Échec du partage du justificatif pour des raisons techniques."
     }
   },
   "DeviceInfoList": {
-    "requestedBy": "Requested by",
-    "sentBy": "Sent by",
-    "deviceRefNumber": "Device reference number",
-    "name": "Name",
-    "Verifier": "Verifier",
-    "Wallet": "Wallet"
+    "requestedBy": "Demandé par",
+    "sentBy": "Envoyé par",
+    "deviceRefNumber": "Numéro de référence de l'appareil",
+    "name": "Nom",
+    "Verifier": "Vérificateur",
+    "Wallet": "Portefeuille"
   },
   "FaceScanner": {
-    "livenessCaptureGuide": "Hold the phone steady, keep your face focused in the centre.",
-    "faceProcessingInfo": "Please wait while we process the data.",
-    "faceOutGuide": "Keep your face inside the oval!",
-    "faceInGuide": "Capturing in progress!",
-    "imageCaptureGuide": "Hold the phone steady, keep your face focused in the centre and click on Capture.",
-    "capture": "Capture",
-    "cancel": "Cancel",
-    "flipCamera": "Flip Camera"
+    "livenessCaptureGuide": "Tenez le téléphone immobile et placez votre visage au centre.",
+    "faceProcessingInfo": "Veuillez patienter pendant le traitement des données.",
+    "faceOutGuide": "Gardez votre visage à l'intérieur de l'ovale !",
+    "faceInGuide": "Capture en cours !",
+    "imageCaptureGuide": "Tenez le téléphone immobile, placez votre visage au centre et appuyez sur « Capturer ».",
+    "capture": "Capturer",
+    "cancel": "Annuler",
+    "flipCamera": "Changer de caméra"
   },
   "OIDcAuth": {
     "title": "OIDC Authentication",
@@ -62,7 +62,7 @@
     "verify": "Verify"
   },
   "PasscodeVerify": {
-    "passcodeMismatchError": "Passcode did not match."
+    "passcodeMismatchError": "Les codes ne correspondent pas."
   },
   "QrScanner": {
     "cameraAccessDisabled": "Accès à l'appareil photo désactivé !",
@@ -130,22 +130,22 @@
     "removeFromWallet": "Retirer du portefeuille"
   },
   "WalletBinding": {
-    "offlineAuthenticationDisabled": "Activate for online login",
-    "inProgress": "In progress",
-    "credentialActivated": "Activated",
-    "profileAuthenticated": "QR Code Login"
+    "offlineAuthenticationDisabled": "Activer la connexion en ligne",
+    "inProgress": "En cours",
+    "credentialActivated": "Activé",
+    "profileAuthenticated": "Connexion par code QR"
   },
   "BindingVcWarningOverlay": {
-    "alert": "Alert",
-    "BindingWarning": "You have already activated online login for this credential on another device. You will no longer be able to use that device for login if you activate it again on this device. Do you want to proceed?",
-    "yesConfirm": "Yes, I Confirm",
-    "no": "No"
+    "alert": "Alerte",
+    "BindingWarning": "La connexion en ligne de ce justificatif est déjà activée sur un autre appareil. Si vous l'activez ici, vous ne pourrez plus utiliser l'autre appareil pour vous connecter. Continuer ?",
+    "yesConfirm": "Oui, je confirme",
+    "no": "Non"
   },
   "RemoveVcWarningOverlay": {
-    "alert": "Remove from Wallet?",
-    "removeWarning": "You're going to remove the card from the wallet. Once removed, this action cannot be undone.\nHowever, you can download the card again to your wallet.",
-    "confirm": "Yes, I confirm",
-    "cancel": "Cancel"
+    "alert": "Retirer du portefeuille ?",
+    "removeWarning": "Vous allez retirer cette carte du portefeuille. Cette action est irréversible. Vous pourrez toutefois télécharger à nouveau la carte.",
+    "confirm": "Oui, je confirme",
+    "cancel": "Annuler"
   },
   "AuthScreen": {
     "header": "Choisir la méthode de déverrouillage",
@@ -161,15 +161,15 @@
     }
   },
   "BiometricScreen": {
-    "unlock": "Unlock with biometrics"
+    "unlock": "Déverrouiller avec la biométrie"
   },
   "HistoryScreen": {
-    "noHistory": "No history available yet",
-    "downloaded": "downloaded",
-    "shared": "shared",
-    "received": "received",
-    "deleted": "deleted",
-    "historyHeaderLabel": "History"
+    "noHistory": "Aucun historique pour le moment",
+    "downloaded": "téléchargé",
+    "shared": "partagé",
+    "received": "reçu",
+    "deleted": "supprimé",
+    "historyHeaderLabel": "Historique"
   },
   "SettingScreen": {
     "header": "Paramètres",
@@ -187,22 +187,22 @@
     "resetInjiProps": "Réinitialisation d'Inji…"
   },
   "BannerNotification": {
-    "alternatePasscodeSuccess": "Success! You can now use passcode to unlock Inji app.",
-    "alternateBiometricSuccess": "Success! You can now use biometrics to unlock Inji app.",
-    "activated": "Credentials are enabled for online authentication.",
-    "keyPreferenceSuccess": "Your key preferences have been saved successfully!",
-    "keyPreferenceError": "Sorry! Error setting your key preferences"
+    "alternatePasscodeSuccess": "Vous pouvez maintenant utiliser votre code pour déverrouiller Inji.",
+    "alternateBiometricSuccess": "Vous pouvez maintenant utiliser la biométrie pour déverrouiller Inji.",
+    "activated": "Justificatifs activés pour l'authentification en ligne.",
+    "keyPreferenceSuccess": "Vos préférences de clés ont été enregistrées.",
+    "keyPreferenceError": "Impossible d'enregistrer vos préférences de clés."
   },
   "AboutInji": {
-    "aboutInji": "About Inji Wallet",
-    "header": "ABOUT INJI WALLET",
-    "appID": "App ID",
-    "aboutDetails": "Inji Wallet makes data trustworthy and portable, featuring two main interfaces that cater to diverse user needs, with Inji Mobile being one of them. As a mobile-based wallet app, Inji Mobile is a secure, decentralized solution that allows users to download, manage, share, and verify verifiable credentials directly from their smartphones, providing a seamless and trustworthy way to handle credentials on the go.",
-    "forMoreDetails": "For more details",
-    "clickHere": "Click here",
+    "aboutInji": "À propos du portefeuille Inji",
+    "header": "À PROPOS DU PORTEFEUILLE INJI",
+    "appID": "ID de l'application",
+    "aboutDetails": "Le portefeuille Inji permet de gérer des justificatifs numériques de manière sécurisée et décentralisée. Avec Inji Mobile, vous pouvez télécharger, gérer, partager et vérifier vos justificatifs vérifiables directement depuis votre téléphone.",
+    "forMoreDetails": "Pour en savoir plus",
+    "clickHere": "Cliquez ici",
     "version": "Version",
-    "tuvaliVersion": "Tuvali-version",
-    "poweredBy": "Powered by Inji, A MOSIP Product"
+    "tuvaliVersion": "Version Tuvali",
+    "poweredBy": "Propulsé par Inji, un produit MOSIP"
   },
   "IssuersScreen": {
     "title": "Ajouter une carte",
