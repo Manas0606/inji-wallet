@@ -331,13 +331,13 @@ export const VCItemMachine = model.createMachine(
               addingWalletBindingId: {
                 invoke: {
                   src: 'addWalletBindingId',
-                  onDone: [
-                    {
-                      cond: 'isCustomSecureKeystore',
-                      target: 'updatingContextVariables',
-                      actions: ['setWalletBindingResponse'],
-                    },
-                  ],
+                  onDone: {
+                    // The server accepted the OTP and returned a binding.
+                    // Persist it for either supported keystore implementation;
+                    // otherwise a device without a hardware keystore gets stuck.
+                    target: 'updatingContextVariables',
+                    actions: ['setWalletBindingResponse'],
+                  },
                   onError: [
                     {
                       actions: [
