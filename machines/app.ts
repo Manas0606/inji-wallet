@@ -432,20 +432,14 @@ export const appMachine = model.createMachine(
         to: context => context.serviceRefs.store,
       }),
 
-      loadCredentialRegistryInConstants: (_context, event) => {
-        changeCrendetialRegistry(
-          !event.response?.encryptedData?.credentialRegistry
-            ? MIMOTO_BASE_URL
-            : event.response?.encryptedData?.credentialRegistry,
-        );
+      loadCredentialRegistryInConstants: () => {
+        // Haiti-only build: use the configured host, not a previously saved environment.
+        changeCrendetialRegistry(MIMOTO_BASE_URL);
       },
 
-      loadEsignetHostFromConstants: (_context, event) => {
-        changeEsignetUrl(
-          !event.response?.encryptedData?.esignetHostUrl
-            ? ESIGNET_BASE_URL
-            : event.response?.encryptedData?.esignetHostUrl,
-        );
+      loadEsignetHostFromConstants: () => {
+        // Avoid redirecting to an old eSignet endpoint from local settings.
+        changeEsignetUrl(ESIGNET_BASE_URL);
       },
     },
 
