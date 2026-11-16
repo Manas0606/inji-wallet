@@ -1,8 +1,8 @@
 import i18next from 'i18next';
-import * as Localization from 'expo-localization';
 import {initReactI18next} from 'react-i18next';
 
 import en from './locales/en.json';
+import fr from './locales/fr.json';
 import fil from './locales/fil.json';
 import ar from './locales/ara.json';
 import hi from './locales/hin.json';
@@ -14,17 +14,13 @@ import {iso6393To1} from 'iso-639-3';
 import {getItem} from './machines/store';
 import {LocalizedField} from './machines/VerifiableCredential/VCMetaMachine/vc';
 
-const resources = {en, fil, ar, hi, kn, ta};
-const locale = Localization.locale;
-const languageCodeMap = {} as {[key: string]: string};
+const resources = {en, fr};
+// Haiti wallet defaults to French regardless of the device language.
+const languageCodeMap = {fr: 'fra', en: 'eng'} as {[key: string]: string};
 
 export const SUPPORTED_LANGUAGES = {
+  fr: 'Français',
   en: 'English',
-  fil: 'Filipino',
-  ar: 'عربى',
-  hi: 'हिंदी',
-  kn: 'ಕನ್ನಡ',
-  ta: 'தமிழ்',
 };
 
 i18next
@@ -32,21 +28,19 @@ i18next
   .init({
     compatibilityJSON: 'v3',
     resources,
-    lng: getLanguageCode(locale),
-    fallbackLng: getLanguageCode,
+    lng: 'fr',
+    fallbackLng: 'en',
     supportedLngs: Object.keys(SUPPORTED_LANGUAGES),
   })
   .then(async () => {
     const language = await getItem('language', null, '');
 
-    if (language !== i18next.language) {
-      i18next.changeLanguage(language);
-      populateLanguageCodeMap();
+    if (language && Object.keys(SUPPORTED_LANGUAGES).includes(language)) {
+      await i18next.changeLanguage(language);
+    } else {
+      await i18next.changeLanguage('fr');
     }
-    if (!Object.keys(SUPPORTED_LANGUAGES).includes(i18next.language)) {
-      i18next.changeLanguage('en');
-      populateLanguageCodeMap();
-    }
+    populateLanguageCodeMap();
   });
 
 export default i18next;
