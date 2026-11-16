@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
   BackHandler,
+  Linking,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {Ionicons} from '@expo/vector-icons';
@@ -18,6 +19,12 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
   const {authorizationURL, clientId, redirectUri, controller} = route.params;
   const webViewRef = useRef<WebView>(null);
   const callbackHandled = useRef(false);
+  const expectedState = useRef<string | null>(null);
+  try {
+    expectedState.current = new URL(authorizationURL).searchParams.get('state');
+  } catch {
+    expectedState.current = null;
+  }
   const [showWebView, setShowWebView] = useState(false);
   const {t} = useTranslation('authWebView');
 
@@ -97,16 +104,33 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
   ]);
 
   const handleOAuthCallback = (url: string): boolean => {
-    if (url.startsWith(redirectUri)) {
+    // Parse the URI and match scheme, host and path exactly, never by prefix.
+    let incoming: URL;
+    let registered: URL;
+    try {
+      incoming = new URL(url);
+      registered = new URL(redirectUri);
+    } catch {
+      return true;
+    }
+    if (
+      incoming.protocol === registered.protocol &&
+      incoming.hostname === registered.hostname &&
+      incoming.pathname === registered.pathname
+    ) {
       traceHaitiAuth('oauth_redirect_detected');
+      const returnedState = incoming.searchParams.get('state');
+      if (expectedState.current && returnedState !== expectedState.current) {
+        traceHaitiAuth('oauth_redirect_state_mismatch');
+        return false;
+      }
       if (callbackHandled.current) {
         traceHaitiAuth('oauth_redirect_duplicate_ignored');
         return false;
       }
       callbackHandled.current = true;
       try {
-        const uri = new URL(url);
-        const oauthError = uri.searchParams.get('error');
+        const oauthError = incoming.searchParams.get('error');
         if (oauthError) {
           // Log only the error code; do not expose the OAuth authorization code or state.
           traceHaitiAuth('oauth_redirect_error');
@@ -116,7 +140,9 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
           Alert.alert(t('errorTitle'), t('errorMessage'));
           return false;
         }
-        const code = uri.searchParams.get('code');
+        const code =
+          incoming.searchParams.get('code') ||
+          incoming.searchParams.get('authorization_code');
 
         if (!code) {
           traceHaitiAuth('oauth_redirect_code_missing');
@@ -142,6 +168,27 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
 
     return true;
   };
+
+  // Android can deliver a custom scheme to the Activity directly instead of
+  // forwarding it to WebView navigation callbacks.
+  useEffect(() => {
+    const handleDeepLink = ({url}: {url: string}) => {
+      if (!handleOAuthCallback(url)) {
+        traceHaitiAuth('oauth_android_link_handled');
+      }
+    };
+    const subscription = Linking.addEventListener('url', handleDeepLink);
+    Linking.getInitialURL()
+      .then(url => {
+        if (url) {
+          handleDeepLink({url});
+        }
+      })
+      .catch(() => {
+        traceHaitiAuth('oauth_initial_link_unavailable');
+      });
+    return () => subscription.remove();
+  }, [authorizationURL, redirectUri]);
 
   const handleNavigationRequest = (request: any) =>
     handleOAuthCallback(request.url);
