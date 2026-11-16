@@ -26,6 +26,7 @@ import {
 } from '../../shared/telemetry/TelemetryUtils';
 import {TelemetryConstants} from '../../shared/telemetry/TelemetryConstants';
 import {NativeModules} from 'react-native';
+import {traceHaitiAuth} from '../../shared/vciClient/VciClient';
 import {VCActivityLog} from '../../components/ActivityLogEvent';
 import {isNetworkError, parseJSON} from '../../shared/Utils';
 import {issuerType} from './IssuersMachine';
@@ -93,8 +94,8 @@ export const IssuersActions = (model: any) => {
 
     setError: model.assign({
       errorMessage: (_: any, event: any) => {
-        console.error(`Error occurred while ${event} -> `, event.data.message);
-        const error = event.data.message;
+        traceHaitiAuth('machine_generic_error');
+        const error = String(event?.data?.message ?? 'Unknown error');
         if (error.includes(NO_INTERNET)) {
           return ErrorMessage.NO_INTERNET;
         }
