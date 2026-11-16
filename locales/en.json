@@ -115,9 +115,9 @@
     "shareQRCode": "Share QR Code",
     "disclosureNote": "Your card includes specific details marked by the issuer as selectively shareable. These can be shared independently during credential presentation. Other fields not listed here can only be shared as part of the full credential, if requested by the verifier.",
     "disclosureNoteTitle": "Please note",
-    "disclosedFieldsDescription":"Your card includes the following selectively shareable details listed below.",
-    "disclosedFieldsTitle":"Information you choose to share",
-    "disclosureInfoNote":"Fields next to this icon indicate that the information can be shared selectively."
+    "disclosedFieldsDescription": "Your card includes the following selectively shareable details listed below.",
+    "disclosedFieldsTitle": "Information you choose to share",
+    "disclosureInfoNote": "Fields next to this icon indicate that the information can be shared selectively."
   },
   "HomeScreenKebabPopUp": {
     "title": "More Options",
@@ -872,10 +872,10 @@
     "cardSelected": "card selected",
     "unCheck": "Uncheck",
     "checkAll": "Check All",
-    "selectedFieldsTitle":"Information you choose to share",
-    "selectedFieldsSubtitle":"Your card includes the following selectively shareable details listed below.",
-    "unselectAll":"Unselect All",
-    "selectAll":"Select All",
+    "selectedFieldsTitle": "Information you choose to share",
+    "selectedFieldsSubtitle": "Your card includes the following selectively shareable details listed below.",
+    "unselectAll": "Unselect All",
+    "selectAll": "Select All",
     "consentDialog": {
       "title": "Consent Required",
       "message": "We require your consent to share your verifiable credentials with {{verifierName}}. This will enable us to verify your identity and fulfil your service requests. Choose \"Yes, Proceed\" to consent or \"Decline\" if you do not wish to share your credentials with {{verifierName}}.",
@@ -1080,7 +1080,8 @@
       "allowAccess": "Allow access to the camera"
     },
     "errors": {
-      "genericError": "We're sorry! Due to technical error, we are unable to serve your request now. Please try again later!"
+      "genericError": "We're sorry! Due to technical error, we are unable to serve your request now. Please try again later!",
+      "activationMissingIdentifier": "Unable to activate this credential: no UIN or VID is present in its data. Check the issued identity information before retrying."
     },
     "clipboard": {
       "copy": "Copy",
@@ -1139,7 +1140,7 @@
       "This issuer will be added to your trusted list.",
       "You won't need to review trust again when downloading from them next time."
     ],
-    "verifierInfoPoints":[
+    "verifierInfoPoints": [
       "The card will be securely shared with the verifier.",
       "The verifier will be added to your trusted list.",
       "You won’t need to review trust again when sharing with them in the future."
