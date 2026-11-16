@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Pressable, View} from 'react-native';
+import {Pressable, View, Image} from 'react-native';
 import {Icon, Overlay} from 'react-native-elements';
 import {Centered, Column, Row, Text, Button} from './ui';
 import QRCode from 'react-native-qrcode-svg';
@@ -18,31 +18,44 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
   const {RNPixelpassModule} = NativeModules;
   const {t} = useTranslation('VcDetails');
   const [qrString, setQrString] = useState('');
+  const [qrImageUri, setQrImageUri] = useState('');
   const [qrError, setQrError] = useState(false);
   const base64ImageType = 'data:image/png;base64,';
   const {RNSecureKeystoreModule} = NativeModules;
 
-  async function getQRData(): Promise<string> {
-    const {credential} = props.verifiableCredential;
-    // Some MOSIP credentials already contain an issuer-provided QR in
-    // credentialSubject.claim169. Prefer this over generating a different QR,
-    // consistent with the Manas Wallet credential display logic.
-    const credentialSubject =
-      credential && typeof credential === 'object'
-        ? credential.credentialSubject
-        : undefined;
-    const subjects = Array.isArray(credentialSubject)
-      ? credentialSubject
-      : [credentialSubject];
-    for (const subject of subjects) {
-      const claim169 = (subject as {claim169?: unknown} | undefined)?.claim169;
-      if (claim169 && typeof claim169 === 'object' && !Array.isArray(claim169)) {
-        const issuerQr = Object.values(claim169).find(
-          (value): value is string =>
-            typeof value === 'string' && value.trim().length > 0,
-        );
-        if (issuerQr) {
-          return issuerQr.trim();
+  async function getQRData(): Promise<{kind: 'image' | 'payload'; value: string}> {
+    const wrapped = props.verifiableCredential?.credential;
+    const credential = wrapped?.credential && typeof wrapped.credential === 'object'
+      ? wrapped.credential : wrapped;
+    if (!credential) throw new Error('Credential is not available for QR');
+
+    const classifyIssuerQr = (raw: string) => {
+      const value = raw.trim();
+      if (/^data:image\/(?:png|jpeg|jpg|webp);base64,[a-z0-9+/=\s]+$/i.test(value)) {
+        return {kind: 'image' as const, value};
+      }
+      if (/^iVBORw0KGgo[A-Za-z0-9+/=\s]+$/.test(value)) {
+        return {kind: 'image' as const, value: 'data:image/png;base64,' + value.replace(/\s/g, '')};
+      }
+      return {kind: 'payload' as const, value};
+    };
+    // Use only a QR explicitly supplied in the signed VC when one exists.
+    // Image bytes must be displayed as an image, never encoded as QR text.
+    const subject = typeof credential === 'object' ? credential.credentialSubject : undefined;
+    const subjects = Array.isArray(subject) ? subject : [subject];
+    for (const entry of subjects) {
+      if (!entry || typeof entry !== 'object') continue;
+      const claims = entry as Record<string, unknown>;
+      for (const key of ['qrCodeImage', 'qrCodeData', 'qrCode', 'claim169']) {
+        const claim = claims[key];
+        if (typeof claim === 'string' && claim.trim()) {
+          return classifyIssuerQr(claim);
+        }
+        if (claim && typeof claim === 'object' && !Array.isArray(claim)) {
+          const found = Object.values(claim).find(
+            (v): v is string => typeof v === 'string' && v.trim().length > 0,
+          );
+          if (found) return classifyIssuerQr(found);
         }
       }
     }
@@ -50,7 +63,7 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
     try {
       const keyData = await RNSecureKeystoreModule.getData(props.meta.id);
       if (keyData?.[1] && typeof keyData[1] === 'string') {
-        return keyData[1];
+        return {kind: 'payload', value: keyData[1]};
       }
     } catch {
       // QR has not been cached yet. Generate it below.
@@ -65,13 +78,17 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
     } catch {
       // A cache write failure must not prevent displaying a valid QR.
     }
-    return qrData;
+    return {kind: 'payload', value: qrData};
   }
 
   let qrRef = useRef(null);
 
   function handleShareQRCodePress() {
-    qrRef.current.toDataURL(dataURL => {
+    if (qrImageUri) {
+      shareImage(qrImageUri);
+      return;
+    }
+    qrRef.current?.toDataURL((dataURL: string) => {
       shareImage(`${base64ImageType}${dataURL}`);
     });
   }
@@ -99,10 +116,17 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
         if (!active) {
           return;
         }
-        if (qrData && qrData.length < MAX_QR_DATA_LENGTH) {
-          setQrString(qrData);
+        if (qrData.kind === 'image') {
+          setQrImageUri(qrData.value);
+          setQrString('');
+          setQrError(false);
+        } else if (qrData.value && qrData.value.length <= MAX_QR_DATA_LENGTH) {
+          setQrString(qrData.value);
+          setQrImageUri('');
           setQrError(false);
         } else {
+          setQrString('');
+          setQrImageUri('');
           setQrError(true);
         }
       } catch {
@@ -126,9 +150,15 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
     else setIsQrOverlayVisible(!overlayVisible);
   };
 
+  if ((!qrString && !qrImageUri) || qrError) {
+    return props.showUnavailableMessage ? (
+      <Text style={{color: '#738798', textAlign: 'center', fontSize: 12}}>
+        Code QR non disponible pour ce justificatif
+      </Text>
+    ) : null;
+  }
+
   return (
-    qrString != '' &&
-    !qrError && (
       <React.Fragment>
         <View testID="qrCodeView" style={Theme.QrCodeStyles.QrView}>
           {props.showInlineQr !== false && (
@@ -136,14 +166,22 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
               {...testIDProps('qrCodePressable')}
               accessible={false}
               onPress={toggleQrOverlay}>
-              <QRCode
-                {...testIDProps('qrCode')}
-                size={72}
-                value={qrString}
-                backgroundColor={Theme.Colors.QRCodeBackgroundColor}
-                ecl={DEFAULT_ECL}
-                onError={onQRError}
-              />
+              {qrImageUri ? (
+                <Image
+                  source={{uri: qrImageUri}}
+                  style={{width: props.inlineQrSize ?? 72, height: props.inlineQrSize ?? 72}}
+                  resizeMode="contain"
+                />
+              ) : (
+                <QRCode
+                  {...testIDProps('qrCode')}
+                  size={props.inlineQrSize ?? 72}
+                  value={qrString}
+                  backgroundColor={Theme.Colors.QRCodeBackgroundColor}
+                  ecl={DEFAULT_ECL}
+                  onError={onQRError}
+                />
+              )}
               <View
                 testID="magnifierZoom"
                 style={[Theme.QrCodeStyles.magnifierZoom]}>
@@ -175,16 +213,24 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
               />
             </Row>
             <Centered testID="qrCodeDetails" pY={30}>
-              <QRCode
-                {...testIDProps('qrCodeExpandedView')}
-                size={300}
-                value={qrString}
-                backgroundColor={Theme.Colors.QRCodeBackgroundColor}
-                ecl={DEFAULT_ECL}
-                quietZone={10}
-                onError={onQRError}
-                getRef={data => (qrRef.current = data)}
-              />
+              {qrImageUri ? (
+                <Image
+                  source={{uri: qrImageUri}}
+                  style={{width: 300, height: 300}}
+                  resizeMode="contain"
+                />
+              ) : (
+                <QRCode
+                  {...testIDProps('qrCodeExpandedView')}
+                  size={300}
+                  value={qrString}
+                  backgroundColor={Theme.Colors.QRCodeBackgroundColor}
+                  ecl={DEFAULT_ECL}
+                  quietZone={10}
+                  onError={onQRError}
+                  getRef={data => (qrRef.current = data)}
+                />
+              )}
               <Button
                 testID="share"
                 styles={Theme.QrCodeStyles.shareQrCodeButton}
@@ -204,7 +250,6 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
           </Column>
         </Overlay>
       </React.Fragment>
-    )
   );
 };
 
@@ -212,6 +257,8 @@ interface QrCodeOverlayProps {
   verifiableCredential: VerifiableCredential;
   meta: VCMetadata;
   showInlineQr?: boolean;
+  inlineQrSize?: number;
+  showUnavailableMessage?: boolean;
   forceVisible?: boolean;
   onClose?: () => void;
 }
