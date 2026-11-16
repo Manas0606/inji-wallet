@@ -1080,7 +1080,8 @@
       "allowAccess": "Autoriser l'accès à l'appareil photo"
     },
     "errors": {
-      "genericError": "Une erreur technique s'est produite. Veuillez réessayer plus tard."
+      "genericError": "Une erreur technique s'est produite. Veuillez réessayer plus tard.",
+      "activationMissingIdentifier": "Impossible d'activer cette pièce d'identité : aucun UIN ou VID n'est présent dans ses données. Vérifiez les informations d'identification émises avant de réessayer."
     },
     "clipboard": {
       "copy": "Copier",
