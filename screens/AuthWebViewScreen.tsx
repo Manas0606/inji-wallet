@@ -131,7 +131,7 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
         }}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
-      <Text style={Theme.AuthWebViewScreenStyle.headerText}>Authentification</Text>
+      <Text style={Theme.AuthWebViewScreenStyle.headerText}>{t('authenticate')}</Text>
       <View style={{width: 24}} />
     </View>
   );
