@@ -277,7 +277,7 @@ dependencies {
         exclude group: 'com.augustcellars.cose', module:'cose-java'
     }
     implementation("com.facebook.react:react-android")
-    implementation 'com.facebook.soloader:soloader:0.10.1+'
+    implementation 'com.facebook.soloader:soloader:0.13.0'
     implementation("io.mosip:pixelpass-aar:0.7.0")
     implementation("io.mosip:secure-keystore:0.3.0")
     implementation("io.mosip:tuvali:0.5.2")
