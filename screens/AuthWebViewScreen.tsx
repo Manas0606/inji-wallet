@@ -134,6 +134,26 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
             headers: {'Accept-Language': 'fr-HT,fr;q=0.9'},
           }}
           onShouldStartLoadWithRequest={handleNavigationRequest}
+          onNavigationStateChange={({url}) => {
+            // Never log the full OAuth URL (it can contain codes, state and tokens).
+            try {
+              const location = new URL(url);
+              const error = location.searchParams.get('error');
+              if (error) {
+                console.warn('eSignet authorization rejected', {
+                  origin: location.origin,
+                  path: location.pathname,
+                  error,
+                });
+              }
+            } catch {
+              // Ignore navigation entries that are not valid absolute URLs.
+            }
+          }}
+          onHttpError={({nativeEvent}) => {
+            // Capture only the HTTP status, not the potentially sensitive URL.
+            console.warn('eSignet WebView HTTP error', nativeEvent.statusCode);
+          }}
           startInLoadingState
           renderLoading={() => (
             <View style={Theme.AuthWebViewScreenStyle.loader}>
