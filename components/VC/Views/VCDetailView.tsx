@@ -37,6 +37,7 @@ import testIDProps from '../../../shared/commonUtil';
 import {ShareableInfoModal} from './ShareableInfoModal';
 import {SvgCss} from 'react-native-svg/css';
 import {QR_IMAGE_ID} from '../../../shared/constants';
+import {VCItemField} from '../common/VCItemField';
 
 const getProfileImage = (face: any) => {
   if (face) {
@@ -55,6 +56,25 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
   const face = props.verifiableCredentialData.face;
   const verifiableCredential = props.credential;
   const wellknownDisplayProperty = new Display(props.wellknown);
+
+  // Display only an identifier extracted from the actual MOSIP credential.
+  // The value is also used by the wallet-binding flow; do not create a stand-in ID.
+  const individualId = isActivationNeeded(props.verifiableCredentialData?.issuer)
+    ? props.verifiableCredentialData?.vcMetadata?.mosipIndividualId
+    : '';
+  const hasSvgCard = Array.isArray(props.svgTemplate) && props.svgTemplate.length > 0;
+  const configuredIdentifierField = !hasSvgCard && Array.isArray(props.fields) &&
+    props.fields.some(
+      (field: unknown) =>
+        typeof field === 'string' &&
+        ['uin', 'vid', 'individualid', 'mosipindividualid'].includes(
+          field.replace(/[^a-z0-9]/gi, '').toLowerCase(),
+        ),
+    );
+  // If all credentialSubject fields are rendered automatically, its ID is
+  // already displayed on the regular card. Avoid a duplicate row there.
+  const identifierAlreadyRendered =
+    !hasSvgCard && (configuredIdentifierField || !props.wellknownFieldsFlag);
 
   const {width: deviceWidth} = Dimensions.get('window');
   const CARD_WIDTH = deviceWidth * 0.8;
@@ -280,6 +300,15 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
           </Column>
         )}
       </Column>
+      {!!individualId && !identifierAlreadyRendered && (
+        <Column padding="8 16 12 16" backgroundColor={Theme.Colors.DetailedViewBackground}>
+          <VCItemField
+            fieldName="UIN / VID"
+            fieldValue={individualId}
+            testID="mosipIndividualId"
+          />
+        </Column>
+      )}
       {props.vcHasImage &&
         !props.verifiableCredentialData?.vcMetadata.isExpired && (
           <View
