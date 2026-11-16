@@ -57,9 +57,9 @@
     "flipCamera": "Changer de caméra"
   },
   "OIDcAuth": {
-    "title": "OIDC Authentication",
-    "text": "To be replaced with the OIDC provider UI",
-    "verify": "Verify"
+    "title": "Authentification OIDC",
+    "text": "À remplacer par l'interface du fournisseur OIDC",
+    "verify": "Vérifier"
   },
   "PasscodeVerify": {
     "passcodeMismatchError": "Les codes ne correspondent pas."
@@ -108,12 +108,12 @@
     "credentialRegistry": "Registre des justificatifs",
     "errors": {
       "savingFailed": {
-        "title": "Failed to save the Card",
-        "message": "Something went wrong while saving Card to the store."
+        "title": "Échec de l'enregistrement de la carte",
+        "message": "Une erreur s'est produite pendant l'enregistrement de la carte."
       }
     },
     "shareQRCode": "Partager le code QR",
-    "disclosureNote": "Your card includes specific details marked by the issuer as selectively shareable. These can be shared independently during credential presentation. Other fields not listed here can only be shared as part of the full credential, if requested by the verifier.",
+    "disclosureNote": "Cette carte contient des informations que l'émetteur autorise à partager séparément. D'autres informations ne peuvent être partagées qu'avec le justificatif complet, à la demande du vérificateur.",
     "disclosureNoteTitle": "À noter",
     "disclosedFieldsDescription": "Votre carte contient les informations pouvant être partagées de façon sélective.",
     "disclosedFieldsTitle": "Informations à partager",
@@ -223,41 +223,41 @@
     "download": "Télécharger la carte",
     "errors": {
       "noInternetConnection": {
-        "title": "No internet connection",
-        "message": "Please check your connection and retry"
+        "title": "Pas de connexion Internet",
+        "message": "Vérifiez votre connexion et réessayez."
       },
       "networkRequestFailed": {
-        "title": "Network request failed",
-        "message": "We are unable to precess your request at the moment."
+        "title": "Échec de la requête réseau",
+        "message": "Impossible de traiter votre demande pour le moment."
       },
       "biometricsCancelled": {
-        "title": "Do you want to cancel download?",
-        "message": "Biometric confirmation is required to continue downloading the card."
+        "title": "Annuler le téléchargement ?",
+        "message": "La confirmation biométrique est requise pour continuer le téléchargement."
       },
       "generic": {
-        "title": "Something went wrong!",
-        "message": "We are having some trouble with your request. Please try again."
+        "title": "Une erreur s'est produite !",
+        "message": "Nous rencontrons un problème. Veuillez réessayer."
       },
       "technicalDifficulty": {
-        "title": "An error occurred!",
-        "message": "Thank you for your patience! We're currently experiencing technical difficulties. Please try downloading again shortly."
+        "title": "Une erreur s'est produite !",
+        "message": "Nous rencontrons des difficultés techniques. Veuillez réessayer le téléchargement plus tard."
       },
       "authorizationGrantTypeNotSupportedByWallet": {
-        "title": "Grant type not supported authorization error!",
-        "message": "Thanks for your patience! We're experiencing technical difficulties right now. Please try again later or contact the admin for further assistance!"
+        "title": "Type d'autorisation non pris en charge !",
+        "message": "Des difficultés techniques empêchent l'autorisation. Réessayez plus tard ou contactez l'administrateur."
       },
       "verificationFailed": {
-        "title": "An Error Occurred!",
-        "goBackButton": "Go Back",
-        "ERR_GENERIC": "Due to Technical Error, we were unable to download the card.",
-        "ERR_NETWORK": "Due to unstable internet connection, we were unable to download the card. Please check your internet connection.",
-        "ERR_MISSING_ISSUANCEDATE": "Issuance date is invalid or set in the future. Check for a valid date.",
-        "ERR_INVALID_ISSUANCEDATE": "Issuance date is invalid or set in the future. Check for a valid date.",
-        "ERR_ISSUANCE_DATE_IS_FUTURE_DATE": "Issuance date is invalid or set in the future. Check for a valid date.",
-        "ERR_INVALID_EXPIRATIONDATE": "Expiration date is invalid. Check for a valid date.",
-        "ERR_INVALID_VALIDFROM": "Date is invalid or set in the future. Check for a valid date.",
-        "ERR_VALID_FROM_IS_FUTURE_DATE": "Date is invalid or set in the future. Check for a valid date.",
-        "ERR_INVALID_VALIDUNTIL": "Date is invalid. Check for a valid date."
+        "title": "Une erreur s'est produite !",
+        "goBackButton": "Retour",
+        "ERR_GENERIC": "Une erreur technique a empêché le téléchargement de la carte.",
+        "ERR_NETWORK": "Une connexion instable a empêché le téléchargement. Vérifiez votre connexion Internet.",
+        "ERR_MISSING_ISSUANCEDATE": "La date d'émission est invalide ou située dans le futur.",
+        "ERR_INVALID_ISSUANCEDATE": "La date d'émission est invalide ou située dans le futur.",
+        "ERR_ISSUANCE_DATE_IS_FUTURE_DATE": "La date d'émission est invalide ou située dans le futur.",
+        "ERR_INVALID_EXPIRATIONDATE": "La date d'expiration est invalide.",
+        "ERR_INVALID_VALIDFROM": "La date de début de validité est invalide ou future.",
+        "ERR_VALID_FROM_IS_FUTURE_DATE": "La date de début de validité est invalide ou future.",
+        "ERR_INVALID_VALIDUNTIL": "La date de fin de validité est invalide."
       }
     }
   },
@@ -348,41 +348,41 @@
     }
   },
   "AddVcModal": {
-    "requestingCredential": "Requesting credential...",
+    "requestingCredential": "Demande du justificatif en cours…",
     "errors": {
       "input": {
-        "empty": "Please enter valid ID",
-        "invalidFormat": "Please enter valid {{idType}}"
+        "empty": "Saisissez un identifiant valide.",
+        "invalidFormat": "Saisissez un {{idType}} valide."
       },
       "backend": {
-        "invalidOtp": "OTP is invalid",
-        "expiredOtp": "OTP has expired",
-        "invalidUin": "Please enter valid UIN",
-        "invalidVid": "Please enter valid VID",
-        "missingUin": "The entered UIN is deactivated/blocked. Please enter a valid UIN to proceed",
-        "missingVid": "VID not available in database",
-        "noMessageAvailable": "Try after sometime",
-        "whileGeneratingOtpErrorIsOccured": "while generating otp error is occurred",
-        "networkRequestFailed": "Network request failed",
-        "deactivatedVid": "The entered VID is deactivated/expired. Please enter a valid VID to proceed"
+        "invalidOtp": "Code OTP invalide.",
+        "expiredOtp": "Le code OTP a expiré.",
+        "invalidUin": "Saisissez un UIN valide.",
+        "invalidVid": "Saisissez un VID valide.",
+        "missingUin": "L'UIN saisi est désactivé ou bloqué. Saisissez un UIN valide.",
+        "missingVid": "VID introuvable dans la base de données.",
+        "noMessageAvailable": "Réessayez plus tard.",
+        "whileGeneratingOtpErrorIsOccured": "Une erreur s'est produite lors de la génération du code OTP.",
+        "networkRequestFailed": "Échec de la requête réseau.",
+        "deactivatedVid": "Le VID saisi est désactivé ou expiré. Saisissez un VID valide."
       }
     }
   },
   "GetVcModal": {
-    "retrievingId": "Retrieving ID",
+    "retrievingId": "Récupération de l'identifiant",
     "errors": {
       "input": {
-        "empty": "Please enter valid ID",
-        "invalidFormat": "Please enter valid AID"
+        "empty": "Saisissez un identifiant valide.",
+        "invalidFormat": "Saisissez un AID valide."
       },
       "backend": {
-        "invalidOtp": "Invalid OTP",
-        "expiredOtp": "OTP has expired",
-        "applicationProcessing": "AID is not ready yet",
-        "noMessageAvailable": "Try after sometime",
-        "networkRequestFailed": "Network request failed",
-        "invalidAid": "Please enter valid AID",
-        "timeout": "Timeout"
+        "invalidOtp": "Code OTP invalide.",
+        "expiredOtp": "Le code OTP a expiré.",
+        "applicationProcessing": "L'AID n'est pas encore prêt.",
+        "noMessageAvailable": "Réessayez plus tard.",
+        "networkRequestFailed": "Échec de la requête réseau.",
+        "invalidAid": "Saisissez un AID valide.",
+        "timeout": "Délai d'attente dépassé."
       }
     }
   },
@@ -439,42 +439,42 @@
     "noCardsDescription": "Aucun résultat. Essayez une autre recherche.",
     "errors": {
       "savingFailed": {
-        "title": "Failed to save the Card",
-        "message": "Something went wrong while saving Card to the store."
+        "title": "Impossible d'enregistrer la carte",
+        "message": "Une erreur s'est produite pendant l'enregistrement."
       },
       "storageLimitReached": {
-        "title": "Insufficient Appdata",
-        "message": "You cannot add or receive cards since the Appdata is full. Clear Appdata to proceed."
+        "title": "Stockage insuffisant",
+        "message": "Impossible d'ajouter ou de recevoir des cartes : le stockage est plein. Libérez de l'espace."
       },
       "vcIsTampered": {
-        "title": "Cards removed due to malicious activity",
-        "message": "Tampered cards detected and removed for security reasons. Please download again."
+        "title": "Cartes supprimées pour des raisons de sécurité",
+        "message": "Des cartes altérées ont été détectées et supprimées. Téléchargez-les à nouveau."
       },
       "keystoreNotExists": {
-        "title": "Some security features will be unavailable",
-        "message": "Your current device does not support all the security features.",
-        "riskOkayText": "Ok"
+        "title": "Certaines fonctions de sécurité sont indisponibles",
+        "message": "Votre appareil ne prend pas en charge toutes les fonctions de sécurité.",
+        "riskOkayText": "OK"
       },
       "noInternetConnection": {
-        "title": "No internet connection",
-        "message": "Please check your connection and retry"
+        "title": "Pas de connexion Internet",
+        "message": "Vérifiez votre connexion et réessayez."
       },
       "downloadLimitExpires": {
-        "title": "Download Error",
-        "message": "There was an issue downloading following cards. Please try again"
+        "title": "Erreur de téléchargement",
+        "message": "Une erreur s'est produite lors du téléchargement des cartes. Réessayez."
       },
       "verificationFailed": {
-        "title": "An Error Occurred!",
-        "goBackButton": "Go Back",
-        "ERR_GENERIC": "Due to Technical Error, we were unable to download the card.",
-        "ERR_NETWORK": "Due to unstable internet connection, we were unable to download the card. Please check your internet connection.",
-        "ERR_MISSING_ISSUANCEDATE": "Issuance date is invalid or set in the future. Check for a valid date.",
-        "ERR_INVALID_ISSUANCEDATE": "Issuance date is invalid or set in the future. Check for a valid date.",
-        "ERR_ISSUANCE_DATE_IS_FUTURE_DATE": "Issuance date is invalid or set in the future. Check for a valid date.",
-        "ERR_INVALID_EXPIRATIONDATE": "Expiration date is invalid. Check for a valid date.",
-        "ERR_INVALID_VALIDFROM": "Date is invalid or set in the future. Check for a valid date.",
-        "ERR_VALID_FROM_IS_FUTURE_DATE": "Date is invalid or set in the future. Check for a valid date.",
-        "ERR_INVALID_VALIDUNTIL": "Date is invalid. Check for a valid date."
+        "title": "Une erreur s'est produite !",
+        "goBackButton": "Retour",
+        "ERR_GENERIC": "Une erreur technique a empêché le téléchargement de la carte.",
+        "ERR_NETWORK": "Une connexion instable a empêché le téléchargement. Vérifiez votre connexion.",
+        "ERR_MISSING_ISSUANCEDATE": "La date d'émission est invalide ou située dans le futur.",
+        "ERR_INVALID_ISSUANCEDATE": "La date d'émission est invalide ou située dans le futur.",
+        "ERR_ISSUANCE_DATE_IS_FUTURE_DATE": "La date d'émission est invalide ou située dans le futur.",
+        "ERR_INVALID_EXPIRATIONDATE": "La date d'expiration est invalide.",
+        "ERR_INVALID_VALIDFROM": "La date de début de validité est invalide ou future.",
+        "ERR_VALID_FROM_IS_FUTURE_DATE": "La date de début de validité est invalide ou future.",
+        "ERR_INVALID_VALIDUNTIL": "La date de fin de validité est invalide."
       }
     }
   },
@@ -964,69 +964,69 @@
     }
   },
   "DataBackupScreen": {
-    "dataBackupAndRestore": "Backup & Restore",
-    "new": "NEW",
-    "loadingTitle": "Loading setting up",
-    "loadingSubtitle": "Loading...",
+    "dataBackupAndRestore": "Sauvegarde et restauration",
+    "new": "NOUVEAU",
+    "loadingTitle": "Préparation en cours",
+    "loadingSubtitle": "Chargement…",
     "errors": {
       "permissionDenied": {
-        "title": "Permissions required",
-        "message": "To continue with the data backup, allow access to your {{driveName}}. Tap \"Allow Access\" to finish setup, or tap \"Not Now\" to return to Settings.",
+        "title": "Autorisations requises",
+        "message": "Pour effectuer une sauvegarde, autorisez l'accès à {{driveName}}. Appuyez sur « Autoriser l'accès » ou « Pas maintenant » pour revenir aux paramètres.",
         "actions": {
-          "allowAccess": "Allow Access",
-          "notNow": "Not Now"
+          "allowAccess": "Autoriser l'accès",
+          "notNow": "Pas maintenant"
         }
       },
       "noInternetConnection": {
-        "title": "No internet connection",
-        "message": "Please check your connection and retry"
+        "title": "Pas de connexion Internet",
+        "message": "Vérifiez votre connexion et réessayez."
       }
     }
   },
   "BackupAndRestoreBanner": {
-    "backupInProgress": "Data backup is in progress. Please do not close the application.",
-    "backupSuccessful": "Your backup was successful!",
+    "backupInProgress": "Sauvegarde en cours. Ne fermez pas l'application.",
+    "backupSuccessful": "Votre sauvegarde a réussi !",
     "backupFailure": {
-      "networkError": "Due to unstable internet connection, we were unable to perform data backup. Please try again later.",
-      "technicalError": "Due to technical error, we were unable to perform data backup. Please try again later.",
-      "iCloudSignInError": "We're sorry that data backup couldn't be completed. Please ensure that you have logged into your Apple account and iCloud access is enabled for the app.",
-      "noDataForBackup": "We're sorry, but there is no data available to back up at the moment.",
-      "storageLimitReached": "We're unable to complete the backup process due to insufficient storage space on your device. Please free up space by deleting unnecessary files or apps, and try again."
+      "networkError": "La connexion Internet est instable. Impossible d'effectuer la sauvegarde. Réessayez plus tard.",
+      "technicalError": "Une erreur technique a empêché la sauvegarde. Réessayez plus tard.",
+      "iCloudSignInError": "Impossible de terminer la sauvegarde. Vérifiez que vous êtes connecté à votre compte Apple et que l'accès à iCloud est autorisé.",
+      "noDataForBackup": "Aucune donnée disponible pour la sauvegarde.",
+      "storageLimitReached": "Espace insuffisant sur l'appareil. Libérez de l'espace et réessayez."
     },
-    "restoreInProgress": "Data restore is in progress. Please do not close the application.",
-    "restoreSuccessful": "Your backup has been restored successfully",
+    "restoreInProgress": "Restauration en cours. Ne fermez pas l'application.",
+    "restoreSuccessful": "Votre sauvegarde a été restaurée avec succès.",
     "restoreFailure": {
-      "networkError": "Due to unstable internet connection, we were unable to perform data restore. Please try again later.",
-      "technicalError": "Due to technical error, we were unable to perform data restore. Please try again later.",
-      "noBackupFile": "Backup file doesn't exist"
+      "networkError": "Une connexion Internet instable a empêché la restauration. Réessayez plus tard.",
+      "technicalError": "Une erreur technique a empêché la restauration. Réessayez plus tard.",
+      "noBackupFile": "Aucun fichier de sauvegarde trouvé."
     }
   },
   "AccountSelection": {
-    "backupProcessInfo": "You’re just a few steps away from backing up your data",
-    "cloudInfo": "To initiate the data backup, please tap on the “Proceed” button to link your {{driveName}} with Inji.",
+    "backupProcessInfo": "La sauvegarde de vos données est presque prête.",
+    "cloudInfo": "Pour commencer la sauvegarde, appuyez sur « Continuer » afin d'associer {{driveName}} à Inji.",
     "googleDriveTitle": "Google Drive",
-    "loadingSubtitle": "Loading...",
-    "proceed": "Proceed",
-    "goBack": "Go Back",
-    "associatedAccount": "Associated account"
+    "loadingSubtitle": "Chargement…",
+    "proceed": "Continuer",
+    "goBack": "Retour",
+    "associatedAccount": "Compte associé"
   },
   "BackupAndRestore": {
-    "title": "Backup & Restore",
-    "backupProgressState": "Backup in progress...",
-    "lastBackupDetails": "Last Backup Details",
-    "backupInProgress": "You can still use the application while data backup is in progress. Closing the app will terminate the data backup process.",
-    "noBackup": "Backup your Data to {{driveName}}. You can restore them when you reinstall INJI.",
-    "storage": "The backup will be stored in the {{driveName}} associated to your chosen {{accountType}} account.",
-    "backup": "Backup",
-    "size": "Size: ",
-    "restore": "Restore",
-    "restoreInProgress": "We're restoring your data, please do not close the application. You may continue using the application.",
-    "restoreInfo": "Restore your data from {{driveName}}",
-    "driveSettings": "Google Drive Settings",
-    "successBanner": "Your backup was successful!",
-    "backupFailed": "Backup Failed",
+    "title": "Sauvegarde et restauration",
+    "backupProgressState": "Sauvegarde en cours…",
+    "lastBackupDetails": "Détails de la dernière sauvegarde",
+    "backupInProgress": "Vous pouvez continuer à utiliser l'application pendant la sauvegarde. Sa fermeture interrompra le processus.",
+    "noBackup": "Sauvegardez vos données sur {{driveName}}. Vous pourrez les restaurer si vous réinstallez Inji.",
+    "storage": "La sauvegarde sera stockée sur {{driveName}} associé à votre compte {{accountType}}.",
+    "backup": "Sauvegarder",
+    "size": "Taille : ",
+    "restore": "Restaurer",
+    "restoreInProgress": "Restauration des données en cours. Ne fermez pas l'application.",
+    "restoreInfo": "Restaurer vos données depuis {{driveName}}",
+    "driveSettings": "Paramètres Google Drive",
+    "successBanner": "Votre sauvegarde a réussi !",
+    "backupFailed": "Échec de la sauvegarde",
     "ok": "OK",
-    "help": "Help?"
+    "help": "Besoin d'aide ?"
   },
   "WelcomeScreen": {
     "title": "Solution d'identité open source",
