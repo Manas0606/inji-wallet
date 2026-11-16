@@ -63,6 +63,12 @@ public class MainActivity extends ReactActivity {
 
     switch (scheme) {
       case "io.mosip.residentapp.inji":
+        // OAuth redirects are consumed by the active React Native authorization
+        // screen through Linking; they must not be treated as scanned QR data.
+        if ("oauthredirect".equalsIgnoreCase(data.getHost())) {
+          android.util.Log.i("HAITI_AUTH", "android_activity_oauth_link_received");
+          break;
+        }
         intentData.setQrData(data.toString());
         break;
       case "openid4vp":
