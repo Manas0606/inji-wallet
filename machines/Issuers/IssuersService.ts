@@ -12,7 +12,7 @@ import {
   updateCredentialInformation,
   verifyCredentialData,
 } from '../../shared/openId4VCI/Utils';
-import VciClient from '../../shared/vciClient/VciClient';
+import VciClient, {traceHaitiAuth} from '../../shared/vciClient/VciClient';
 import { displayType, issuerType } from './IssuersMachine';
 import { setItem } from '../store';
 import { API_CACHED_STORAGE_KEYS } from '../../shared/constants';
@@ -92,11 +92,13 @@ export const IssuersService = () => {
         });
       };
       const getTokenResponse = (tokenRequest: object) => {
+        traceHaitiAuth('machine_token_request_received');
         sendBack({
           type: 'TOKEN_REQUEST',
           tokenRequest: tokenRequest,
         });
       };
+      traceHaitiAuth('machine_credential_download_started');
       const {credential} =
         await VciClient.getInstance().requestCredentialFromTrustedIssuer(
           context.selectedIssuer.credential_issuer_host,
@@ -109,6 +111,7 @@ export const IssuersService = () => {
           navigateToAuthView,
           getTokenResponse,
         );
+      traceHaitiAuth('machine_credential_download_completed');
       return updateCredentialInformation(context, credential);
     },
     sendTxCode: async (context: any) => {
@@ -212,6 +215,7 @@ export const IssuersService = () => {
       return credentialResponse;
     },
     sendTokenRequest: async (context: any) => {
+      traceHaitiAuth('machine_token_request_start');
       const tokenRequestObject = context.tokenRequestObject;
       return await sendTokenRequest(
         tokenRequestObject,
@@ -219,6 +223,7 @@ export const IssuersService = () => {
       );
     },
     sendTokenResponse: async (context: any) => {
+      traceHaitiAuth('machine_token_response_start');
       const tokenResponse = context.tokenResponse;
       if (!tokenResponse) {
         throw new Error(
@@ -366,23 +371,42 @@ async function sendTokenRequest(
   if (tokenRequestObject.codeVerifier) {
     formBody.append('code_verifier', tokenRequestObject.codeVerifier);
   }
-  const response = await fetch(tokenRequestObject.tokenEndpoint, {
+  let tokenEndpointHost = 'invalid';
+  try {
+    tokenEndpointHost = new URL(tokenRequestObject.tokenEndpoint).hostname;
+  } catch {
+    traceHaitiAuth('token_endpoint_url_invalid');
+  }
+  traceHaitiAuth(
+    tokenEndpointHost === 'api.haiti-pilot.mosip.net'
+      ? 'token_endpoint_haiti_api'
+      : tokenEndpointHost === 'esignet.haiti-pilot.mosip.net'
+      ? 'token_endpoint_haiti_esignet'
+      : 'token_endpoint_unexpected',
+  );
+  traceHaitiAuth('token_http_request_started');
+  let response;
+  try {
+    response = await fetch(tokenRequestObject.tokenEndpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: formBody.toString(),
-  });
+    });
+  } catch (e) {
+    traceHaitiAuth('token_http_network_exception');
+    throw e;
+  }
 
+  traceHaitiAuth(response.ok ? 'token_http_success' : 'token_http_non_2xx');
   if (!response.ok) {
     const errorText = await response.text();
-    console.error(
-      'Token request failed with status:',
-      response.status,
-      errorText,
-    );
+    console.warn('Token request failed with HTTP status', response.status);
+    // Do not log response body: it can contain sensitive authorization data.
     throw new Error(`Token request failed: ${response.status} ${errorText}`);
   }
   const tokenResponse = await response.json();
+  traceHaitiAuth('token_response_parsed');
   return tokenResponse;
 }
