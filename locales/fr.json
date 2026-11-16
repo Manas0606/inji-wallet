@@ -496,31 +496,31 @@
     "next": "Suivant"
   },
   "ReceivedVcsTab": {
-    "receivedCards": "Received Cards",
-    "header": "Received Cards",
-    "noReceivedVcsTitle": "No card available yet",
-    "noReceivedVcsText": "Tap on Request below to receive card"
+    "receivedCards": "Cartes reçues",
+    "header": "Cartes reçues",
+    "noReceivedVcsTitle": "Aucune carte reçue",
+    "noReceivedVcsText": "Appuyez sur « Demander » ci-dessous pour recevoir une carte."
   },
   "VcVerificationBanner": {
-    "inProgress": "We are validating your card, this may take sometime. Once verified, you’ll be able to activate your card.",
-    "success": "{{vcDetails}} is verified successfully and now available for activation.",
-    "error": "Sorry, we are unable to verify the {{vcDetails}} right now. Please try again later. Until then, you won't be able to activate or share your card."
+    "inProgress": "Nous vérifions votre carte. Cela peut prendre un moment. Vous pourrez l'activer une fois vérifiée.",
+    "success": "{{vcDetails}} a été vérifié avec succès et peut maintenant être activé.",
+    "error": "Impossible de vérifier {{vcDetails}} pour le moment. Réessayez plus tard. La carte ne peut pas être activée ou partagée d'ici là."
   },
   "ViewVcModal": {
-    "title": "ID Details",
-    "inProgress": "In Progress",
+    "title": "Détails de la pièce d'identité",
+    "inProgress": "En cours",
     "statusToolTipContent": {
       "valid": {
-        "title": "Valid Status:",
-        "description": "The credential has been successfully verified."
+        "title": "Statut valide :",
+        "description": "Le justificatif a été vérifié avec succès."
       },
       "pending": {
-        "title": "Pending Status:",
-        "description": "Verification is currently pending due to technical issues."
+        "title": "Statut en attente :",
+        "description": "La vérification est en attente en raison d'un problème technique."
       },
       "expired": {
-        "title": "Expired Status:",
-        "description": "The credential has expired."
+        "title": "Statut expiré :",
+        "description": "Le justificatif a expiré."
       }
     }
   },
@@ -541,156 +541,156 @@
     "enterPasscode": "Saisir le code d'accès"
   },
   "QrLogin": {
-    "title": "QR Login",
-    "alignQr": "Align the QR code within the frame to scan",
+    "title": "Connexion par code QR",
+    "alignQr": "Placez le code QR dans le cadre pour le scanner",
     "confirmation": "Confirmation",
-    "checkDomain": "Also, check for a lock icon in the address bar.",
+    "checkDomain": "Vérifiez aussi la présence du cadenas dans la barre d'adresse.",
     "domainHead": "https://",
-    "selectId": "Select an ID",
-    "noBindedVc": "There is no binded card available to verify",
-    "back": "Come back",
-    "confirm": "Confirm",
-    "verify": "Verify",
-    "faceAuth": "Face Verification",
-    "consent": "Consent",
-    "loading": "Loading...",
-    "domainWarning": "Please confirm the domain of the website you are scanning the QR code from below",
-    "access": " is requesting access to",
-    "status": "Status",
-    "successMessage": "You are successfully logged in to ",
+    "selectId": "Choisir un identifiant",
+    "noBindedVc": "Aucune carte activée n'est disponible pour la vérification",
+    "back": "Retour",
+    "confirm": "Confirmer",
+    "verify": "Vérifier",
+    "faceAuth": "Vérification faciale",
+    "consent": "Consentement",
+    "loading": "Chargement…",
+    "domainWarning": "Confirmez ci-dessous le domaine du site dont vous scannez le code QR.",
+    "access": " demande l'accès à",
+    "status": "Statut",
+    "successMessage": "Vous êtes connecté à ",
     "ok": "OK",
-    "allow": "Allow",
-    "cancel": "Cancel",
-    "essentialClaims": "Important Claims",
-    "voluntaryClaims": "Voluntary Claims",
-    "required": "It is necessary",
+    "allow": "Autoriser",
+    "cancel": "Annuler",
+    "essentialClaims": "Informations obligatoires",
+    "voluntaryClaims": "Informations facultatives",
+    "required": "Obligatoire",
     "errors": {
-      "invalidQR": "QR code is invalid. Please try again!"
+      "invalidQR": "Code QR invalide. Veuillez réessayer !"
     }
   },
   "ReceiveVcScreen": {
-    "header": "Card details",
-    "save": "Save card",
-    "verifyAndSave": "Verify and save",
-    "reject": "Reject",
-    "discard": "Discard",
-    "goToReceivedVCTab": "View Received card",
-    "saving": "Card is being saved",
+    "header": "Détails de la carte",
+    "save": "Enregistrer la carte",
+    "verifyAndSave": "Vérifier et enregistrer",
+    "reject": "Refuser",
+    "discard": "Abandonner",
+    "goToReceivedVCTab": "Voir la carte reçue",
+    "saving": "Enregistrement de la carte en cours",
     "errors": {
       "savingFailed": {
-        "title": "Failed to save the card!",
-        "message": "Due to technical error, we were unable to save the card. Please request the sender to transfer again."
+        "title": "Impossible d'enregistrer la carte !",
+        "message": "Une erreur technique a empêché l'enregistrement. Demandez à l'expéditeur de renvoyer la carte."
       }
     }
   },
   "Permissions": {
-    "enablePermission": "Enable Permission"
+    "enablePermission": "Autoriser l'accès"
   },
   "RequestScreen": {
-    "receiveCard": "Receive Card",
-    "bluetoothDenied": "Please enable Bluetooth to be able to request card",
-    "bluetoothStateIos": "Bluetooth is turned OFF, please turn it ON from Control center",
-    "bluetoothStateAndroid": "Bluetooth is turned OFF, please turn it ON from Quick settings menu",
-    "showQrCode": "Display this QR code to request resident Card",
-    "incomingVc": "Incoming Card",
-    "request": "Request",
+    "receiveCard": "Recevoir une carte",
+    "bluetoothDenied": "Activez le Bluetooth pour pouvoir demander une carte.",
+    "bluetoothStateIos": "Le Bluetooth est désactivé. Activez-le dans le Centre de contrôle.",
+    "bluetoothStateAndroid": "Le Bluetooth est désactivé. Activez-le dans les paramètres rapides.",
+    "showQrCode": "Affichez ce code QR pour demander la carte du résident.",
+    "incomingVc": "Carte entrante",
+    "request": "Demander",
     "errors": {
       "nearbyDevicesPermissionDenied": {
-        "message": "Nearby Devices permission is required to be able to request Card",
-        "button": "Allow Permission"
+        "message": "L'autorisation d'accéder aux appareils à proximité est nécessaire.",
+        "button": "Autoriser l'accès"
       },
       "storageLimitReached": {
-        "title": "Insufficient Appdata",
-        "message": "You cannot add or receive cards since the Appdata is full. Clear Appdata to proceed."
+        "title": "Espace de stockage insuffisant",
+        "message": "Impossible d'ajouter ou de recevoir des cartes : le stockage est plein. Libérez de l'espace pour continuer."
       }
     },
     "status": {
       "sharing": {
-        "title": "Sharing in progress",
-        "timeoutHint": "Sharing is delayed, possibly due to a connection issue."
+        "title": "Partage en cours",
+        "timeoutHint": "Le partage prend du retard, peut-être à cause de la connexion."
       },
       "accepted": {
-        "title": "Success!",
-        "message": "Card has been successfully received from Wallet"
+        "title": "Succès !",
+        "message": "La carte a été reçue du portefeuille avec succès."
       },
       "rejected": {
-        "title": "Notice",
-        "message": "You discarded Wallet's Card"
+        "title": "Information",
+        "message": "Vous avez rejeté la carte du portefeuille."
       },
       "disconnected": {
-        "title": "Bluetooth connection lost!",
-        "message": "Please check your bluetooth connection and try again."
+        "title": "Connexion Bluetooth perdue !",
+        "message": "Vérifiez la connexion Bluetooth et réessayez."
       },
-      "waitingConnection": "Waiting for connection...",
+      "waitingConnection": "En attente de connexion…",
       "exchangingDeviceInfo": {
-        "message": "Exchanging device info...",
-        "timeoutHint": "It's taking too long to exchange device info..."
+        "message": "Échange des informations entre appareils…",
+        "timeoutHint": "L'échange des informations prend trop de temps…"
       },
       "connected": {
-        "message": "Connected to the device. Waiting for card...",
-        "timeoutHint": "No data received yet. Is sending device still connected?"
+        "message": "Appareil connecté. En attente de la carte…",
+        "timeoutHint": "Aucune donnée reçue. L'appareil expéditeur est-il toujours connecté ?"
       },
       "offline": {
-        "message": "Please connect to the internet to enable Online sharing mode"
+        "message": "Connectez-vous à Internet pour activer le partage en ligne."
       },
       "bleError": {
         "TVW_CON_002": {
-          "title": "Connection Failed!",
-          "message": "The connection was interrupted. Please try again."
+          "title": "Échec de la connexion !",
+          "message": "La connexion a été interrompue. Veuillez réessayer."
         },
         "TVW_CON_003": {
-          "title": "Connection Failed!",
-          "message": "The connection was interrupted. Please ensure that the Bluetooth devices are in discoverable mode and try again."
+          "title": "Échec de la connexion !",
+          "message": "La connexion a été interrompue. Vérifiez que les appareils Bluetooth sont visibles et réessayez."
         },
         "TVW_REP_001": {
-          "title": "Corrupted Response Received!",
-          "message": "The data received from the wallet is corrupted and cannot be processed. Request the sender to transfer again."
+          "title": "Réponse altérée reçue !",
+          "message": "Les données reçues du portefeuille sont endommagées. Demandez à l'expéditeur de les renvoyer."
         },
         "TVV_CON_001": {
-          "title": "Connection Failed!",
-          "message": "Unable to establish optimal connection with the sender. Please try again."
+          "title": "Échec de la connexion !",
+          "message": "Impossible d'établir une connexion stable avec l'expéditeur. Veuillez réessayer."
         },
         "TVV_TRA_001": {
-          "title": "Corrupted Response Received!",
-          "message": "The data received from the wallet is corrupted and cannot be processed. Please request the sender to transfer again."
+          "title": "Réponse altérée reçue !",
+          "message": "Les données reçues sont endommagées. Demandez à l'expéditeur de les renvoyer."
         },
         "TVV_TRA_002": {
-          "title": "Corrupted Response Received!",
-          "message": "The data received from the wallet is corrupted and cannot be processed. Please request the sender to transfer again."
+          "title": "Réponse altérée reçue !",
+          "message": "Les données reçues sont endommagées. Demandez à l'expéditeur de les renvoyer."
         },
         "TUV_UNK_001": {
-          "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to receive the card. Please try again"
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur technique a empêché la réception. Veuillez réessayer."
         },
         "TVW_UNK_001": {
-          "title": "Connection Failed!",
-          "message": "The connection was interrupted. Please try again."
+          "title": "Échec de la connexion !",
+          "message": "La connexion a été interrompue. Veuillez réessayer."
         },
         "TVW_UNK_002": {
-          "title": "Connection Failed!",
-          "message": "The connection was interrupted. Please try again."
+          "title": "Échec de la connexion !",
+          "message": "La connexion a été interrompue. Veuillez réessayer."
         },
         "TVW_UNK_003": {
-          "title": "Connection Failed!",
-          "message": "The connection was interrupted. Please try again."
+          "title": "Échec de la connexion !",
+          "message": "La connexion a été interrompue. Veuillez réessayer."
         },
         "TVV_UNK_001": {
-          "title": "An Error Occured!",
-          "message": "An unexpected error occurred while processing the received data. Please check your connection and request the sender to resend the card."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur inattendue est survenue. Vérifiez la connexion et demandez à l'expéditeur de renvoyer la carte."
         },
         "TVV_UNK_002": {
-          "title": "An Error Occured!",
-          "message": "An unexpected error occurred while processing the received data. Please check your connection and request the sender to resend the card."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur inattendue est survenue. Vérifiez la connexion et demandez à l'expéditeur de renvoyer la carte."
         },
         "TVV_UNK_003": {
-          "title": "An Error Occured!",
-          "message": "An unexpected error occurred while processing the received data. Please check your connection and request the sender to resend the card."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur inattendue est survenue. Vérifiez la connexion et demandez à l'expéditeur de renvoyer la carte."
         }
       }
     },
-    "online": "Online",
-    "offline": "Offline",
-    "gotoSettings": "Go to settings"
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "gotoSettings": "Ouvrir les paramètres"
   },
   "ScanScreen": {
     "shareWithSelfie": "Share with Selfie",
