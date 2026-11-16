@@ -23,21 +23,43 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
   const {RNSecureKeystoreModule} = NativeModules;
 
   async function getQRData(): Promise<string> {
-    let qrData: string;
+    const {credential} = props.verifiableCredential;
+    // Some MOSIP credentials already contain an issuer-provided QR in
+    // credentialSubject.claim169. Prefer this over generating a different QR,
+    // consistent with the Manas Wallet credential display logic.
+    const subjects = Array.isArray(credential?.credentialSubject)
+      ? credential.credentialSubject
+      : [credential?.credentialSubject];
+    for (const subject of subjects) {
+      const claim169 = subject?.claim169;
+      if (claim169 && typeof claim169 === 'object' && !Array.isArray(claim169)) {
+        const issuerQr = Object.values(claim169).find(
+          (value): value is string =>
+            typeof value === 'string' && value.trim().length > 0,
+        );
+        if (issuerQr) {
+          return issuerQr.trim();
+        }
+      }
+    }
+
     try {
       const keyData = await RNSecureKeystoreModule.getData(props.meta.id);
-      if (keyData[1] && keyData.length > 0) {
-        qrData = keyData[1];
-      } else {
-        throw new Error('No key data found');
+      if (keyData?.[1] && typeof keyData[1] === 'string') {
+        return keyData[1];
       }
     } catch {
-      const {credential} = props.verifiableCredential;
-      qrData = await RNPixelpassModule.generateQRData(
-        JSON.stringify(credential),
-        '',
-      );
+      // QR has not been cached yet. Generate it below.
+    }
+
+    const qrData = await RNPixelpassModule.generateQRData(
+      JSON.stringify(credential),
+      '',
+    );
+    try {
       await RNSecureKeystoreModule.storeData(props.meta.id, qrData);
+    } catch {
+      // A cache write failure must not prevent displaying a valid QR.
     }
     return qrData;
   }
@@ -66,15 +88,31 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
   }
 
   useEffect(() => {
+    let active = true;
     (async () => {
-      const qrData = await getQRData();
-      if (qrData?.length < MAX_QR_DATA_LENGTH) {
-        setQrString(qrData);
-      } else {
-        setQrError(true);
+      try {
+        const qrData = await getQRData();
+        if (!active) {
+          return;
+        }
+        if (qrData && qrData.length < MAX_QR_DATA_LENGTH) {
+          setQrString(qrData);
+          setQrError(false);
+        } else {
+          setQrError(true);
+        }
+      } catch {
+        // Do not leave an unhandled rejection when a credential cannot
+        // be encoded as a QR (e.g. unsupported credential format).
+        if (active) {
+          setQrError(true);
+        }
       }
     })();
-  }, []);
+    return () => {
+      active = false;
+    };
+  }, [props.meta.id, props.verifiableCredential]);
   const [isQrOverlayVisible, setIsQrOverlayVisible] = useState(false);
 
   const overlayVisible = props.forceVisible ?? isQrOverlayVisible;
