@@ -14,6 +14,7 @@ import { getMatchingCredentialIssuerMetadata, verifyCredentialData } from '../..
 import { CredentialDownloadResponse, request } from '../../../shared/request';
 import { WalletBindingResponse } from '../VCMetaMachine/vc';
 import { getVerifiableCredential } from './VCItemSelectors';
+import {traceHaitiAuth} from '../../../shared/vciClient/VciClient';
 
 const {RNSecureKeystoreModule} = NativeModules;
 export const VCItemServices = model => {
@@ -43,8 +44,10 @@ export const VCItemServices = model => {
       }
     },
     addWalletBindingId: async context => {
+      traceHaitiAuth('activation_wallet_binding_started');
       if (!context.vcMetadata?.mosipIndividualId) {
-        throw new Error('Cannot bind a credential without a UIN or VID');
+        traceHaitiAuth('activation_identifier_missing');
+        throw new Error('WALLET_ACTIVATION_MISSING_INDIVIDUAL_ID');
       }
       const response = await request(
         API_URLS.walletBinding.method,
@@ -68,6 +71,7 @@ export const VCItemServices = model => {
         },
       );
 
+      traceHaitiAuth('activation_wallet_binding_success');
       const walletResponse: WalletBindingResponse = {
         walletBindingId: response.response.encryptedWalletBindingId,
         keyId: response.response.keyId,
@@ -77,10 +81,14 @@ export const VCItemServices = model => {
       return walletResponse;
     },
     fetchKeyPair: async context => {
+      traceHaitiAuth('activation_keystore_read_started');
       const keyType = context.vcMetadata?.downloadKeyType;
-      return await fetchKeyPair(keyType);
+      const result = await fetchKeyPair(keyType);
+      traceHaitiAuth('activation_keystore_read_success');
+      return result;
     },
     generateKeypairAndStore: async context => {
+      traceHaitiAuth('activation_key_generation_started');
       const keyType = context.vcMetadata?.downloadKeyType;
       const keypair = await generateKeyPair(keyType);
       if ((keyType != 'ES256' && keyType != 'RS256') || isIOS())
@@ -89,13 +97,16 @@ export const VCItemServices = model => {
           keypair.privateKey as string,
           keyType,
         );
+      traceHaitiAuth('activation_key_generation_success');
       return keypair;
     },
     requestBindingOTP: async context => {
+      traceHaitiAuth('activation_otp_request_started');
       // Wallet binding authenticates the identity bound to this credential.
       // Do not submit an empty UIN/VID or substitute an unrelated VC ID.
       if (!context.vcMetadata?.mosipIndividualId) {
-        throw new Error('The credential does not contain a UIN or VID for wallet activation');
+        traceHaitiAuth('activation_identifier_missing');
+        throw new Error('WALLET_ACTIVATION_MISSING_INDIVIDUAL_ID');
       }
       const response = await request(
         API_URLS.bindingOtp.method,
@@ -109,8 +120,10 @@ export const VCItemServices = model => {
         },
       );
       if (response.response == null) {
+        traceHaitiAuth('activation_otp_empty_response');
         throw new Error('Could not process request');
       }
+      traceHaitiAuth('activation_otp_request_success');
       return response;
     },
     fetchIssuerWellknown: async context => {
