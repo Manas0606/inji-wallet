@@ -1116,7 +1116,9 @@
     "message": "L'application et le site web pourront échanger certaines informations vous concernant.",
     "cancel": "Annuler",
     "continue": "Continuer",
-    "authenticate": "Authentification"
+    "authenticate": "Authentification",
+    "errorTitle": "Échec de l’authentification",
+    "errorMessage": "Impossible de terminer l’authentification. Veuillez réessayer."
   },
   "cancelDownloadModal": {
     "heading": "Annuler le téléchargement ?",
