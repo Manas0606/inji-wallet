@@ -100,9 +100,19 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
     if (url.startsWith(redirectUri)) {
       try {
         const uri = new URL(url);
+        const oauthError = uri.searchParams.get('error');
+        if (oauthError) {
+          // Log only the error code; do not expose the OAuth authorization code or state.
+          console.warn('eSignet OAuth error:', oauthError);
+          controller.CANCEL();
+          navigation.goBack();
+          Alert.alert(t('errorTitle'), t('errorMessage'));
+          return false;
+        }
         const code = uri.searchParams.get('code');
 
         if (!code) {
+          Alert.alert(t('errorTitle'), t('errorMessage'));
           controller.CANCEL();
           navigation.goBack();
           return false;
