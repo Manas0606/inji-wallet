@@ -26,6 +26,7 @@ import {BackupEvents} from '../../backupAndRestore/backup/backupMachine';
 import {VcMetaEvents} from '../VCMetaMachine/VCMetaMachine';
 import {WalletBindingResponse} from '../VCMetaMachine/vc';
 import {BannerStatusType} from '../../../components/BannerNotification';
+import {traceHaitiAuth} from '../../../shared/vciClient/VciClient';
 import {VCActivityLog} from '../../../components/ActivityLogEvent';
 
 export const VCItemActions = model => {
@@ -255,10 +256,15 @@ export const VCItemActions = model => {
     }),
 
     setErrorAsWalletBindingError: assign({
-      error: () =>
-        i18n.t('errors.genericError', {
-          ns: 'common',
-        }),
+      error: (_context, event) => {
+        const message = event?.data?.message || '';
+        if (message === 'WALLET_ACTIVATION_MISSING_INDIVIDUAL_ID') {
+          traceHaitiAuth('activation_identifier_missing');
+          return i18n.t('errors.activationMissingIdentifier', {ns: 'common'});
+        }
+        traceHaitiAuth('activation_unexpected_error');
+        return i18n.t('errors.genericError', {ns: 'common'});
+      },
     }),
     setErrorAsVerificationError: assign({
       //todo handle error message from different actions
