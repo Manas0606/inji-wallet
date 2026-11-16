@@ -100,7 +100,24 @@ class VciClient {
       'onRequestTokenResponse',
       ({tokenRequest}) => {
         traceHaitiAuth('native_token_request_event');
-        requestTokenResponse(tokenRequest);
+        try {
+          // The native bridge emits tokenRequest as a JSON string.
+          // The issuer machine requires the parsed object to read tokenEndpoint,
+          // grantType, authCode, redirectUri and the PKCE codeVerifier.
+          const parsedTokenRequest =
+            typeof tokenRequest === 'string'
+              ? JSON.parse(tokenRequest)
+              : tokenRequest;
+          if (!parsedTokenRequest || typeof parsedTokenRequest !== 'object' ||
+              Array.isArray(parsedTokenRequest)) {
+            throw new Error('Invalid native token request payload');
+          }
+          traceHaitiAuth('native_token_request_parsed');
+          requestTokenResponse(parsedTokenRequest);
+        } catch (error) {
+          traceHaitiAuth('native_token_request_parse_failed');
+          console.error('Unable to parse native VCI token request', error);
+        }
       },
     );
 
@@ -173,7 +190,24 @@ class VciClient {
     const tokenResponseListener = emitter.addListener(
       'onRequestTokenResponse',
       ({tokenRequest}) => {
-        requestTokenResponse(tokenRequest);
+        try {
+          // The native bridge emits tokenRequest as a JSON string.
+          // The issuer machine requires the parsed object to read tokenEndpoint,
+          // grantType, authCode, redirectUri and the PKCE codeVerifier.
+          const parsedTokenRequest =
+            typeof tokenRequest === 'string'
+              ? JSON.parse(tokenRequest)
+              : tokenRequest;
+          if (!parsedTokenRequest || typeof parsedTokenRequest !== 'object' ||
+              Array.isArray(parsedTokenRequest)) {
+            throw new Error('Invalid native token request payload');
+          }
+          traceHaitiAuth('native_token_request_parsed');
+          requestTokenResponse(parsedTokenRequest);
+        } catch (error) {
+          traceHaitiAuth('native_token_request_parse_failed');
+          console.error('Unable to parse native VCI token request', error);
+        }
       },
     );
 
