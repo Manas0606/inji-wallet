@@ -20,14 +20,8 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
   const [showWebView, setShowWebView] = useState(false);
   const {t} = useTranslation('authWebView');
 
-  // Request French on the external eSignet authorization page.
-  // eSignet must also enable French translations in its own UI configuration.
-  const localizedAuthorizationURL = (() => {
-    const url = new URL(authorizationURL);
-    url.searchParams.set('ui_locales', 'fr');
-    return url.toString();
-  })();
-
+  // Keep the exact authorization URL from the issuer's OAuth flow.
+  // Adding parameters here may invalidate a signed or pushed authorization request.
   const hostName = new URL(authorizationURL).hostname; // example.mosip.net
   const parsed = psl.parse(hostName);
   const rootDomain = parsed.domain || hostName;
@@ -117,7 +111,7 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
         }}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
-      <Text style={Theme.AuthWebViewScreenStyle.headerText}>{t('authenticate')}</Text>
+      <Text style={Theme.AuthWebViewScreenStyle.headerText}>Authentification</Text>
       <View style={{width: 24}} />
     </View>
   );
@@ -130,7 +124,7 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
           ref={webViewRef}
           originWhitelist={['*']}
           source={{
-            uri: localizedAuthorizationURL,
+            uri: authorizationURL,
             headers: {'Accept-Language': 'fr-HT,fr;q=0.9'},
           }}
           onShouldStartLoadWithRequest={handleNavigationRequest}
