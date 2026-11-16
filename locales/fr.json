@@ -878,7 +878,7 @@
     "selectAll": "Tout sélectionner",
     "consentDialog": {
       "title": "Consentement requis",
-      "message": "Nous avons besoin de votre consentement pour partager vos justificatifs avec {{verifierName}} afin de vérifier votre identité et traiter votre demande. Choisissez « Oui, continuer » pour accepter ou « Refuser » sinon.",
+      "message": "Nous avons besoin de votre consentement pour partager vos justificatifs avec {{verifierName}} afin de vérifier votre identité et traiter votre demande. Choisissez « Oui, continuer » pour accepter ou « Refuser » si vous ne souhaitez pas partager vos justificatifs avec {{verifierName}}.",
       "confirmButton": "Oui, continuer",
       "cancelButton": "Refuser"
     },
