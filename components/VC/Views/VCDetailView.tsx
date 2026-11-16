@@ -38,6 +38,7 @@ import {ShareableInfoModal} from './ShareableInfoModal';
 import {SvgCss} from 'react-native-svg/css';
 import {QR_IMAGE_ID} from '../../../shared/constants';
 import {VCItemField} from '../common/VCItemField';
+import {HaitiCredentialCard} from './HaitiCredentialCard';
 
 const getProfileImage = (face: any) => {
   if (face) {
@@ -56,6 +57,18 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
   const face = props.verifiableCredentialData.face;
   const verifiableCredential = props.credential;
   const wellknownDisplayProperty = new Display(props.wellknown);
+  // The Haiti VC uses a bundled React Native template. No rendering-template
+  // database lookup or Certify SVG fetch is required to display the card.
+  const haitiIssuerHost = props.verifiableCredentialData?.vcMetadata?.issuerHost || '';
+  const isHaitiCredential = /(^|\.)haiti-pilot\.mosip\.net$/i.test(
+    (() => {
+      try {
+        return new URL(haitiIssuerHost).hostname;
+      } catch {
+        return '';
+      }
+    })(),
+  );
 
   // Display only an identifier extracted from the actual MOSIP credential.
   // The value is also used by the wallet-binding flow; do not create a stand-in ID.
@@ -74,8 +87,8 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
     });
   // In the regular non-wellknown view, primitive credentialSubject fields
   // already appear automatically. Show a separate identifier row otherwise.
-  const identifierAlreadyRendered = !hasSvgCard &&
-    (configuredIdentifierField || (!props.wellknownFieldsFlag && !!subject));
+  const identifierAlreadyRendered = isHaitiCredential || (!hasSvgCard &&
+    (configuredIdentifierField || (!props.wellknownFieldsFlag && !!subject)));
 
   const {width: deviceWidth} = Dimensions.get('window');
   const CARD_WIDTH = deviceWidth * 0.8;
@@ -123,7 +136,7 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
 
   const [shareModalVisible, setShareModalVisible] = useState(false);
 
-  if (props.loadingSvg) {
+  if (props.loadingSvg && !isHaitiCredential) {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator />
@@ -134,7 +147,14 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
   return (
     <>
       <Column scroll>
-        {Array.isArray(props.svgTemplate) && props.svgTemplate.length > 0 ? (
+        {isHaitiCredential ? (
+          <HaitiCredentialCard
+            credential={props.credential}
+            meta={props.verifiableCredentialData.vcMetadata}
+            face={face}
+            logoUrl={logo?.url}
+          />
+        ) : Array.isArray(props.svgTemplate) && props.svgTemplate.length > 0 ? (
           <Column padding="30 0 0 0">
             <FlatList
               data={props.svgTemplate}
