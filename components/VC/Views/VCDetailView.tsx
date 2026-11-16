@@ -57,8 +57,8 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
   const face = props.verifiableCredentialData.face;
   const verifiableCredential = props.credential;
   const wellknownDisplayProperty = new Display(props.wellknown);
-  // The Haiti VC uses a bundled React Native template. No rendering-template
-  // database lookup or Certify SVG fetch is required to display the card.
+  // Haiti displays the remote SVG from inji-config; the bundled card is a
+  // fallback when that source is unavailable. No template database lookup.
   const haitiIssuerHost = props.verifiableCredentialData?.vcMetadata?.issuerHost || '';
   const isHaitiCredential = /(^|\.)haiti-pilot\.mosip\.net$/i.test(
     (() => {
@@ -93,6 +93,8 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
   const {width: deviceWidth} = Dimensions.get('window');
   const CARD_WIDTH = deviceWidth * 0.8;
   const CARD_SPACING = 16;
+  const haitiSvgWidth = Math.min(deviceWidth - 24, 350);
+  const haitiSvgScale = haitiSvgWidth / 350;
 
   const shouldShowHrLine = verifiableCredential => {
     let availableFieldNames: string[] = [];
@@ -147,7 +149,74 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
   return (
     <>
       <Column scroll>
-        {isHaitiCredential ? (
+        {isHaitiCredential && hasSvgCard ? (
+          <Column padding="12 0 0 0" style={{alignItems: 'center'}}>
+            <View
+              testID="haitiRemoteSvgTemplate"
+              style={{width: haitiSvgWidth, height: 690 * haitiSvgScale}}>
+              <SvgCss
+                xml={props.svgTemplate![0]}
+                width={haitiSvgWidth}
+                height={690 * haitiSvgScale}
+                preserveAspectRatio="xMidYMid meet"
+              />
+              {!!face && (
+                <Image
+                  source={{uri: face}}
+                  resizeMode="cover"
+                  style={{
+                    position: 'absolute',
+                    left: 26 * haitiSvgScale,
+                    top: 188 * haitiSvgScale,
+                    width: 96 * haitiSvgScale,
+                    height: 120 * haitiSvgScale,
+                    borderRadius: 7 * haitiSvgScale,
+                  }}
+                />
+              )}
+            </View>
+            <View style={{
+              width: haitiSvgWidth,
+              backgroundColor: '#ffffff',
+              borderColor: '#dce5ee',
+              borderWidth: 1,
+              borderTopWidth: 0,
+              paddingHorizontal: 16,
+              paddingTop: 14,
+              paddingBottom: 18,
+              alignItems: 'center',
+            }}>
+              <Text style={{color: '#477487', fontSize: 10, fontWeight: 'bold'}}>
+                CERTIFICAT NUMÉRIQUE
+              </Text>
+              <Text style={{
+                color: '#143a52',
+                fontSize: 15,
+                fontWeight: 'bold',
+                marginTop: 8,
+                marginBottom: 13,
+                textAlign: 'center',
+              }}>
+                Code QR de partage et de vérification
+              </Text>
+              <QrCodeOverlay
+                verifiableCredential={{credential: props.credential} as VerifiableCredential}
+                meta={props.verifiableCredentialData.vcMetadata}
+                showInlineQr={true}
+                inlineQrSize={152}
+                showUnavailableMessage={true}
+              />
+              <Text style={{
+                color: '#637d91',
+                fontSize: 10,
+                marginTop: 12,
+                textAlign: 'center',
+              }}>
+                Code QR du justificatif numérique
+              </Text>
+            </View>
+          </Column>
+        ) : isHaitiCredential ? (
           <HaitiCredentialCard
             credential={props.credential}
             meta={props.verifiableCredentialData.vcMetadata}
