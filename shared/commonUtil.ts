@@ -158,8 +158,37 @@ export const getScreenHeight = () => {
   return {isSmallScreen, screenHeight};
 };
 
-export const getMosipIdentifier = (credentialSubject: CredentialSubject) => {
-  return credentialSubject.UIN ? credentialSubject.UIN : credentialSubject.VID;
+// Look for an explicitly named MOSIP identifier in a verified credential.
+// Country schemas can nest or localize the claim structure; never substitute
+// credentialSubject.id (often a DID) for a UIN or VID.
+export const getMosipIdentifier = (credentialSubject: CredentialSubject): string => {
+  const accepted = new Set(['uin', 'vid', 'individualid', 'mosipindividualid']);
+  const find = (value: unknown, depth = 0): string | undefined => {
+    if (!value || depth > 5 || typeof value !== 'object') {
+      return undefined;
+    }
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        const found = find(item, depth + 1);
+        if (found) return found;
+      }
+      return undefined;
+    }
+    const object = value as Record<string, unknown>;
+    for (const [key, item] of Object.entries(object)) {
+      if (!accepted.has(key.replace(/[^a-z0-9]/gi, '').toLowerCase())) continue;
+      if (typeof item === 'string' || typeof item === 'number') {
+        const candidate = String(item).trim();
+        if (candidate) return candidate;
+      }
+    }
+    for (const item of Object.values(object)) {
+      const found = find(item, depth + 1);
+      if (found) return found;
+    }
+    return undefined;
+  };
+  return find(credentialSubject) ?? '';
 };
 
 export const isTranslationKeyFound = (
