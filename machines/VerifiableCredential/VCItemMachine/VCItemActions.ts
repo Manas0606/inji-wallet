@@ -1,7 +1,7 @@
 import {assign, send} from 'xstate';
 import {CommunicationDetails, UUID} from '../../../shared/Utils';
 import {StoreEvents} from '../../store';
-import {VCMetadata} from '../../../shared/VCMetadata';
+import {VCMetadata, getMosipIndividualId} from '../../../shared/VCMetadata';
 import {MIMOTO_BASE_URL, MY_VCS_STORE_KEY} from '../../../shared/constants';
 import i18n from '../../../i18n';
 import {getHomeMachineService} from '../../../screens/Home/HomeScreenController';
@@ -124,6 +124,15 @@ export const VCItemActions = model => {
 
     setContext: model.assign((context, event) => {
       const vcMetadata = VCMetadata.fromVC(context.vcMetadata);
+      // Older stored VCs may have no identifier in their metadata.
+      // Recover it from the issuer-signed VC, never from credentialSubject.id (which may be a DID).
+      if (!vcMetadata.mosipIndividualId) {
+        const downloadedVc = event.response?.verifiableCredential ?? context.verifiableCredential;
+        if (downloadedVc) {
+          vcMetadata.mosipIndividualId =
+            getMosipIndividualId(downloadedVc, vcMetadata.issuer || '') || '';
+        }
+      }
       if (!vcMetadata.id) {
         const credId = UUID.generate();
         vcMetadata.id = `${credId}_${vcMetadata.issuer}`;
