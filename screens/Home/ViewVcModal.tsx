@@ -76,10 +76,26 @@ export const ViewVcModal: React.FC<ViewVcModalProps> = props => {
   const [wellknown, setWellknown] = useState(null);
   const [wellknownFieldsFlag, setWellknownFieldsFlag] = useState(false);
   const verifiableCredentialData = controller.verifiableCredentialData;
+  const isHaitiCredential = (() => {
+    try {
+      const host = new URL(verifiableCredentialData?.vcMetadata?.issuerHost || '').hostname;
+      return /(^|\.)haiti-pilot\.mosip\.net$/i.test(host);
+    } catch {
+      return false;
+    }
+  })();
 
   const [loadingSvg, setLoadingSvg] = useState<boolean>(true);
 
   useEffect(() => {
+    // Haiti's card is rendered by the bundled HaitiCredentialCard component.
+    // Do not invoke the Certify SVG renderer or fetch a rendering template.
+    if (isHaitiCredential) {
+      setSvgTemplate(null);
+      setSvgRendererError(null);
+      setLoadingSvg(false);
+      return;
+    }
     const fetchSvg = async () => {
       try {
         setLoadingSvg(true);
@@ -106,7 +122,7 @@ export const ViewVcModal: React.FC<ViewVcModalProps> = props => {
     } else {
       setLoadingSvg(false);
     }
-  }, [controller.credential?.credential, wellknown]);
+  }, [controller.credential?.credential, wellknown, isHaitiCredential]);
 
   useEffect(() => {
     getDetailedViewFields(
