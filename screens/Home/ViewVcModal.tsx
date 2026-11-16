@@ -34,6 +34,7 @@ import {
 import {VCProcessor} from '../../components/VC/common/VCProcessor';
 import {HelpIcon} from '../../components/ui/HelpIcon';
 import VcRenderer from '../../shared/vcRenderer/VcRenderer';
+import {fetchHaitiSvgTemplate, fillHaitiSvgTemplate} from '../../shared/vcRenderer/HaitiRemoteSvg';
 
 export const ViewVcModal: React.FC<ViewVcModalProps> = props => {
   const {t} = useTranslation('ViewVcModal');
@@ -88,40 +89,79 @@ export const ViewVcModal: React.FC<ViewVcModalProps> = props => {
   const [loadingSvg, setLoadingSvg] = useState<boolean>(true);
 
   useEffect(() => {
-    // Haiti's card is rendered by the bundled HaitiCredentialCard component.
-    // Do not invoke the Certify SVG renderer or fetch a rendering template.
+    let active = true;
+
     if (isHaitiCredential) {
-      setSvgTemplate(null);
-      setSvgRendererError(null);
-      setLoadingSvg(false);
-      return;
+      // Fetch the public SVG directly from Manas0606/inji-config.
+      // No template DB or Certify rendering endpoint is used for Haiti.
+      const drawHaitiCard = async () => {
+        const vc = controller.credential?.credential;
+        if (!vc) {
+          if (active) setLoadingSvg(false);
+          return;
+        }
+        try {
+          if (active) setLoadingSvg(true);
+          const source = await fetchHaitiSvgTemplate();
+          const rendered = fillHaitiSvgTemplate(
+            source,
+            vc,
+            controller.verifiableCredentialData.vcMetadata,
+          );
+          if (active) {
+            setSvgTemplate([rendered]);
+            setSvgRendererError(null);
+          }
+        } catch (err) {
+          // Keep previously downloaded credentials usable if GitHub is down.
+          // The bundled React Native Haiti card is our offline fallback.
+          console.warn('Haiti Wallet SVG unavailable; using local card template');
+          if (active) {
+            setSvgTemplate(null);
+            setSvgRendererError(null);
+          }
+        } finally {
+          if (active) setLoadingSvg(false);
+        }
+      };
+      drawHaitiCard();
+      return () => {
+        active = false;
+      };
     }
+
     const fetchSvg = async () => {
       try {
         setLoadingSvg(true);
-
         const vcJsonString = JSON.stringify(controller.credential.credential);
         const result = await VcRenderer.getInstance().generateCredentialDisplayContent(
           controller.verifiableCredentialData.format,
           wellknown ?? null,
           vcJsonString,
         );
-
-        setSvgTemplate(result);
-        setSvgRendererError(null);
+        if (active) {
+          setSvgTemplate(result);
+          setSvgRendererError(null);
+        }
       } catch (err: any) {
-        setSvgTemplate(null);
-        setSvgRendererError(err.errorCode ?? 'Unknown error');
+        if (active) {
+          setSvgTemplate(null);
+          setSvgRendererError(err.errorCode ?? 'Unknown error');
+        }
       } finally {
-        setLoadingSvg(false);
+        if (active) setLoadingSvg(false);
       }
     };
 
-    if (controller.credential?.credential['renderMethod']) {
+    if (controller.credential?.credential?.['renderMethod']) {
       requestAnimationFrame(fetchSvg);
     } else {
       setLoadingSvg(false);
     }
+
+    return () => {
+      active = false;
+    };
   }, [controller.credential?.credential, wellknown, isHaitiCredential]);
 
   useEffect(() => {
