@@ -401,10 +401,9 @@ async function sendTokenRequest(
 
   traceHaitiAuth(response.ok ? 'token_http_success' : 'token_http_non_2xx');
   if (!response.ok) {
-    const errorText = await response.text();
     console.warn('Token request failed with HTTP status', response.status);
     // Do not log response body: it can contain sensitive authorization data.
-    throw new Error(`Token request failed: ${response.status} ${errorText}`);
+    throw new Error(`Token request failed: HTTP ${response.status}`);
   }
   const tokenResponse = await response.json();
   traceHaitiAuth('token_response_parsed');
