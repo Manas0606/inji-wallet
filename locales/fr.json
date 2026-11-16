@@ -387,42 +387,42 @@
     }
   },
   "DownloadingVcModal": {
-    "header": "Downloading your card",
-    "bodyText": "This may take sometime, we will notify you when your card has been downloaded and is available",
-    "backButton": "Back home"
+    "header": "Téléchargement de votre carte",
+    "bodyText": "Cela peut prendre un moment. Nous vous informerons lorsque votre carte sera disponible.",
+    "backButton": "Retour à l'accueil"
   },
   "GetIdInputModal": {
-    "header": "Get your UIN/VID",
-    "applicationIdLabel": "Please enter your Application ID",
-    "enterApplicationId": "Enter Application ID",
-    "requestingOTP": "Requesting OTP...",
-    "toolTipTitle": "What is AID?",
-    "toolTipDescription": "The Application ID (AID) refers to the unique identifier given to a resident during any ID lifecycle event, such as ID Issuance, ID Update, or Lost ID retrieval, at the registration center. It serves as a distinguishing factor for each specific event and can later be utilized by the resident to check the progress or status of the event.",
-    "getUIN": "Get UIN/VID"
+    "header": "Obtenir votre UIN/VID",
+    "applicationIdLabel": "Saisissez votre identifiant de demande",
+    "enterApplicationId": "Saisir l'identifiant de demande",
+    "requestingOTP": "Demande de code OTP en cours…",
+    "toolTipTitle": "Qu'est-ce qu'un AID ?",
+    "toolTipDescription": "L'identifiant de demande (AID) est un numéro unique attribué à chaque opération d'enregistrement, comme l'émission, la mise à jour ou le remplacement d'une pièce d'identité. Il permet de suivre l'état de la demande.",
+    "getUIN": "Obtenir l'UIN/VID"
   },
   "IdInputModal": {
-    "header": "Download your ID",
-    "guideLabel": "Select ID type and enter the MOSIP provided UIN or VID you wish to download. In the next step, you will be asked to enter OTP.",
-    "generateVc": "Generate Card",
-    "downloadID": "Download ID",
-    "enterId": "Enter {{idType}}",
-    "noUIN/VID": "Don’t have UIN/VID? ",
-    "getItHere": "Get it now using your AID.",
-    "requestingOTP": "Requesting OTP...",
-    "toolTipTitle": "What is {{idType}}?",
-    "toolTipUINDescription": "Unique Identification Number (UIN), as the name suggests, is a unique number assigned to a resident. UIN never changes and is non-revocable.",
-    "toolTipVIDDescription": "The VID / Virtual ID is an alias identifier that can be used for authentication transactions. VID is known to the user only and is privacy friendly in a way such that it can be revoked, configured for one time usage and is not linkable."
+    "header": "Télécharger votre pièce d'identité",
+    "guideLabel": "Choisissez le type d'identifiant et saisissez l'UIN ou le VID fourni par MOSIP. Vous devrez ensuite saisir un code OTP.",
+    "generateVc": "Générer la carte",
+    "downloadID": "Télécharger la pièce d'identité",
+    "enterId": "Saisir {{idType}}",
+    "noUIN/VID": "Vous n'avez pas d'UIN/VID ? ",
+    "getItHere": "Obtenez-le avec votre AID.",
+    "requestingOTP": "Demande de code OTP en cours…",
+    "toolTipTitle": "Qu'est-ce que {{idType}} ?",
+    "toolTipUINDescription": "Le numéro d'identification unique (UIN) est attribué à une personne. Il ne change pas et ne peut pas être révoqué.",
+    "toolTipVIDDescription": "Le VID, ou identifiant virtuel, peut servir à l'authentification. Il protège la vie privée et peut être révoqué ou utilisé une seule fois."
   },
   "OtpVerificationModal": {
-    "title": "OTP Verification",
-    "otpSentMessage": "We've sent a 6 digit OTP to your registered mobile number: {{phone}} and Email Address: {{email}}",
-    "resendTheCode": "You can resend the OTP in ",
-    "resendOtp": "Resend OTP",
+    "title": "Vérification par code OTP",
+    "otpSentMessage": "Nous avons envoyé un code OTP à 6 chiffres au numéro {{phone}} et à l'adresse {{email}}.",
+    "resendTheCode": "Vous pourrez renvoyer le code dans ",
+    "resendOtp": "Renvoyer le code OTP",
     "confirmationDialog": {
-      "title": "Do you want to cancel downloading?",
-      "message": "Once cancelled, your card will not be downloaded and you need to reinitiate the download.",
-      "wait": "No, I’ll wait",
-      "cancel": "Yes, Cancel"
+      "title": "Annuler le téléchargement ?",
+      "message": "Si vous annulez, votre carte ne sera pas téléchargée et vous devrez recommencer.",
+      "wait": "Non, je patiente",
+      "cancel": "Oui, annuler"
     }
   },
   "MyVcsTab": {
@@ -479,21 +479,21 @@
     }
   },
   "OnboardingOverlay": {
-    "stepOneTitle": "Welcome!",
-    "stepOneText": "Keep your digital credential with you at all times. Inji helps you manage and use them effectively. To get started, add cards to your profile.",
-    "stepTwoTitle": "Secure Sharing",
-    "stepTwoText": "Share your cards securely in a hassle free way and avail various services.",
-    "stepThreeTitle": "Trusted Digital Wallet",
-    "stepThreeText": "Store and carry all your important cards in a single trusted wallet.",
-    "stepFourTitle": "Quick Access",
-    "stepFourText": "Authenticate yourself with ease using the stored digital credential.",
-    "stepFiveTitle": "Backup & Restore",
-    "stepFiveText": "Protect your data with ease using our Backup & Restore feature. Safely store your VCs against loss or accidents by creating regular backups and recover it effortlessly whenever needed for seamless continuity.",
-    "getStarted": "Get Started",
-    "goBack": "Go Back",
-    "back": "Back",
-    "skip": "Skip",
-    "next": "Next"
+    "stepOneTitle": "Bienvenue !",
+    "stepOneText": "Gardez vos justificatifs numériques toujours à portée de main. Inji vous aide à les gérer et à les utiliser. Commencez par ajouter vos cartes.",
+    "stepTwoTitle": "Partage sécurisé",
+    "stepTwoText": "Partagez facilement vos cartes en toute sécurité pour accéder à différents services.",
+    "stepThreeTitle": "Portefeuille numérique de confiance",
+    "stepThreeText": "Conservez toutes vos cartes importantes dans un seul portefeuille de confiance.",
+    "stepFourTitle": "Accès rapide",
+    "stepFourText": "Authentifiez-vous facilement avec vos justificatifs numériques enregistrés.",
+    "stepFiveTitle": "Sauvegarde et restauration",
+    "stepFiveText": "Protégez vos données grâce à la sauvegarde et à la restauration. Sauvegardez régulièrement vos justificatifs et récupérez-les en cas de perte.",
+    "getStarted": "Commencer",
+    "goBack": "Retour",
+    "back": "Retour",
+    "skip": "Passer",
+    "next": "Suivant"
   },
   "ReceivedVcsTab": {
     "receivedCards": "Received Cards",
@@ -532,13 +532,13 @@
     "settings": "Paramètres"
   },
   "PasscodeScreen": {
-    "header": "Set Passcode",
-    "enterNewPassword": "Enter a new passcode",
-    "reEnterPassword": "Re-enter the new passcode",
-    "enterAlternateNewPassword": "Your passcode is your key to access the app securely. Choose a 6-digit passcode which is unique and memorable, ensuring the safety of your data and privacy within the app.",
-    "reEnterAlternatePassword": "Confirm your passcode by entering it again. Once confirmed, your passcode will be securely set for accessing the app.",
-    "confirmPasscode": "Confirm passcode",
-    "enterPasscode": "Enter your passcode"
+    "header": "Définir le code d'accès",
+    "enterNewPassword": "Saisir un nouveau code",
+    "reEnterPassword": "Saisir à nouveau le code",
+    "enterAlternateNewPassword": "Votre code à 6 chiffres protège l'accès à l'application. Choisissez un code unique et facile à mémoriser.",
+    "reEnterAlternatePassword": "Confirmez votre code d'accès en le saisissant à nouveau.",
+    "confirmPasscode": "Confirmer le code",
+    "enterPasscode": "Saisir le code d'accès"
   },
   "QrLogin": {
     "title": "QR Login",
