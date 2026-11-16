@@ -91,6 +91,3 @@ export function getLocalizedField(
   }
 }
 
-function isTwoLetterLanguageCode(languageCode: string) {
-  return languageCode.length === 2;
-}
