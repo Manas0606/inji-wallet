@@ -22,27 +22,6 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
 
   // Keep the exact authorization URL from the issuer's OAuth flow.
   // Adding parameters here may invalidate a signed or pushed authorization request.
-  // Keep OAuth diagnostics safe: never log the full URL, state, nonce,
-  // authorization code, or PKCE verifier.
-  useEffect(() => {
-    if (!__DEV__ || !authorizationURL) return;
-    try {
-      const url = new URL(authorizationURL);
-      console.info('[HAITI-OAUTH] Authorization parameters:', {
-        host: url.host,
-        path: url.pathname,
-        clientId: url.searchParams.get('client_id'),
-        redirectUri: url.searchParams.get('redirect_uri'),
-        responseType: url.searchParams.get('response_type'),
-        scope: url.searchParams.get('scope'),
-        hasCodeChallenge: url.searchParams.has('code_challenge'),
-        uiLocales: 'fr',
-      });
-    } catch {
-      console.warn('[HAITI-OAUTH] Invalid authorization URL supplied by issuer');
-    }
-  }, [authorizationURL]);
-
   const hostName = new URL(authorizationURL).hostname; // example.mosip.net
   const parsed = psl.parse(hostName);
   const rootDomain = parsed.domain || hostName;
@@ -167,22 +146,6 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
           source={{
             uri: authorizationURL,
             headers: {'Accept-Language': 'fr-HT,fr;q=0.9'},
-          }}
-          onNavigationStateChange={navigationState => {
-            if (!__DEV__) return;
-            try {
-              const url = new URL(navigationState.url);
-              const errorCode = url.searchParams.get('error');
-              if (errorCode) {
-                console.warn('[HAITI-OAUTH] Authorization error:', {
-                  host: url.host,
-                  path: url.pathname,
-                  error: errorCode,
-                });
-              }
-            } catch {
-              // Ignore non-URL WebView navigation events.
-            }
           }}
           onShouldStartLoadWithRequest={handleNavigationRequest}
           onNavigationStateChange={({url}) => {
