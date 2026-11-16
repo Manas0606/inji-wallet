@@ -27,9 +27,13 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
     // Some MOSIP credentials already contain an issuer-provided QR in
     // credentialSubject.claim169. Prefer this over generating a different QR,
     // consistent with the Manas Wallet credential display logic.
-    const subjects = Array.isArray(credential?.credentialSubject)
-      ? credential.credentialSubject
-      : [credential?.credentialSubject];
+    const credentialSubject =
+      credential && typeof credential === 'object'
+        ? credential.credentialSubject
+        : undefined;
+    const subjects = Array.isArray(credentialSubject)
+      ? credentialSubject
+      : [credentialSubject];
     for (const subject of subjects) {
       const claim169 = subject?.claim169;
       if (claim169 && typeof claim169 === 'object' && !Array.isArray(claim169)) {
