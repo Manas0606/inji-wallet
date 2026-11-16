@@ -693,133 +693,133 @@
     "gotoSettings": "Ouvrir les paramètres"
   },
   "ScanScreen": {
-    "shareWithSelfie": "Share with Selfie",
-    "shareWithSelfieQrLogin": "QR Code Login",
-    "shareWithSelfieMessage": "To share your Verifiable Credentials, we’ll verify your identity using face authentication. By continuing, you consent to Inji Wallet using your phone camera for this purpose. Your facial data will be used only for authentication and will not be stored or shared with any third parties.",
-    "shareWithSelfieMessageQrLogin": "In order to access the portal, you’ll need to share your Verifiable Credentials and verify your identity securely using face verification. By continuing, you consent to Inji using your camera for this purpose. \n\n Your facial data will only be used for verification and will not be shared. After successful verification, you can choose which details to share.",
-    "ConfirmButton": "I Understand",
-    "doNotAskMessage": "Don't ask me again",
-    "noShareableVcs": "No cards are available for sharing.",
-    "sharingVc": "Sharing card",
-    "bluetoothStateIos": "Bluetooth is turned OFF, please turn it ON from Control center",
-    "bluetoothStateAndroid": "Bluetooth is turned OFF, please turn it ON from Quick settings menu",
-    "enableBluetoothMessage": "Please enable bluetooth permissions to support local sharing",
-    "enableBluetoothButtonText": "Allow bluetooth permissions",
-    "scanningGuide": "Hold the phone steady and scan the QR code to share your card.",
-    "invalidQR": "Please scan a valid QR",
-    "unknownVerifier": "Unknown verifier",
+    "shareWithSelfie": "Partager avec un autoportrait",
+    "shareWithSelfieQrLogin": "Connexion par code QR",
+    "shareWithSelfieMessage": "Pour partager vos justificatifs, nous vérifions votre identité par reconnaissance faciale. En continuant, vous autorisez Inji à utiliser l'appareil photo uniquement à cette fin. Vos données faciales ne seront ni stockées ni communiquées à des tiers.",
+    "shareWithSelfieMessageQrLogin": "Pour accéder au portail, partagez vos justificatifs et vérifiez votre identité par reconnaissance faciale. En continuant, vous autorisez Inji à utiliser l'appareil photo à cette fin. Vos données faciales ne seront pas communiquées. Après vérification, vous pourrez choisir les informations à partager.",
+    "ConfirmButton": "J'ai compris",
+    "doNotAskMessage": "Ne plus demander",
+    "noShareableVcs": "Aucune carte disponible pour le partage.",
+    "sharingVc": "Partage de la carte",
+    "bluetoothStateIos": "Bluetooth désactivé. Activez-le dans le Centre de contrôle.",
+    "bluetoothStateAndroid": "Bluetooth désactivé. Activez-le dans les paramètres rapides.",
+    "enableBluetoothMessage": "Autorisez le Bluetooth pour le partage à proximité.",
+    "enableBluetoothButtonText": "Autoriser le Bluetooth",
+    "scanningGuide": "Tenez le téléphone immobile et scannez le code QR pour partager votre carte.",
+    "invalidQR": "Veuillez scanner un code QR valide.",
+    "unknownVerifier": "Vérificateur inconnu",
     "errors": {
       "locationDisabled": {
-        "message": "To continue, let your device turn on location",
-        "button": "Enable location services"
+        "message": "Activez la localisation de l'appareil pour continuer.",
+        "button": "Activer la localisation"
       },
       "locationDenied": {
-        "message": "Location permission is required to share card",
-        "button": "Allow access to location"
+        "message": "La localisation doit être autorisée pour partager la carte.",
+        "button": "Autoriser la localisation"
       },
       "nearbyDevicesPermissionDenied": {
-        "message": "Nearby Devices permission is required to be able to share card",
-        "button": "Allow Permission"
+        "message": "L'accès aux appareils à proximité est nécessaire pour partager la carte.",
+        "button": "Autoriser l'accès"
       },
       "storageLimitReached": {
-        "title": "Insufficient Appdata",
-        "message": "You cannot share cards since the Appdata is full. Clear Appdata to proceed."
+        "title": "Stockage insuffisant",
+        "message": "Impossible de partager des cartes : le stockage est plein. Libérez de l'espace."
       }
     },
     "status": {
       "inProgress": {
-        "title": "In progress",
-        "hint": "Please wait while we establish the connection."
+        "title": "En cours",
+        "hint": "Patientez pendant l'établissement de la connexion."
       },
-      "establishingConnection": "Establishing connection",
-      "connectionInProgress": "Connection in progress",
-      "connectingTimeout": "It's taking a while to establish the connection. Is the other device open for connection?",
-      "stayOnTheScreen": "Stay on the screen",
-      "retry": "Retry",
-      "exchangingDeviceInfo": "Exchanging device info...",
-      "exchangingDeviceInfoTimeout": "It's taking a while to exchange device info. You may have to reconnect.",
-      "invalid": "Invalid QR Code",
-      "offline": "Please connect to the internet to scan QR codes using Online sharing mode",
-      "sent": "Card has been sent...",
-      "sentHint": "Waiting for receiver to save or discard your Card",
+      "establishingConnection": "Établissement de la connexion",
+      "connectionInProgress": "Connexion en cours",
+      "connectingTimeout": "La connexion prend du temps. L'autre appareil est-il disponible ?",
+      "stayOnTheScreen": "Restez sur cet écran",
+      "retry": "Réessayer",
+      "exchangingDeviceInfo": "Échange des informations des appareils…",
+      "exchangingDeviceInfoTimeout": "Cet échange prend du temps. Une nouvelle connexion peut être nécessaire.",
+      "invalid": "Code QR invalide",
+      "offline": "Connectez-vous à Internet pour scanner des codes QR en mode de partage en ligne.",
+      "sent": "Carte envoyée…",
+      "sentHint": "En attente de l'enregistrement ou du rejet de la carte par le destinataire.",
       "sharing": {
-        "title": "Sharing in progress...",
-        "hint": "Please wait while we share the chosen card...",
-        "timeoutHint": "Sharing is delayed, possibly due to a connection issue."
+        "title": "Partage en cours…",
+        "hint": "Patientez pendant le partage de la carte…",
+        "timeoutHint": "Le partage prend du retard, peut-être à cause de la connexion."
       },
       "accepted": {
-        "title": "ID shared successfully!",
-        "message": "Your ID has been successfully shared.",
-        "additionalMessage": "You can now go back to the Verifier.",
-        "home": "Home",
-        "history": "History"
+        "title": "Pièce d'identité partagée avec succès !",
+        "message": "Votre pièce d'identité a été partagée avec succès.",
+        "additionalMessage": "Vous pouvez maintenant retourner à l'application de vérification.",
+        "home": "Accueil",
+        "history": "Historique"
       },
       "rejected": {
-        "title": "An error occurred!",
-        "message": "Due to technical error, we were unable to share the card with the relying party. Please share again."
+        "title": "Une erreur s'est produite !",
+        "message": "Une erreur technique a empêché le partage avec le destinataire. Réessayez."
       },
       "disconnected": {
-        "title": "Bluetooth connection lost!",
-        "message": "Please check your bluetooth connection and try again."
+        "title": "Connexion Bluetooth perdue !",
+        "message": "Vérifiez la connexion Bluetooth et réessayez."
       },
       "bleError": {
-        "retry": "Retry",
-        "home": "Home",
+        "retry": "Réessayer",
+        "home": "Accueil",
         "TVW_CON_001": {
-          "title": "Connection Failed!",
-          "message": "Invalid QR code scanned. Please try scanning the valid QR code again from the relying party."
+          "title": "Échec de la connexion !",
+          "message": "Code QR invalide. Scannez un code QR valide du destinataire."
         },
         "TVW_CON_002": {
-          "title": "Connection Failed!",
-          "message": "Wallet is unable to establish optimal connection with the verifier. Please try again."
+          "title": "Échec de la connexion !",
+          "message": "Impossible d'établir une connexion stable avec le vérificateur. Réessayez."
         },
         "TVW_CON_003": {
-          "title": "Service Discovery Failed!",
-          "message": "We're sorry, but we couldn't discover a bluetooth connection even after multiple attempts. Please ensure that the bluetooth devices are in discoverable mode and try again."
+          "title": "Échec de la découverte du service !",
+          "message": "Aucune connexion Bluetooth détectée après plusieurs tentatives. Vérifiez que les appareils sont visibles et réessayez."
         },
         "TVW_REP_001": {
-          "title": "An Error Occured!",
-          "message": "Due to technical error, we are unable to transfer the file. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur technique a empêché le transfert du fichier. Réessayez."
         },
         "TVV_CON_001": {
-          "title": "Connection Failed!",
-          "message": "Wallet is unable to establish an optimal connection with the verifier. Please try again."
+          "title": "Échec de la connexion !",
+          "message": "Impossible d'établir une connexion stable avec le vérificateur. Réessayez."
         },
         "TVV_TRA_001": {
-          "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur s'est produite pendant le transfert de la carte. Réessayez."
         },
         "TVV_TRA_002": {
-          "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur s'est produite pendant le transfert de la carte. Réessayez."
         },
         "TUV_UNK_001": {
-          "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to share the card with the relying party. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur technique a empêché le partage. Réessayez."
         },
         "TVW_UNK_001": {
-          "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to share the card with the relying party. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur technique a empêché le partage. Réessayez."
         },
         "TVW_UNK_002": {
-          "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to share the card with the relying party. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur technique a empêché le partage. Réessayez."
         },
         "TVW_UNK_003": {
-          "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to share the card with the relying party. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur technique a empêché le partage. Réessayez."
         },
         "TVV_UNK_001": {
-          "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur s'est produite pendant le transfert de la carte. Réessayez."
         },
         "TVV_UNK_002": {
-          "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur s'est produite pendant le transfert de la carte. Réessayez."
         },
         "TVV_UNK_003": {
-          "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "title": "Une erreur s'est produite !",
+          "message": "Une erreur s'est produite pendant le transfert de la carte. Réessayez."
         }
       }
     },
