@@ -30,7 +30,8 @@
     "title": "« {{wallet}} » souhaite utiliser « {{domain}} » pour se connecter",
     "message": "Cela permet à l’application et au site Web de partager des informations vous concernant.",
     "cancel": "Annuler",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "header": "Authentification"
   },
   "common": {
     "card": "carte",
