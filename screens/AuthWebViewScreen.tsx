@@ -97,9 +97,27 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
     if (url.startsWith(redirectUri)) {
       try {
         const uri = new URL(url);
+        const errorCode = uri.searchParams.get('error');
+        if (errorCode) {
+          // OAuth errors must not be mistaken for successful authorizations.
+          console.warn('eSignet authorization rejected:', errorCode);
+          controller.CANCEL();
+          navigation.goBack();
+          Alert.alert(
+            t('errorTitle', {defaultValue: "Échec de l’authentification"}),
+            t('errorMessage', {
+              defaultValue: "L’authentification a échoué. Veuillez réessayer.",
+            }),
+          );
+          return false;
+        }
         const code = uri.searchParams.get('code');
 
         if (!code) {
+          Alert.alert(
+            t('errorTitle', {defaultValue: "Échec de l’authentification"}),
+            t('errorMessage', {defaultValue: "L’authentification a échoué. Veuillez réessayer."}),
+          );
           controller.CANCEL();
           navigation.goBack();
           return false;
