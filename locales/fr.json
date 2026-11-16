@@ -1,0 +1,252 @@
+{
+  "SetupLanguage": {
+    "header": "Choisir la langue",
+    "description": "Sélectionnez votre langue préférée",
+    "save": "Enregistrer la préférence"
+  },
+  "SettingScreen": {
+    "header": "Paramètres",
+    "injiAsVerifierApp": "Inji comme application de vérification",
+    "receiveCard": "Recevoir une carte",
+    "basicSettings": "Paramètres généraux",
+    "bioUnlock": "Déverrouillage biométrique",
+    "language": "Langue",
+    "aboutInji": "À propos d’Inji",
+    "credentialRegistry": "Registre des justificatifs",
+    "esignethosturl": "Serveur eSignet",
+    "errorMessage": "URL incorrecte. Veuillez saisir une URL valide.",
+    "injiTourGuide": "Guide d’Inji",
+    "logout": "Déconnexion",
+    "resetInjiProps": "Réinitialisation des paramètres…"
+  },
+  "MainLayout": {
+    "home": "Accueil",
+    "share": "Partager",
+    "history": "Historique",
+    "request": "Demander",
+    "settings": "Paramètres"
+  },
+  "authWebView": {
+    "title": "« {{wallet}} » souhaite utiliser « {{domain}} » pour se connecter",
+    "message": "Cela permet à l’application et au site Web de partager des informations vous concernant.",
+    "cancel": "Annuler",
+    "continue": "Continuer"
+  },
+  "common": {
+    "card": "carte",
+    "cards": "cartes",
+    "cancel": "Annuler",
+    "accept": "Accepter",
+    "save": "Enregistrer",
+    "ok": "OK",
+    "dismiss": "Fermer",
+    "editLabel": "Modifier {{label}}",
+    "tryAgain": "Réessayer",
+    "goBack": "Retour",
+    "ignore": "Ignorer",
+    "clipboard": {
+      "copy": "Copier",
+      "copied": "Copié"
+    },
+    "camera": {
+      "allowAccess": "Autoriser l’accès à l’appareil photo"
+    }
+  },
+  "WelcomeScreen": {
+    "title": "Solution d’identité numérique à code ouvert",
+    "unlockApplication": "Déverrouiller l’application",
+    "failedToReadKeys": "Impossible de lire les clés",
+    "retryRead": "Réessayer ?",
+    "ignore": "Ignorer"
+  },
+  "MyVcsTab": {
+    "searchByName": "Rechercher",
+    "bringYourDigitalID": "Votre identité numérique, partout avec vous",
+    "generateVcDescription": "Appuyez sur « Télécharger une carte » pour obtenir votre carte.",
+    "generateVcFABDescription": "Appuyez sur « + » pour télécharger votre carte.",
+    "downloadCard": "Télécharger une carte",
+    "downloadingYourCard": "Téléchargement de votre carte. Cela peut prendre jusqu’à 5 minutes.",
+    "downloadingVcSuccess": "Votre carte a été téléchargée avec succès.",
+    "downloadingVcFailed": "Une erreur technique empêche le téléchargement. Réessayez plus tard.",
+    "activated": "Justificatifs activés pour l’authentification en ligne.",
+    "noCardsTitle": "Aucune carte trouvée !",
+    "noCardsDescription": "Aucun résultat. Essayez un autre terme de recherche."
+  },
+  "IssuersScreen": {
+    "selectCard": "Sélectionner une carte",
+    "title": "Ajouter une carte",
+    "description": "Choisissez un émetteur dans la liste ci-dessous pour ajouter une carte.",
+    "searchByIssuersName": "Rechercher un émetteur",
+    "credentialTypeDescription": "Sélectionnez un justificatif",
+    "help": "Aide ?",
+    "offerTitle": "Scanner et télécharger une carte",
+    "offerDescription": "Scannez un code QR pour télécharger votre carte.",
+    "download": "Télécharger la carte",
+    "downloadSuccess": "Carte téléchargée avec succès",
+    "goHome": "Aller à l’accueil",
+    "loaders": {
+      "processing": "Traitement en cours…",
+      "loading": "Chargement…",
+      "preparingRequest": "Traitement de votre demande…",
+      "subTitle": {
+        "displayIssuers": "Chargement des émetteurs",
+        "settingUp": "Configuration en cours…",
+        "downloadingCredentials": "Téléchargement des justificatifs",
+        "preparingRequest": "Veuillez patienter pendant le chargement",
+        "inProgress": "Cela ne prendra qu’un instant"
+      },
+      "progressIndicators": {
+        "sharingCard": "Partage des cartes",
+        "downloadingCard": "Téléchargement de la carte",
+        "sharedCard": "Cartes partagées",
+        "downloadedCard": "Carte téléchargée",
+        "redirectToHome": "Retour à l’accueil dans {{remainingTime}} secondes"
+      }
+    },
+    "errors": {
+      "noInternetConnection": {
+        "title": "Aucune connexion Internet",
+        "message": "Vérifiez votre connexion et réessayez."
+      },
+      "networkRequestFailed": {
+        "title": "Échec de la connexion réseau",
+        "message": "Impossible de traiter votre demande pour le moment."
+      },
+      "generic": {
+        "title": "Une erreur s’est produite !",
+        "message": "Impossible de traiter la demande. Veuillez réessayer."
+      },
+      "technicalDifficulty": {
+        "title": "Une erreur s’est produite !",
+        "message": "Nous rencontrons des difficultés techniques. Réessayez plus tard."
+      }
+    }
+  },
+  "AuthScreen": {
+    "header": "Choisir une méthode de déverrouillage",
+    "Description": "Pour sécuriser l’application, utilisez l’authentification biométrique ou un code à 6 chiffres.",
+    "PasswordTypeDescription": "Choisissez la biométrie ou configurez un code à 6 chiffres.",
+    "useBiometrics": "Utiliser la biométrie",
+    "usePasscode": "Plus tard",
+    "errors": {
+      "unavailable": "La biométrie n’est pas prise en charge sur cet appareil.",
+      "unenrolled": "Veuillez activer la biométrie dans les paramètres de votre appareil.",
+      "failed": "Échec de l’authentification biométrique",
+      "generic": "Une erreur biométrique s’est produite."
+    }
+  },
+  "PasscodeScreen": {
+    "header": "Configurer un code d’accès",
+    "enterNewPassword": "Saisissez un nouveau code d’accès",
+    "reEnterPassword": "Saisissez à nouveau le code",
+    "enterAlternateNewPassword": "Choisissez un code unique de 6 chiffres pour protéger vos données.",
+    "reEnterAlternatePassword": "Confirmez votre code en le saisissant à nouveau.",
+    "confirmPasscode": "Confirmer le code",
+    "enterPasscode": "Saisissez votre code d’accès"
+  },
+  "HistoryScreen": {
+    "noHistory": "Aucun historique disponible",
+    "downloaded": "téléchargé",
+    "shared": "partagé",
+    "received": "reçu",
+    "deleted": "supprimé",
+    "historyHeaderLabel": "Historique"
+  },
+  "AboutInji": {
+    "aboutInji": "À propos d’Inji Wallet",
+    "header": "À propos d’Inji Wallet",
+    "appID": "Identifiant de l’application",
+    "forMoreDetails": "Pour plus de détails",
+    "clickHere": "Cliquez ici",
+    "version": "Version",
+    "poweredBy": "Un produit MOSIP",
+    "copyright": "© 2022 MOSIP. Tous droits réservés."
+  },
+  "OnboardingOverlay": {
+    "stepOneTitle": "Bienvenue !",
+    "stepOneText": "Conservez votre identité numérique à portée de main. Inji vous aide à gérer vos cartes.",
+    "stepTwoTitle": "Partage sécurisé",
+    "stepTwoText": "Partagez vos cartes en toute sécurité.",
+    "stepThreeTitle": "Portefeuille numérique de confiance",
+    "stepThreeText": "Conservez vos cartes importantes dans un seul portefeuille.",
+    "stepFourTitle": "Accès rapide",
+    "stepFourText": "Authentifiez-vous facilement avec vos justificatifs numériques.",
+    "stepFiveTitle": "Sauvegarde et restauration",
+    "stepFiveText": "Protégez vos justificatifs grâce aux sauvegardes régulières.",
+    "getStarted": "Commencer",
+    "goBack": "Retour",
+    "back": "Retour",
+    "skip": "Passer",
+    "next": "Suivant"
+  },
+  "SetupKey": {
+    "header": "Gestion des clés",
+    "description": "Choisissez les clés utilisées pour vos justificatifs numériques.",
+    "save": "Enregistrer",
+    "skip": "Plus tard"
+  },
+  "OtpVerificationModal": {
+    "title": "Vérification par code OTP",
+    "otpSentMessage": "Un code OTP à 6 chiffres a été envoyé au téléphone {{phone}} et à l’adresse {{email}}.",
+    "resendTheCode": "Vous pourrez renvoyer le code dans ",
+    "resendOtp": "Renvoyer le code",
+    "confirmationDialog": {
+      "title": "Annuler le téléchargement ?",
+      "message": "Si vous annulez, vous devrez relancer le téléchargement.",
+      "wait": "Non, patienter",
+      "cancel": "Oui, annuler"
+    }
+  },
+  "VcDetails": {
+    "generatedOn": "Émis le",
+    "status": "Statut",
+    "lastChecked": "Dernière vérification",
+    "valid": "Valide",
+    "revoked": "Révoqué",
+    "pending": "En attente",
+    "expired": "Expiré",
+    "photo": "Photo",
+    "fullName": "Nom complet",
+    "gender": "Sexe",
+    "dateOfBirth": "Date de naissance",
+    "phoneNumber": "Numéro de téléphone",
+    "email": "Adresse e-mail",
+    "address": "Adresse",
+    "reasonForSharing": "Motif du partage",
+    "idType": "Type d’identifiant",
+    "id": "Identifiant",
+    "qrCodeHeader": "Code QR",
+    "nationalCard": "Carte d’identité nationale",
+    "identityCard": "Carte d’identité",
+    "uin": "UIN",
+    "vid": "VID",
+    "enableVerification": "Activer",
+    "credentialActivated": "Activé",
+    "shareQRCode": "Partager le code QR"
+  },
+  "BiometricScreen": {
+    "unlock": "Déverrouiller avec la biométrie"
+  },
+  "QrScanner": {
+    "cameraAccessDisabled": "Accès à l’appareil photo désactivé !",
+    "cameraPermissionGuideLabel": "Autorisez l’accès à l’appareil photo dans les paramètres.",
+    "flipCamera": "Changer de caméra"
+  },
+  "HomeScreenKebabPopUp": {
+    "title": "Plus d’options",
+    "unPinCard": "Détacher",
+    "pinCard": "Épingler",
+    "share": "Partager",
+    "reverify": "Vérifier le statut de la carte",
+    "new": "NOUVEAU",
+    "shareWithSelfie": "Partager avec un selfie",
+    "viewActivityLog": "Afficher l’historique",
+    "removeFromWallet": "Supprimer du portefeuille"
+  },
+  "WalletBinding": {
+    "offlineAuthenticationDisabled": "Activer la connexion en ligne",
+    "inProgress": "En cours",
+    "credentialActivated": "Activé",
+    "profileAuthenticated": "Connexion par code QR"
+  }
+}
