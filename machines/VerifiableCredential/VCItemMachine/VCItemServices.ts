@@ -43,6 +43,9 @@ export const VCItemServices = model => {
       }
     },
     addWalletBindingId: async context => {
+      if (!context.vcMetadata?.mosipIndividualId) {
+        throw new Error('Cannot bind a credential without a UIN or VID');
+      }
       const response = await request(
         API_URLS.walletBinding.method,
         API_URLS.walletBinding.buildURL(),
@@ -89,6 +92,11 @@ export const VCItemServices = model => {
       return keypair;
     },
     requestBindingOTP: async context => {
+      // Wallet binding authenticates the identity bound to this credential.
+      // Do not submit an empty UIN/VID or substitute an unrelated VC ID.
+      if (!context.vcMetadata?.mosipIndividualId) {
+        throw new Error('The credential does not contain a UIN or VID for wallet activation');
+      }
       const response = await request(
         API_URLS.bindingOtp.method,
         API_URLS.bindingOtp.buildURL(),
