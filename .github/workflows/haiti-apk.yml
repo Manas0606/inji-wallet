@@ -1,7 +1,7 @@
 name: Haiti Inji Wallet APK
 on:
   push:
-    branches: [haiti-v0.22.1]
+    branches: [haiti-fr-auth-fix]
   workflow_dispatch:
 
 permissions:
