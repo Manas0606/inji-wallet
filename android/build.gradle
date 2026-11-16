@@ -33,9 +33,9 @@ allprojects { repositories {
     maven {url("https://repo.danubetech.com/repository/maven-public/")}
     configurations.all {
         resolutionStrategy {
-            // use 0.9.0 to fix crash on Android 11
+            // Use a fixed SoLoader version compatible with the available repository artifacts.
             cacheChangingModulesFor 0, 'seconds'
-            force "com.facebook.soloader:soloader:0.9.0+"
+            force "com.facebook.soloader:soloader:0.13.0"
             force "com.apicatalog:titanium-json-ld:1.3.1"
 
         }
