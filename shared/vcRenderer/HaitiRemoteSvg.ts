@@ -5,7 +5,7 @@ import {getMosipIdentifier} from '../commonUtil';
 // Public, versioned asset owned by the Haiti project. GitHub raw serves the
 // template directly; no Certify DB, template endpoint or GitHub API token.
 export const HAITI_WALLET_SVG_URL =
-  'https://raw.githubusercontent.com/Manas0606/inji-config/haiti-0.14.0-aws/haiti-national-id-wallet-v3.svg';
+  'https://raw.githubusercontent.com/Haiti-pilot/inji-config/haiti-0.14.0-aws/haiti-national-id-wallet-v3.svg';
 
 const MAX_TEMPLATE_LENGTH = 50_000;
 const REFRESH_AFTER_MS = 15 * 60 * 1000;
