@@ -217,7 +217,21 @@ export const getMosipIdentifier = (credentialSubject: CredentialSubject): string
     }
     return undefined;
   };
-  return find(credentialSubject) ?? '';
+  const explicitIdentifier = find(credentialSubject);
+  if (explicitIdentifier) return explicitIdentifier;
+
+  // Some issuers serialize the UIN/VID as credentialSubject.id rather than
+  // a named UIN/VID claim. Only accept the exact numeric MOSIP ID lengths
+  // configured for Haiti; never treat a DID, URI, or arbitrary subject ID
+  // as an identity number.
+  if (credentialSubject && typeof credentialSubject === 'object' &&
+      !Array.isArray(credentialSubject)) {
+    const subjectId = (credentialSubject as Record<string, unknown>).id;
+    if (typeof subjectId === 'string' && /^(?:[0-9]{12}|[0-9]{16})$/.test(subjectId.trim())) {
+      return subjectId.trim();
+    }
+  }
+  return '';
 };
 
 export const isTranslationKeyFound = (
