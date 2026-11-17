@@ -13,6 +13,7 @@ import {DEFAULT_ECL, MAX_QR_DATA_LENGTH} from '../shared/constants';
 import {VCMetadata} from '../shared/VCMetadata';
 import {shareImageToAllSupportedApps} from '../shared/sharing/imageUtils';
 import {ShareOptions} from 'react-native-share';
+import {unwrapIssuedCredential} from '../shared/vciClient/CredentialPayload';
 
 export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
   const {RNPixelpassModule} = NativeModules;
@@ -51,9 +52,9 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
   };
 
   async function getQRData(): Promise<{kind: 'image' | 'payload'; value: string}> {
-    const wrapped = props.verifiableCredential?.credential;
-    const credential = wrapped?.credential && typeof wrapped.credential === 'object'
-      ? wrapped.credential : wrapped;
+    // Use the same signed credential representation as the native VCI
+    // response and Manas Wallet's PixelPassAdapter.
+    const credential = unwrapIssuedCredential(props.verifiableCredential);
     if (!credential) throw new Error('Credential is not available for QR');
 
     const classifyIssuerQr = (raw: string) => {
