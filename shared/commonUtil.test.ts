@@ -8,6 +8,7 @@ import testIDProps, {
   getDriveName,
   getMaskedText,
   getScreenHeight,
+  getMosipIdentifier,
   hashData,
   logState,
   removeWhiteSpace,
@@ -159,5 +160,25 @@ describe('getScreenHeight', () => {
   it('getScreenHeight should return screen height', () => {
     const height = getScreenHeight();
     expect(typeof height).toBe('object');
+  });
+});
+
+describe('getMosipIdentifier', () => {
+  it('reads explicitly named UIN and VID claims', () => {
+    expect(getMosipIdentifier({UIN: '123456789012'} as any)).toBe('123456789012');
+    expect(getMosipIdentifier({VID: '1234567890123456'} as any)).toBe('1234567890123456');
+  });
+
+  it('reads nested individual_id and localized identifiers', () => {
+    expect(getMosipIdentifier({data: {individual_id: [{language: 'fr', value: '123456789012'}]}} as any))
+      .toBe('123456789012');
+  });
+
+  it('accepts only numeric 12 or 16 digit credentialSubject.id as a fallback', () => {
+    expect(getMosipIdentifier({id: '123456789012'} as any)).toBe('123456789012');
+    expect(getMosipIdentifier({id: '1234567890123456'} as any)).toBe('1234567890123456');
+    expect(getMosipIdentifier({id: 'did:example:123456789012'} as any)).toBe('');
+    expect(getMosipIdentifier({id: 'https://issuer.example/123456789012'} as any)).toBe('');
+    expect(getMosipIdentifier({id: '12345678'} as any)).toBe('');
   });
 });
