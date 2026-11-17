@@ -64,8 +64,12 @@ function splitWords(text: string, maxChars: number, maxLines: number): string[] 
   const words = text.trim().split(/\s+/).filter(Boolean);
   const result: string[] = [];
   for (const word of words) {
+    // Split long identifiers and single-token addresses instead of dropping
+    // everything after the first characters.
     if (word.length > maxChars) {
-      if (result.length < maxLines) result.push(word.slice(0, maxChars));
+      for (let i = 0; i < word.length && result.length < maxLines; i += maxChars) {
+        result.push(word.slice(i, i + maxChars));
+      }
       continue;
     }
     const last = result.length - 1;
@@ -101,6 +105,15 @@ export function fillHaitiSvgTemplate(
   // credentialSubject.id may be a DID and must never be used as a UIN.
   const subject = getHaitiCredentialSubject(credential);
   const individualId = getMosipIdentifier(subject as any);
+  // Log schema information only, never UIN, name or credential values.
+  const subjectRecord = subject && typeof subject === 'object' && !Array.isArray(subject)
+    ? subject as Record<string, unknown> : {};
+  console.warn('HAITI_VC_SCHEMA', JSON.stringify({
+    keys: Object.keys(subjectRecord).slice(0, 45),
+    hasUinOrVid: !!individualId,
+    hasClaim169: !!subjectRecord.claim169,
+    claimRowCount: rows.length,
+  }));
   const idPresentInRows = rows.some(row =>
     ['uin', 'vid', 'individualid', 'mosipindividualid'].includes(norm(row.key)));
 
