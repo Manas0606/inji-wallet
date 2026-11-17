@@ -49,6 +49,26 @@ export const VCItemServices = model => {
         traceHaitiAuth('activation_identifier_missing');
         throw new Error('WALLET_ACTIVATION_MISSING_INDIVIDUAL_ID');
       }
+      // Mimoto release-0.21.x expects individualId and publicKey as JSON strings.
+      // Native keystore implementations may return a wrapped key object.
+      const rawPublicKey = context.publicKey;
+      const publicKey =
+        typeof rawPublicKey === 'string'
+          ? rawPublicKey
+          : rawPublicKey && typeof rawPublicKey.publicKey === 'string'
+          ? rawPublicKey.publicKey
+          : rawPublicKey && typeof rawPublicKey.key === 'string'
+          ? rawPublicKey.key
+          : null;
+      const individualId = context.vcMetadata.mosipIndividualId;
+      if (typeof individualId !== 'string' && typeof individualId !== 'number') {
+        traceHaitiAuth('activation_identifier_invalid_type');
+        throw new Error('WALLET_ACTIVATION_INVALID_INDIVIDUAL_ID');
+      }
+      if (!publicKey || !publicKey.trim()) {
+        traceHaitiAuth('activation_public_key_invalid_type');
+        throw new Error('WALLET_ACTIVATION_INVALID_PUBLIC_KEY');
+      }
       const response = await request(
         API_URLS.walletBinding.method,
         API_URLS.walletBinding.buildURL(),
@@ -57,9 +77,9 @@ export const VCItemServices = model => {
           request: {
             authFactorType: 'WLA',
             format: 'jwt',
-            individualId: context.vcMetadata.mosipIndividualId,
+            individualId: String(individualId),
             transactionId: context.bindingTransactionId,
-            publicKey: context.publicKey,
+            publicKey,
             challengeList: [
               {
                 authFactorType: 'OTP',
