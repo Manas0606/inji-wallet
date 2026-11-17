@@ -8,7 +8,7 @@ import {Protocols} from './openId4VCI/Utils';
 import {getMosipIdentifier} from './commonUtil';
 import {unwrapIssuedCredential} from './vciClient/CredentialPayload';
 import {VCFormat} from './VCFormat';
-import {isMosipVC, UUID} from './Utils';
+import {UUID} from './Utils';
 import {getCredentialType} from '../components/VC/common/VCUtils';
 
 const VC_KEY_PREFIX = 'VC';
@@ -173,7 +173,9 @@ export const getMosipIndividualId = (
   issuer: string,
 ) => {
   try {
-    if (!isMosipVC(issuer)) return '';
+    // As in Manas Wallet, rely on explicitly named signed UIN/VID claims;
+    // do not discard a valid identifier because the issuer display alias differs.
+    // Activation itself remains protected by the issuer-specific Wallet flow.
     // Port Manas Wallet's unwrapCredential behavior. Older stored VCs may
     // contain nested response wrappers or JSON-serialized LDP VC objects.
     const credential = unwrapIssuedCredential(verifiableCredential);
