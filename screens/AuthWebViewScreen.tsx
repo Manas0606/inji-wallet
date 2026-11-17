@@ -28,6 +28,26 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
   const [showWebView, setShowWebView] = useState(false);
   const {t} = useTranslation('authWebView');
 
+  // This WebView is used for Haiti eSignet login. Its i18next language detector
+  // may otherwise use the phone's English locale even when the wallet is French.
+  // Set its language preferences before eSignet's JavaScript initializes.
+  // Do not edit the OAuth authorization URL, state, PKCE or request_uri.
+  const forceFrenchAuthLocale = `
+    (function() {
+      try {
+        window.localStorage.setItem('i18nextLng', 'fr');
+        window.sessionStorage.setItem('i18nextLng', 'fr');
+        document.cookie = 'i18next=fr; path=/; SameSite=Lax';
+        if (document.documentElement) {
+          document.documentElement.lang = 'fr';
+        }
+      } catch (ignored) {
+        // Storage may be unavailable during an intermediate redirect.
+      }
+    })();
+    true;
+  `;
+
   // Keep the exact authorization URL from the issuer's OAuth flow.
   // Adding parameters here may invalidate a signed or pushed authorization request.
   const hostName = new URL(authorizationURL).hostname; // example.mosip.net
@@ -218,6 +238,8 @@ const AuthWebViewScreen: React.FC<any> = ({route, navigation}) => {
             uri: authorizationURL,
             headers: {'Accept-Language': 'fr-HT,fr;q=0.9'},
           }}
+          injectedJavaScriptBeforeContentLoaded={forceFrenchAuthLocale}
+          domStorageEnabled
           onShouldStartLoadWithRequest={handleNavigationRequest}
           onNavigationStateChange={({url}) => {
             // Some Android WebView redirect types arrive through navigation state
