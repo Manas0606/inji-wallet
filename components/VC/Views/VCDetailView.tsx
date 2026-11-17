@@ -95,6 +95,12 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
   const CARD_SPACING = 16;
   const haitiSvgWidth = Math.min(deviceWidth - 24, 350);
   const haitiSvgScale = haitiSvgWidth / 350;
+  // The remote SVG has a dynamic viewBox height to show all issued claims.
+  const haitiSvgHeight = (() => {
+    const match = props.svgTemplate?.[0]?.match(/viewBox="0 0 350 (\d+)"/);
+    const height = match ? Number(match[1]) : 690;
+    return height > 300 && height < 5000 ? height : 690;
+  })();
 
   const shouldShowHrLine = verifiableCredential => {
     let availableFieldNames: string[] = [];
@@ -153,11 +159,11 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
           <Column padding="12 0 0 0" style={{alignItems: 'center'}}>
             <View
               testID="haitiRemoteSvgTemplate"
-              style={{width: haitiSvgWidth, height: 690 * haitiSvgScale}}>
+              style={{width: haitiSvgWidth, height: haitiSvgHeight * haitiSvgScale}}>
               <SvgCss
                 xml={props.svgTemplate![0]}
                 width={haitiSvgWidth}
-                height={690 * haitiSvgScale}
+                height={haitiSvgHeight * haitiSvgScale}
                 preserveAspectRatio="xMidYMid meet"
               />
               {!!face && (
