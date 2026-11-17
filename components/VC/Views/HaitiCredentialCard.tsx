@@ -66,7 +66,7 @@ const normalizedGender = (value: string) => {
 };
 
 export const HaitiCredentialCard: React.FC<Props> = ({
-  credential, meta, face, logoUrl,
+  credential, meta, face,
 }) => {
   const actualVc = credential?.credential && typeof credential.credential === 'object'
     ? credential.credential : credential;
@@ -141,7 +141,11 @@ export const HaitiCredentialCard: React.FC<Props> = ({
             )}
           </View>
           <Text style={styles.photoLabel}>PHOTO D’IDENTITÉ</Text>
-          {!!logoUrl && <Image source={{uri: logoUrl}} style={styles.logo} resizeMode="contain" />}
+          <Image
+            source={require('../../../assets/HaitiFlag.jpg')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
         </View>
         <View style={styles.info}>
           <Text style={styles.kicker}>INFORMATIONS DU TITULAIRE</Text>
@@ -181,15 +185,16 @@ export const HaitiCredentialCard: React.FC<Props> = ({
 const styles = StyleSheet.create({
   shell: {backgroundColor: '#fff', borderWidth: 1, borderColor: '#dce5ee',
     borderRadius: 15, overflow: 'hidden', marginHorizontal: 12, marginTop: 14, marginBottom: 12},
-  flag: {flexDirection: 'row', height: 6},
+  flag: {flexDirection: 'row', height: 5},
   blue: {flex: 1, backgroundColor: '#1849a3'},
   red: {flex: 1, backgroundColor: '#c83248'},
-  header: {backgroundColor: '#112b43', paddingHorizontal: 20, paddingVertical: 22},
+  header: {backgroundColor: '#102e52', paddingHorizontal: 20, paddingVertical: 24,
+    borderBottomWidth: 3, borderBottomColor: '#d7ad61'},
   eyebrow: {fontSize: 10, letterSpacing: 1.5, color: '#a8c7d7', fontWeight: '700'},
   title: {fontSize: 20, lineHeight: 26, fontWeight: '700', color: '#fff', marginTop: 8},
   subtitle: {fontSize: 10, letterSpacing: 0.8, color: '#d1e3ea', marginTop: 5},
   issuer: {fontSize: 10, color: '#c8d8e7', marginTop: 12},
-  content: {backgroundColor: '#f7fafc', padding: 14},
+  content: {backgroundColor: '#f2f6fa', padding: 14},
   photoArea: {alignItems: 'center', paddingBottom: 16},
   photoFrame: {width: 130, height: 151, borderWidth: 3, borderColor: '#fff',
     backgroundColor: '#eaf1f5', borderRadius: 9, overflow: 'hidden',
@@ -197,7 +202,7 @@ const styles = StyleSheet.create({
   portrait: {width: 124, height: 145},
   photoMissing: {fontSize: 11, color: '#698093', textAlign: 'center'},
   photoLabel: {fontSize: 10, color: '#71869a', letterSpacing: 0.8, marginTop: 8},
-  logo: {width: 98, height: 56, marginTop: 8},
+  logo: {width: 112, height: 69, marginTop: 8, borderRadius: 5},
   info: {backgroundColor: '#fff', borderWidth: 1, borderColor: '#e3eaf0',
     borderRadius: 8, paddingHorizontal: 14, paddingTop: 12, paddingBottom: 3},
   kicker: {fontSize: 10, color: '#477487', letterSpacing: 1.1, fontWeight: '700', marginBottom: 10},
