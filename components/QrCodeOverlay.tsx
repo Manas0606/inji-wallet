@@ -20,8 +20,35 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
   const [qrString, setQrString] = useState('');
   const [qrImageUri, setQrImageUri] = useState('');
   const [qrError, setQrError] = useState(false);
+  const [qrFailure, setQrFailure] = useState<'too-large' | 'verification' | 'native' | 'unsupported' | ''>('');
   const base64ImageType = 'data:image/png;base64,';
   const {RNSecureKeystoreModule} = NativeModules;
+
+  // As in Manas Wallet's PixelPassAdapter: verify that a generated QR can
+  // decode back to exactly the credential being presented.
+  const normalize = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(normalize);
+    if (value && typeof value === 'object') {
+      return Object.fromEntries(Object.entries(value as Record<string, unknown>)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([key, item]) => [key, normalize(item)]));
+    }
+    return value;
+  };
+
+  const verifyPixelPass = async (value: string, credential: unknown) => {
+    if (!value) throw new Error('HAITI_QR_EMPTY');
+    if (value.length > MAX_QR_DATA_LENGTH) throw new Error('HAITI_QR_TOO_LARGE');
+    const decodedRaw: string = await RNPixelpassModule.decode(value);
+    let decoded: unknown = decodedRaw;
+    if (typeof decodedRaw === 'string') {
+      try { decoded = JSON.parse(decodedRaw); } catch {}
+    }
+    if (JSON.stringify(normalize(decoded)) !== JSON.stringify(normalize(credential))) {
+      throw new Error('HAITI_QR_VERIFICATION_FAILED');
+    }
+    return value;
+  };
 
   async function getQRData(): Promise<{kind: 'image' | 'payload'; value: string}> {
     const wrapped = props.verifiableCredential?.credential;
@@ -60,23 +87,31 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
       }
     }
 
+    if (props.meta.format && props.meta.format !== 'ldp_vc') {
+      throw new Error('HAITI_QR_UNSUPPORTED_FORMAT');
+    }
+
     try {
       const keyData = await RNSecureKeystoreModule.getData(props.meta.id);
-      if (keyData?.[1] && typeof keyData[1] === 'string') {
-        return {kind: 'payload', value: keyData[1]};
+      if (typeof keyData?.[1] === 'string') {
+        try {
+          return {kind: 'payload', value: await verifyPixelPass(keyData[1], credential)};
+        } catch {
+          // A cached QR can become stale across SDK versions. Regenerate it.
+        }
       }
     } catch {
-      // QR has not been cached yet. Generate it below.
+      // An unavailable keystore should not block QR generation.
     }
 
     const qrData = await RNPixelpassModule.generateQRData(
-      JSON.stringify(credential),
-      '',
+      JSON.stringify(credential), '',
     );
+    await verifyPixelPass(qrData, credential);
     try {
       await RNSecureKeystoreModule.storeData(props.meta.id, qrData);
     } catch {
-      // A cache write failure must not prevent displaying a valid QR.
+      // Secure-storage failures should not hide a validated QR.
     }
     return {kind: 'payload', value: qrData};
   }
@@ -104,7 +139,8 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
   }
 
   function onQRError() {
-    console.warn('Data is too big');
+    console.warn('HAITI_QR:render_error');
+    setQrFailure('native');
     setQrError(true);
   }
 
@@ -117,22 +153,33 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
           return;
         }
         if (qrData.kind === 'image') {
+          setQrFailure('');
           setQrImageUri(qrData.value);
           setQrString('');
           setQrError(false);
         } else if (qrData.value && qrData.value.length <= MAX_QR_DATA_LENGTH) {
+          setQrFailure('');
           setQrString(qrData.value);
           setQrImageUri('');
           setQrError(false);
         } else {
           setQrString('');
           setQrImageUri('');
+          setQrFailure('too-large');
           setQrError(true);
         }
-      } catch {
-        // Do not leave an unhandled rejection when a credential cannot
-        // be encoded as a QR (e.g. unsupported credential format).
+      } catch (error) {
+        // Report failure category only. Never log VC data or QR payloads.
+        const message = error instanceof Error ? error.message : '';
+        const kind = message === 'HAITI_QR_TOO_LARGE' ? 'too-large'
+          : message === 'HAITI_QR_VERIFICATION_FAILED' ? 'verification'
+          : message === 'HAITI_QR_UNSUPPORTED_FORMAT' ? 'unsupported'
+          : 'native';
+        console.warn('HAITI_QR:' + kind);
         if (active) {
+          setQrString('');
+          setQrImageUri('');
+          setQrFailure(kind);
           setQrError(true);
         }
       }
@@ -153,7 +200,15 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
   if ((!qrString && !qrImageUri) || qrError) {
     return props.showUnavailableMessage ? (
       <Text style={{color: '#738798', textAlign: 'center', fontSize: 12}}>
-        Code QR non disponible pour ce justificatif
+        {qrFailure === 'too-large'
+          ? 'Code QR non disponible : justificatif trop volumineux pour PixelPass.'
+          : qrFailure === 'verification'
+            ? 'Code QR non disponible : la vérification PixelPass a échoué.'
+            : qrFailure === 'unsupported'
+              ? 'Code QR non disponible pour ce format. Utilisez le partage OpenID4VP.'
+              : qrFailure === 'native'
+                ? 'Code QR non disponible : encodage du justificatif impossible.'
+                : 'Code QR non disponible pour ce justificatif.'}
       </Text>
     ) : null;
   }
