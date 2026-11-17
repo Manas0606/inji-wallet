@@ -1,6 +1,7 @@
 import {NativeModules, NativeEventEmitter} from 'react-native';
 import {__AppId} from '../GlobalVariables';
 import {VerifiableCredential} from '../../machines/VerifiableCredential/VCMetaMachine/vc';
+import {normalizeVciCredentialResponse} from './CredentialPayload';
 
 const emitter = new NativeEventEmitter(NativeModules.InjiVciClient);
 
@@ -150,14 +151,16 @@ class VciClient {
     }
 
     traceHaitiAuth('credential_response_parse');
-    const parsedResponse = JSON.parse(response);
+    const parsedResponse = normalizeVciCredentialResponse(response);
+    // Preserve the issuer-signed original credential; its decoded subject is
+    // used later for Manas-style claim, QR and UIN/VID extraction.
+    traceHaitiAuth('credential_response_normalized');
     return {
       credential: {
         credential: parsedResponse.credential,
       } as VerifiableCredential,
-      credentialConfigurationId:
-        parsedResponse.credentialConfigurationId ?? {},
-      credentialIssuer: parsedResponse.credentialIssuer ?? '',
+      credentialConfigurationId: parsedResponse.credentialConfigurationId,
+      credentialIssuer: parsedResponse.credentialIssuer,
     };
   }
 
@@ -227,14 +230,16 @@ class VciClient {
       tokenResponseListener.remove();
     }
 
-    const parsedResponse = JSON.parse(response);
+    const parsedResponse = normalizeVciCredentialResponse(response);
+    // Preserve the issuer-signed original credential; its decoded subject is
+    // used later for Manas-style claim, QR and UIN/VID extraction.
+    traceHaitiAuth('credential_response_normalized');
     return {
       credential: {
         credential: parsedResponse.credential,
       } as VerifiableCredential,
-      credentialConfigurationId:
-        parsedResponse.credentialConfigurationId ?? {},
-      credentialIssuer: parsedResponse.credentialIssuer ?? '',
+      credentialConfigurationId: parsedResponse.credentialConfigurationId,
+      credentialIssuer: parsedResponse.credentialIssuer,
     };
   }
 }
