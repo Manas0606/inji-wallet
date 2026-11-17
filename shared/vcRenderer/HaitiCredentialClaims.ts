@@ -48,7 +48,9 @@ const labels: Record<string, string> = {
   department: 'Département',
   commune: 'Commune',
   communalsection: 'Section communale',
+  section: 'Section communale',
   locality: 'Localité',
+  localite: 'Localité',
   placeofbirth: 'Lieu de naissance',
   address: 'Adresse',
   addressline1: 'Adresse',
@@ -70,7 +72,8 @@ const priority: Record<string, number> = {
   uin: 6, vid: 6, individualid: 6, mosipindividualid: 6,
   nationalid: 7, idnumber: 7, documentnumber: 7, personalnumber: 7,
   dateofbirth: 8, birthdate: 8, dob: 8, gender: 9, sex: 9,
-  nationality: 10, department: 11, commune: 12, communalsection: 13, locality: 14,
+  nationality: 10, department: 11, commune: 12, communalsection: 13,
+  section: 13, locality: 14, localite: 14,
 };
 const excluded = new Set([
   'id', 'context', 'type', 'issuer', 'issuancedate', 'validfrom',
@@ -78,7 +81,7 @@ const excluded = new Set([
   'credentialstatusid', 'credentialschema', 'schema', 'rendermethod',
   'claim169', 'identityqrcode', 'faceqrcode', 'qrcode', 'qrcodedata',
   'qrcodeimage', 'qrdata', 'photo', 'portrait', 'picture', 'image',
-  'face', 'biometrics', 'fingerprint', 'iris', 'signature',
+  'face', 'compressedface', 'addressqrcode', 'birthqrcode', 'biometrics', 'fingerprint', 'iris', 'signature',
   'termsofuse', 'evidence', 'refreshservice', 'iss', 'sub', 'aud',
   'iat', 'exp', 'nbf', 'jti', 'sd', 'sdalg', 'cnf', 'nonce', 'vct',
 ]);
