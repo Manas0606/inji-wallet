@@ -1,4 +1,5 @@
 import {getHaitiCredentialRows, getHaitiCredentialSubject} from '../HaitiCredentialClaims';
+import {getMosipIdentifier} from '../../commonUtil';
 
 describe('Haiti VC claims: reference Manas Wallet behavior', () => {
   test('reads localized fullName and Haiti section/localite values', () => {
@@ -48,4 +49,19 @@ describe('Haiti VC claims: reference Manas Wallet behavior', () => {
     const rows = getHaitiCredentialRows(vc);
     expect(rows.some(row => row.label === 'UIN' || row.label === 'VID')).toBe(false);
   });
+  test('extracts ID only from explicit localized UIN/VID claims', () => {
+    const subject = {
+      id: 'did:web:subject.example',
+      fullName: 'Une personne',
+      UIN: [
+        {language: 'fra', value: '123456789012'},
+        {language: 'en', value: '000000000000'},
+      ],
+    };
+    expect(getMosipIdentifier(subject as any)).toBe('123456789012');
+    expect(getMosipIdentifier({id: 'did:web:subject.example'} as any)).toBe('');
+    expect(getMosipIdentifier({individual_id: {value: '123456789012'}} as any))
+      .toBe('123456789012');
+  });
+
 });
