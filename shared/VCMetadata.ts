@@ -6,6 +6,7 @@ import {
 } from '../machines/VerifiableCredential/VCMetaMachine/vc';
 import {Protocols} from './openId4VCI/Utils';
 import {getMosipIdentifier} from './commonUtil';
+import {unwrapIssuedCredential} from './vciClient/CredentialPayload';
 import {VCFormat} from './VCFormat';
 import {isMosipVC, UUID} from './Utils';
 import {getCredentialType} from '../components/VC/common/VCUtils';
@@ -172,12 +173,16 @@ export const getMosipIndividualId = (
   issuer: string,
 ) => {
   try {
-    const credential = verifiableCredential?.credential
-      ? verifiableCredential.credential
-      : verifiableCredential;
-    const credentialSubject = credential?.credentialSubject;
-    if (isMosipVC(issuer)) {
-      return credentialSubject ? getMosipIdentifier(credentialSubject) : '';
+    if (!isMosipVC(issuer)) return '';
+    // Port Manas Wallet's unwrapCredential behavior. Older stored VCs may
+    // contain nested response wrappers or JSON-serialized LDP VC objects.
+    const credential = unwrapIssuedCredential(verifiableCredential);
+    const credentialSubject =
+      credential && typeof credential === 'object'
+        ? (credential as any).credentialSubject
+        : undefined;
+    if (credentialSubject) {
+      return getMosipIdentifier(credentialSubject) || '';
     }
     return '';
   } catch (error) {
