@@ -10,7 +10,8 @@ import {
   fetchKeyPair,
   generateKeyPair,
 } from '../../../shared/cryptoutil/cryptoUtil';
-import { getMatchingCredentialIssuerMetadata, verifyCredentialData } from '../../../shared/openId4VCI/Utils';
+import { getMatchingCredentialIssuerMetadata, hasKeyPair, verifyCredentialData } from '../../../shared/openId4VCI/Utils';
+import {KeyTypes} from '../../../shared/cryptoutil/KeyTypes';
 import { CredentialDownloadResponse, request } from '../../../shared/request';
 import { WalletBindingResponse } from '../VCMetaMachine/vc';
 import { getVerifiableCredential } from './VCItemSelectors';
@@ -100,18 +101,35 @@ export const VCItemServices = model => {
       };
       return walletResponse;
     },
-    fetchKeyPair: async context => {
+    fetchKeyPair: async _context => {
       traceHaitiAuth('activation_keystore_read_started');
-      const keyType = context.vcMetadata?.downloadKeyType;
+      // Mimoto release-0.21.x wallet binding accepts RSA public keys only.
+      // VC issuance can use Ed25519/EC, so its downloadKeyType must not be reused here.
+      const keyType = KeyTypes.RS256;
+      if (!(await hasKeyPair(keyType))) {
+        traceHaitiAuth('activation_rsa_key_missing');
+        // The state machine moves to generateKeyPair when no public key is returned.
+        return {publicKey: '', privateKey: ''};
+      }
       const result = await fetchKeyPair(keyType);
+      if (typeof result?.publicKey !== 'string' || !result.publicKey.trim()) {
+        traceHaitiAuth('activation_rsa_key_invalid');
+        throw new Error('WALLET_ACTIVATION_INVALID_RSA_KEY');
+      }
       traceHaitiAuth('activation_keystore_read_success');
       return result;
     },
-    generateKeypairAndStore: async context => {
+    generateKeypairAndStore: async _context => {
       traceHaitiAuth('activation_key_generation_started');
-      const keyType = context.vcMetadata?.downloadKeyType;
+      // Keep a dedicated RSA key for wallet binding; do not change the
+      // credential issuance/proof key used in the OpenID4VCI flow.
+      const keyType = KeyTypes.RS256;
       const keypair = await generateKeyPair(keyType);
-      if ((keyType != 'ES256' && keyType != 'RS256') || isIOS())
+      if (typeof keypair?.publicKey !== 'string' || !keypair.publicKey.trim()) {
+        traceHaitiAuth('activation_rsa_key_generation_invalid');
+        throw new Error('WALLET_ACTIVATION_RSA_KEY_GENERATION_FAILED');
+      }
+      if (isIOS())
         await RNSecureKeystoreModule.storeGenericKey(
           keypair.publicKey as string,
           keypair.privateKey as string,
