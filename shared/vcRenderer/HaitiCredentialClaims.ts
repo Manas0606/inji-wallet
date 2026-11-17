@@ -10,6 +10,8 @@ export type HaitiClaimRow = {
   priority: number;
 };
 
+import {unwrapIssuedCredential} from '../vciClient/CredentialPayload';
+
 const normalizeKey = (value: string) =>
   value.replace(/[^a-z0-9]/gi, '').toLowerCase();
 
@@ -90,7 +92,7 @@ const record = (v: unknown): v is Record<string, unknown> =>
   !!v && typeof v === 'object' && !Array.isArray(v);
 
 export function getHaitiCredentialSubject(vc: unknown): unknown {
-  let node: unknown = vc;
+  let node: unknown = unwrapIssuedCredential(vc);
   // Matches Manas Wallet's wrapper normalization, but guards against loops.
   for (let depth = 0; depth < 4 && record(node); depth++) {
     if ('credentialSubject' in node) return node.credentialSubject;
