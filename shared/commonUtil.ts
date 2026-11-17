@@ -163,28 +163,57 @@ export const getScreenHeight = () => {
 // credentialSubject.id (often a DID) for a UIN or VID.
 export const getMosipIdentifier = (credentialSubject: CredentialSubject): string => {
   const accepted = new Set(['uin', 'vid', 'individualid', 'mosipindividualid']);
-  const find = (value: unknown, depth = 0): string | undefined => {
-    if (!value || depth > 5 || typeof value !== 'object') {
-      return undefined;
+  // Reference Manas Wallet resolves explicit UIN/VID claim names recursively.
+  // Haiti KYC may additionally encode the value as a localized object/array.
+  // Read the value only after identifying a UIN/VID key, never a random 'id'.
+  const readExplicitId = (value: unknown, depth = 0): string | undefined => {
+    if (depth > 4 || value == null) return undefined;
+    if (typeof value === 'string' || typeof value === 'number') {
+      const text = String(value).trim();
+      return text && text.length < 128 && !/^did:/i.test(text) ? text : undefined;
     }
     if (Array.isArray(value)) {
+      const inFrench = value.find(item => item && typeof item === 'object' &&
+        ['fra', 'fr', 'fr-HT'].includes(String(item.language ?? item.locale ?? '')));
+      if (inFrench) {
+        const result = readExplicitId(inFrench, depth + 1);
+        if (result) return result;
+      }
       for (const item of value) {
-        const found = find(item, depth + 1);
-        if (found) return found;
+        const result = readExplicitId(item, depth + 1);
+        if (result) return result;
+      }
+      return undefined;
+    }
+    if (typeof value === 'object') {
+      const obj = value as Record<string, unknown>;
+      for (const key of ['value', 'fra', 'fr', 'fr-HT', 'eng', 'en', 'text']) {
+        if (obj[key] != null) {
+          const result = readExplicitId(obj[key], depth + 1);
+          if (result) return result;
+        }
+      }
+    }
+    return undefined;
+  };
+  const find = (value: unknown, depth = 0): string | undefined => {
+    if (value == null || depth > 6 || typeof value !== 'object') return undefined;
+    if (Array.isArray(value)) {
+      for (const entry of value) {
+        const result = find(entry, depth + 1);
+        if (result) return result;
       }
       return undefined;
     }
     const object = value as Record<string, unknown>;
     for (const [key, item] of Object.entries(object)) {
       if (!accepted.has(key.replace(/[^a-z0-9]/gi, '').toLowerCase())) continue;
-      if (typeof item === 'string' || typeof item === 'number') {
-        const candidate = String(item).trim();
-        if (candidate) return candidate;
-      }
+      const result = readExplicitId(item);
+      if (result) return result;
     }
     for (const item of Object.values(object)) {
-      const found = find(item, depth + 1);
-      if (found) return found;
+      const result = find(item, depth + 1);
+      if (result) return result;
     }
     return undefined;
   };
