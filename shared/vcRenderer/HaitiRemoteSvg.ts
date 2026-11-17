@@ -86,12 +86,66 @@ function splitWords(text: string, maxChars: number, maxLines: number): string[] 
   return result;
 }
 
+/**
+ * Replace template value tokens without controlling any labels or layout.
+ * The hosted SVG owns text labels, positioning, fonts and which claims appear.
+ *
+ * <text>NINU</text><text>{{vc/uin}}</text>
+ * <text>{{vc/fullName/1/22}}</text><text>{{vc/fullName/2/22}}</text>
+ */
+function fillSvgOwnedClaimSlots(template: string, credential: unknown): string {
+  const rows = getHaitiCredentialRows(credential);
+  const findValue = (requestedKey: string): string => {
+    const key = norm(requestedKey);
+    const direct = rows.find(row => norm(row.key) === key || norm(row.path) === key);
+    if (direct?.value) return direct.value;
+    if (key === 'fullname' || key === 'name') {
+      const find = (...keys: string[]) =>
+        rows.find(row => keys.includes(norm(row.key)))?.value || '';
+      return [find('firstname', 'givenname'), find('middlename'),
+        find('lastname', 'familyname', 'surname')].filter(Boolean).join(' ');
+    }
+    // {{vc/uin}} must not silently show a VID as NINU. For generic identifiers,
+    // SVG authors may explicitly choose {{vc/identifier}}.
+    if (key === 'identifier' || key === 'uinorvid') {
+      const subject = getHaitiCredentialSubject(credential);
+      return getMosipIdentifier(subject as any) || '';
+    }
+    return '';
+  };
+
+  return template.replace(
+    /\{\{\s*vc\/([A-Za-z_][A-Za-z0-9_.-]*)(?:\/([1-9]\d?)\/([1-9]\d{0,2}))?\s*\}\}/g,
+    (_token: string, key: string, lineNumber?: string, maxChars?: string) => {
+      const claim = findValue(key);
+      if (!claim) return '';
+      if (lineNumber && maxChars) {
+        const width = Math.min(80, Math.max(8, Number(maxChars)));
+        const lines = splitWords(claim, width, 15);
+        return xmlText(lines[Number(lineNumber) - 1] || '');
+      }
+      return xmlText(claim);
+    },
+  );
+}
+
 export function fillHaitiSvgTemplate(
   template: string,
   credential: unknown,
   _meta: VCMetadata,
 ): string {
   validateSvg(template);
+  // New templates use {{vc/fieldName}}. The SVG owns every label and coordinate;
+  // legacy V3 {{wallet/...}} templates still use the existing renderer below.
+  if (/\{\{\s*vc\//.test(template)) {
+    template = fillSvgOwnedClaimSlots(template, credential);
+    if (!/\{\{\s*wallet\//.test(template)) {
+      if (/\{\{[^}]*\}\}/.test(template)) {
+        throw new Error('Unsupported Haiti SVG placeholder');
+      }
+      return template;
+    }
+  }
   // Manas Wallet's credentialClaimRows reads localized, array and nested
   // claims. Use the same principle here instead of fixed exact-name fields.
   const rows = getHaitiCredentialRows(credential);

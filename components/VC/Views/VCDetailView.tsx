@@ -102,6 +102,26 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
     return height > 300 && height < 5000 ? height : 690;
   })();
 
+  // The SVG controls photo position via an optional wallet-photo-frame rect.
+  // Old V3 templates retain their original photo geometry.
+  const haitiPhotoFrame = (() => {
+    const source = props.svgTemplate?.[0] || '';
+    const rect = source.match(/<rect\b[^>]*\bid="wallet-photo-frame"[^>]*\/?>/i)?.[0] || '';
+    const dimension = (key: string, fallback: number, maximum: number): number => {
+      const match = rect.match(new RegExp('\\b' + key + '="([0-9]+(?:\\.[0-9]+)?)"'));
+      if (!match) return fallback;
+      const next = Number(match[1]);
+      return Number.isFinite(next) && next >= 0 && next <= maximum ? next : fallback;
+    };
+    return {
+      x: dimension('x', 26, 350),
+      y: dimension('y', 188, 4800),
+      width: dimension('width', 96, 350),
+      height: dimension('height', 120, 500),
+      radius: dimension('rx', 7, 50),
+    };
+  })();
+
   const shouldShowHrLine = verifiableCredential => {
     let availableFieldNames: string[] = [];
     if (props.verifiableCredentialData.vcMetadata.format === VCFormat.ldp_vc) {
@@ -172,11 +192,11 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
                   resizeMode="cover"
                   style={{
                     position: 'absolute',
-                    left: 26 * haitiSvgScale,
-                    top: 188 * haitiSvgScale,
-                    width: 96 * haitiSvgScale,
-                    height: 120 * haitiSvgScale,
-                    borderRadius: 7 * haitiSvgScale,
+                    left: haitiPhotoFrame.x * haitiSvgScale,
+                    top: haitiPhotoFrame.y * haitiSvgScale,
+                    width: haitiPhotoFrame.width * haitiSvgScale,
+                    height: haitiPhotoFrame.height * haitiSvgScale,
+                    borderRadius: haitiPhotoFrame.radius * haitiSvgScale,
                   }}
                 />
               )}
