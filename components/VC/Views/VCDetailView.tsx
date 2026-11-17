@@ -166,23 +166,6 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = (
                 height={haitiSvgHeight * haitiSvgScale}
                 preserveAspectRatio="xMidYMid meet"
               />
-              <View style={{
-                position: 'absolute',
-                left: 270 * haitiSvgScale,
-                top: 14 * haitiSvgScale,
-                width: 69 * haitiSvgScale,
-                height: 57 * haitiSvgScale,
-                backgroundColor: '#FFFFFF',
-                borderRadius: 6 * haitiSvgScale,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <Image
-                  source={require('../../../assets/HaitiFlag.jpg')}
-                  resizeMode="contain"
-                  style={{width: 63 * haitiSvgScale, height: 51 * haitiSvgScale}}
-                />
-              </View>
               {!!face && (
                 <Image
                   source={{uri: face}}
